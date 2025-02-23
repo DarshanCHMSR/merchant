@@ -16,7 +16,7 @@ app.use(express.json())
 // app.use('/api/auth',require('./routes/auth'))
 // app.use('/api/notes',require('./routes/notes'))
 
-app.use("/api/v2/product", products);
+app.use("/api/v2/products", products);
 app.use("/api/v2/auth", authRoutes);
 app.use("/api/v2/category", categoryRoutes);
 

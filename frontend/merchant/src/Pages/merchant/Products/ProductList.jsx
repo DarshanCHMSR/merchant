@@ -1,0 +1,194 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Loader from "../../../Components/Loading/Loader";
+import Admin_Header from "../Components/Admin_Header";
+import { Link } from "react-router-dom";
+import Backbutton from "../../../Components/Backbutton";
+import { url } from "../../../Components/backend_link/data";
+
+const ProductList = () => {
+  const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState({
+    name: "",
+    minPrice: "",
+    maxPrice: "",
+    inStock: false,
+  });
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+  
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${url}/api/v2/products/get-products`);
+      setProduct(res.data.products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFilterChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFilter((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const filteredProducts = product.filter((item) => {
+    const matchesName = item.name
+      .toLowerCase()
+      .includes(filter.name.toLowerCase());
+    const matchesMinPrice = filter.minPrice
+      ? item.price >= filter.minPrice
+      : true;
+    const matchesMaxPrice = filter.maxPrice
+      ? item.price <= filter.maxPrice
+      : true;
+    const matchesStock = filter.inStock ? item.stock > 0 : true;
+
+    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock;
+  });
+
+  return (
+    <>
+      <Admin_Header />
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="container mt-5">
+          <div className="row mb-0">
+            <div className="col-12">
+              <Backbutton path={"/dashboard/admin"} />
+            </div>
+          </div>
+
+          <h1 className="text-center mb-5">Product List</h1>
+          <div className="d-flex justify-content-between mb-4">
+            <Link to={"/dashboard/admin/create-product"}>
+              <button className="btn btn-primary">Add a Product</button>
+            </Link>
+
+            <Link to={"/dashboard/admin/bulk-upload"}>
+              <button className="btn btn-primary">Upload in Bulk</button>
+            </Link>
+
+            <button className="btn btn-success">Download CSV</button>
+          </div>
+
+          {/* Filter Component */}
+          <div className="mb-4">
+            <h5>Filter Products</h5>
+            <div className="row">
+              <div className="col-md-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Product Name"
+                  name="name"
+                  value={filter.name}
+                  onChange={handleFilterChange}
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Min Price"
+                  name="minPrice"
+                  value={filter.minPrice}
+                  onChange={handleFilterChange}
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Max Price"
+                  name="maxPrice"
+                  value={filter.maxPrice}
+                  onChange={handleFilterChange}
+                />
+              </div>
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="inStock"
+                name="inStock"
+                checked={filter.inStock}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="inStock">
+                In Stock Only
+              </label>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-12">
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Product Name</th>
+                      <th>MRP</th>
+                      <th>Price</th>
+                      <th>Stock</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredProducts.map((item) => (
+                      <tr key={item._id}>
+                        <td>{item.id}</td>
+                        <td>{item.name}</td>
+                        <td>
+                          ₹
+                          {new Intl.NumberFormat("en-IN").format(
+                            item?.originalPrice
+                          )}
+                        </td>
+                        <td>
+                          ₹{new Intl.NumberFormat("en-IN").format(item.price)}
+                        </td>
+                        <td>{item.stock}</td>
+                        <td>
+                          <div className="d-flex justify-content-start align-items-center">
+                            <Link
+                              to={`/dashboard/admin/delete-product/${item._id}`}
+                            >
+                              <button className="btn btn-danger me-2">
+                                Delete
+                              </button>
+                            </Link>
+                            <Link
+                              to={`/dashboard/admin/update-product/${item._id}`}
+                            >
+                              <button className="btn btn-success">
+                                Update
+                              </button>
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default ProductList;

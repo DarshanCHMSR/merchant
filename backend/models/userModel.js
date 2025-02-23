@@ -31,7 +31,7 @@ const userModel = new mongoose.Schema(
 
     role: {
       type: Number,
-    
+    default: 1,
     },
 
     cart: {
