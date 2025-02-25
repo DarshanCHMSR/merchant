@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -16,7 +16,7 @@ const Signup = () => {
   const [mail, setMail] = useState("");
   const [Name, setName] = useState("");
   const [phone, setPhone] = useState("");
-
+  const [role, setRole] = useState("");
   // * this state used for setting the password for phone signup users
   const [password, setpassword] = useState("");
 
@@ -50,9 +50,11 @@ const Signup = () => {
 
   const [min, setmin] = useState(1);
 
+  // ? this state is used to handel the resend OTP time recount.
+  const [resendCount, setResendCount] = useState(0);
+
   const handelsubmit = async (e) => {
     e.preventDefault();
-    console.log(mail, Name, phone, password);
 
     if (Number) {
       // here we have to send otp to the user
@@ -71,7 +73,8 @@ const Signup = () => {
         email: mail,
         password,
         emailPassword,
-        phone,
+        phone, 
+        role:role,
       });
 
       if (res.data.success) {
@@ -92,7 +95,7 @@ const Signup = () => {
         setloading(false);
       }
     } catch (error) {
-      console.log(error);
+
       toast.error(error.response.data.message);
       setloading(false);
     }
@@ -112,18 +115,20 @@ const Signup = () => {
         toast.error("OTP Verification Failed");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const handelResend = async (e) => {
     e.preventDefault();
     setmin(1);
+    setResendCount((prevCount) => prevCount + 1);
+
     try {
       const res = await resendOtp(orderId);
       setResendOTP(true);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -149,12 +154,11 @@ const Signup = () => {
                   </p>
 
                   <img
-                    src="https://monokingproducts.s3.ap-southeast-2.amazonaws.com/signup.webp"
+                    src="https://valuekarts-img-data.s3.ap-south-1.amazonaws.com/signup.webp"
                     className="signup-img"
                     alt=""
                   />
                 </div>
-
 
                 <div className="col-md-7 form-part signup-form">
                   <div className="row">
@@ -266,7 +270,8 @@ const Signup = () => {
                                     <p>
                                       {" "}
                                       <CountDown
-                                        initialMinutes={min}
+                                        key={resendCount}
+                                        initialMinutes={1}
                                         initialSeconds={0}
                                       />
                                     </p>
@@ -302,6 +307,11 @@ const Signup = () => {
                               />
                               <label htmlFor="floatingInput">Password</label>
                             </div>
+
+
+                          
+
+
                             <div className="form-floating">
                               <input
                                 type="password"
@@ -317,6 +327,21 @@ const Signup = () => {
                                 Confirm Password
                               </label>
                             </div>
+                            <div className="form-floating mb-3">
+                              
+
+                              <select
+   className="form-control"
+   id="floatingInput"
+   value={role}
+   onChange={(e) => setRole(e.target.value)}
+ >
+   <option value="">Select Role</option>
+   <option value="0">User</option>
+   <option value="1">Merchant</option>
+ </select>
+                               <label htmlFor="floatingInput">role</label>
+                             </div>
                           </>
                         )}
 

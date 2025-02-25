@@ -1,6 +1,8 @@
 import slugify from "slugify";
 import Product from "../models/productModel.js";
 import { validationResult,body } from "express-validator";
+import { Parser } from "json2csv";
+
 
 export const createProduct= async (req, res) => {
       try {
@@ -123,7 +125,169 @@ export const createProduct= async (req, res) => {
         
       }
     }
-
+  export const getProductsByDate = async (req, res) => {
+    try {
+      let { startDate, endDate } = req.query;
+  
+      if (!startDate || !endDate) {
+        return res.status(400).json({ message: "Start and End date required" });
+      }
+  
+      // Convert string to Date objects
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+  
+      // Check if the date conversion was successful
+      if (isNaN(start) || isNaN(end)) {
+        return res.status(400).json({ message: "Invalid Date format" });
+      }
+  
+      // Fetch products within the date range
+      const products = await Product.find({
+        createdAt: { $gte: start, $lte: end }
+      }).sort({ createdAt: -1 });
+      if (!products || products.length === 0) {
+        return res.status(404).json({ message: "No products found to export." });
+      }
+  
+      // Extract only required fields
+      const fields = products.map((product) => ({
+         id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        category: product.category,
+        stock: product.stock,
+        shipping: product.shipping,
+        imgLink: product.imgLink,
+        variety: product.variety,
+        originalPrice: product.originalPrice,
+        deliveryCharge: product.deliveryCharge,
+        returnDays: product.returnDays,
+        replacementDays: product.replacementDays,
+        serviceDays: product.serviceDays,
+        additionalDiscription: product.additionalDiscription,
+      }));
+  
+      // Define CSV column headers
+      const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription"];
+        
+      // Create a new json2csv parser instance
+      const json2csvParser = new Parser({ fields: fieldNames });
+      const csv = json2csvParser.parse(fields); // Convert JSON to CSV format
+  
+      // Set headers for CSV file download
+      res.setHeader("Content-Type", "text/csv");
+      res.setHeader("Content-Disposition", "attachment; filename=products.csv");
+      
+      // Send CSV file as response
+      res.status(200).end(csv);
+  
+     
+  
+      // res.json(products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({ message: "Server Error" });
+    }
+  };
+    
+    export const exportUser = async (req, res) => {
+      try {
+        // Fetch all products with populated user details
+        const products = await Product.find({}).populate("user");
+    
+        if (!products || products.length === 0) {
+          return res.status(404).json({ message: "No products found to export." });
+        }
+    
+        // Extract only required fields
+        const fields = products.map((product) => ({
+           id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          category: product.category,
+          stock: product.stock,
+          shipping: product.shipping,
+          imgLink: product.imgLink,
+          variety: product.variety,
+          originalPrice: product.originalPrice,
+          deliveryCharge: product.deliveryCharge,
+          returnDays: product.returnDays,
+          replacementDays: product.replacementDays,
+          serviceDays: product.serviceDays,
+          additionalDiscription: product.additionalDiscription,
+        }));
+    
+        // Define CSV column headers
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription"];
+          
+        // Create a new json2csv parser instance
+        const json2csvParser = new Parser({ fields: fieldNames });
+        const csv = json2csvParser.parse(fields); // Convert JSON to CSV format
+    
+        // Set headers for CSV file download
+        res.setHeader("Content-Type", "text/csv");
+        res.setHeader("Content-Disposition", "attachment; filename=products.csv");
+        
+        // Send CSV file as response
+        res.status(200).end(csv);
+    
+        console.log("CSV file successfully created.");
+    
+      } catch (error) {
+        res.status(500).json({ message: "Error fetching products", error: error.message });
+      }
+    };
+    export const exportUserBylast5 = async (req, res) => {
+      try {
+        // Fetch all products with populated user details
+        const products = await Product.find({}).sort({ createdAt: -1 }).lean().limit(5);
+    
+        if (!products || products.length === 0) {
+          return res.status(404).json({ message: "No products found to export." });
+        }
+    
+        // Extract only required fields
+        const fields = products.map((product) => ({
+           id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          category: product.category,
+          stock: product.stock,
+          shipping: product.shipping,
+          imgLink: product.imgLink,
+          variety: product.variety,
+          originalPrice: product.originalPrice,
+          deliveryCharge: product.deliveryCharge,
+          returnDays: product.returnDays,
+          replacementDays: product.replacementDays,
+          serviceDays: product.serviceDays,
+          additionalDiscription: product.additionalDiscription,
+        }));
+    
+        // Define CSV column headers
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription"];
+          
+        // Create a new json2csv parser instance
+        const json2csvParser = new Parser({ fields: fieldNames });
+        const csv = json2csvParser.parse(fields); // Convert JSON to CSV format
+    
+        // Set headers for CSV file download
+        res.setHeader("Content-Type", "text/csv");
+        res.setHeader("Content-Disposition", "attachment; filename=products.csv");
+        
+        // Send CSV file as response
+        res.status(200).end(csv);
+    
+        console.log("CSV file successfully created.");
+    
+      } catch (error) {
+        res.status(500).json({ message: "Error fetching products", error: error.message });
+      }
+    };
 export const fetchAllProducts = async (req, res) => {
     try {
       const notes = await Product.find();
@@ -304,7 +468,7 @@ export const fetchAllProducts = async (req, res) => {
       // Log the error for debugging
       res
         .status(400)
-        .send({ message: "Something went wrong while updating the product" });
+        .send({ message: "Something went wrong while updating the product", error:error.message });
     }
   };
   

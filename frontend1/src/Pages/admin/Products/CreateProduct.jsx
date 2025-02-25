@@ -323,7 +323,7 @@ const CreateProduct = () => {
               onChange={(e) => setShipping(e.target.value)}
             />
           </div>
-
+{/* 
           <div className="mb-3">
             <label className="form-label">Varieties</label>
             {variety.map((item, index) => (
@@ -364,7 +364,7 @@ const CreateProduct = () => {
             >
               Add Another Variety
             </button>
-          </div>
+          </div> */}
 
           <div className="mb-3">
             <label className="form-label">Additional Image Links</label>

@@ -7,12 +7,16 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,exportUser,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
-
+router.get("/exportuser",exportUser);
+router.get("/exportuserbylast5",exportUserBylast5);
+router.get("/getproductsbydate",getProductsByDate );
 router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
+router.get("/by-date", getProductsByDate);
+
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
   router.post('/create-product',requireSignin,isAdmin ,createProduct);
  
