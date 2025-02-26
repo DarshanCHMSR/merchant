@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-import Home from "./Pages/Home";
 import Signup from "./Pages/auth/Signup";
 import ProductPage from "./Pages/ProductPage";
-import Cart from "./Pages/Cart";
 import ProductView from "./Pages/ProductView";
 import Checkout from "./Pages/Checkout";
-import OrderConfirmed from "./Components/OrderConfirmed";
 
 // ! When we depoly our app this should be removed.
 // import Testing from "./Pages/Testing";  
 
 import Login from "./Pages/auth/Login";
-import OrderTracking from "./Pages/OrderTracking";
 import UserPrivate from "./Components/Private_Routes/UserPrivate";
 import User_Dashboard from "./Pages/user/User_Dashboard";
 import { Ride } from "./Pages/ride/Ride";
@@ -109,9 +105,6 @@ function App() {
                 </Layout>
               }
             >
-              <Route path="user" element={<User_Dashboard />} />
-              <Route path="user/order-tracking" element={<OrderTracking />} />
-              <Route path ='user/update-profile' element = {<UpdateUserProfile/>}/>
             </Route>
 
 
@@ -161,30 +154,8 @@ function App() {
               <Route path = 'admin/bulk-upload' element = {<BulkCreateProduct/>}/>
               
 
-              // ! Orders
-              <Route path="admin/orders" element={<OrderList />} />
-              <Route
-                path="admin/orders/order-detail/:id"
-                element={<OrderDetail />}
-              />
-
-              // ! Event
-             
-              <Route path="admin/vehicle-list" element={<ReadVechicle />} />
-              // ! Section Links
-              <Route path="admin/create-link" element={<SectionLinks />} />
-              <Route path="admin/section-links" element={<LinkTable />} />
-              // ! Labour
-              <Route path="admin/labour-list" element={<LabourList />} />
-              <Route path="admin/create-labour" element={<CreateLabour />} />
-              <Route
-                path="admin/update-labour/:id"
-                element={<UpdateLabour />}
-              />
-
-              // ! Pincodes
-              <Route path ='admin/add-pincodes' element={<CreatePincode/>} />
-              <Route path="admin/pincodes-list" element={<GetAllPincodes />} />
+           
+              
             </Route>
 
             // * Public Routes
