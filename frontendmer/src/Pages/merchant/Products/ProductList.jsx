@@ -20,7 +20,7 @@ const ProductList = () => {
   });
   
   const auth = useSelector((state) => state.auth);
-console.log(auth.token);  
+// console.log(auth.token);  
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -176,7 +176,7 @@ console.log(auth.token);
                         <td>{item.stock}</td>
                         <td>
                           <div className="d-flex justify-content-start align-items-center">
-                            <Link
+                            {/* <Link
                               to={`/dashboard/admin/delete-product/${item._id}`}
                             >
                               <button className="btn btn-danger me-2">
@@ -184,12 +184,12 @@ console.log(auth.token);
                               </button>
                             </Link>
                             <Link
-                              to={`/dashboard/admin/update-product/${item._id}`}
+                              to={`/dashboard/merchant/update-product/${item._id}`}
                             >
                               <button className="btn btn-success">
                                 Update
                               </button>
-                            </Link>
+                            </Link> */}
                             <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{product.name}</h3>
           <SetStatus productId={item._id} />

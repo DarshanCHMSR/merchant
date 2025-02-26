@@ -10,7 +10,6 @@ import Checkout from "./Pages/Checkout";
 
 import Login from "./Pages/auth/Login";
 import UserPrivate from "./Components/Private_Routes/UserPrivate";
-import { Ride } from "./Pages/ride/Ride";
 import Admin_Private from "./Components/Private_Routes/Admin_Private";
 import CreateProduct from "./Pages/admin/Products/CreateProduct";
 import ProductList from "./Pages/admin/Products/ProductList";
@@ -29,10 +28,7 @@ import SearchPage from "./Pages/SearchPage";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./State/auth_action";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ReadVechicle from "./Pages/admin/vechicle/ReadVechicle";
 import CategoryBased from "./Pages/CategoryBased";
-import SectionLinks from "./Pages/admin/sections/SectionLinks";
-import LinkTable from "./Pages/admin/sections/LinkTable";
 import Review from "./Pages/admin/Review";
 import AdminSearchPage from "./Pages/admin/Components/AdminSearchPage";
 import { fetchCart } from "./State/cart_actions";
@@ -40,12 +36,22 @@ import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
 import OutofStockProducts from "./Pages/admin/Products/OutofStockProducts";
 import UserList from "./Pages/admin/user-data/UserList";
-import UpdateUserProfile from "./Pages/user/UpdateUserProfile";
-
 import BulkCreateProduct from "./Pages/admin/Products/BulkCreateProduct";
 
 
-//merchant 
+//merchant Merchant
+import CreateProductMerchant from "./Pages/merchant/Products/CreateProduct";
+import AdminDashboardMerchant from "./Pages/merchant/AdminDashboard";
+import CategoryListMerchant from "./Pages/merchant/Cateogry/CategoryList";
+import CreateCategoryMerchant from "./Pages/merchant/Cateogry/CreateCategory";
+import UpdateCateogryMerchant from "./Pages/merchant/Cateogry/UpdateCategory";
+import DeleteCategoryMerchant from "./Pages/merchant/Cateogry/DeleteCategory";
+import DeleteProductMerchant from "./Pages/merchant/Products/DeleteProduct";
+import UpdateProductMerchant from "./Pages/merchant/Products/UpdateProduct";
+import AdminSearchPageMerchant from "./Pages/merchant/Components/AdminSearchPage";
+import OutofStockProductsMerchant from "./Pages/merchant/Products/OutofStockProducts";
+import UserListMerchant from "./Pages/merchant/user-data/UserList";
+import BulkCreateProductMerchant from "./Pages/merchant/Products/BulkCreateProduct";
 import ProductListMerchant from "./Pages/merchant/Products/ProductList";
 function App() {
   const dispatch = useDispatch();
@@ -158,7 +164,52 @@ function App() {
             />
 
 //Merchant Routes
-            <Route path="merchant/product-list" element={<ProductListMerchant />} />
+<Route path="dashboard" >
+              <Route path="merchant" element={<AdminDashboardMerchant />} />
+              <Route
+                path="merchant/search-products/:searchValue"
+                element={<AdminSearchPageMerchant />}
+              />
+
+              <Route path = 'merchant/user-list' element = {<UserListMerchant/>} />
+              // ! Category routes
+              <Route path="merchant/category-list" element={<CategoryListMerchant />} />
+              <Route
+                path="merchant/create-category"
+                element={<CreateCategoryMerchant />}
+              />
+              <Route
+                path="merchant/edit-category/:slug"
+                element={<UpdateCateogryMerchant />}
+              />
+              <Route
+                path="merchant/delete-category/:id"
+                element={<DeleteCategoryMerchant />}
+              />
+
+
+              // ! Product routes
+              <Route path="merchant/product-list" element={<ProductListMerchant />} />
+              <Route path="merchant/create-product" element={<CreateProductMerchant />} />
+              <Route
+                path="merchant/update-product/:id"
+                element={<UpdateProductMerchant />}
+              />
+              <Route
+                path="merchant/delete-product/:id"
+                element={<DeleteProductMerchant />}
+              />
+              <Route
+                path="merchant/outofstock-products"
+                element={<OutofStockProductsMerchant />}
+              />
+
+              <Route path = 'merchant/bulk-upload' element = {<BulkCreateProductMerchant/>}/>
+              
+
+           
+              
+            </Route>
 
 
             <Route path="/signup" element={<Signup />} />
@@ -202,7 +253,7 @@ function App() {
               path="/book-ride"
               element={
                 <Layout>
-                  <Ride />
+                  <h1>Book Ride</h1>
                 </Layout>
               }
             />

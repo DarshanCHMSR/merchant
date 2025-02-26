@@ -174,13 +174,13 @@ const ProductList = () => {
                                 Delete
                               </button>
                             </Link>
-                            <Link
+                            {/* <Link
                               to={`/dashboard/admin/update-product/${item._id}`}
                             >
                               <button className="btn btn-success">
                                 Update
                               </button>
-                            </Link>
+                            </Link> */}
                             <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{product.name}</h3>
           <SetStatus productId={item._id} />

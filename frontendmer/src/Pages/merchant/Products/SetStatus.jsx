@@ -10,6 +10,8 @@ export default function SetStatus({ productId }) {
   useEffect(() => {
     axios.get(`${url}/api/v2/products/get-single-product/${productId}`)
       .then((res) => {
+        // console.log(res.data.pd.status
+        //   );
         if(res.data.pd.status === undefined){
             setStatu(0);
             }

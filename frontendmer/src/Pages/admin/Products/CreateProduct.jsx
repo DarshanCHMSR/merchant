@@ -125,7 +125,7 @@ const CreateProduct = () => {
       //   setLoading(false);
       // }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setLoading(false);
     }
   };
@@ -167,14 +167,18 @@ const CreateProduct = () => {
   const getcustomIDs = async () => {
     try {
       const res = await axios.get(`${url}/api/v2/products/get-customid`, {
+        
         headers: {
           Authorization: auth.token,
+         
         },
       });
-
+   
       setCustomid(res.data.data);
-    } catch (error) {
-      toast.error("something went while fetching id");
+    } 
+    catch (error) {
+      console.error("Error fetching custom IDs:", error
+      );
     }
   };
 
