@@ -20,7 +20,7 @@ const ProductList = () => {
   });
   
   const auth = useSelector((state) => state.auth);
-
+console.log(auth.token);  
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -32,6 +32,7 @@ const ProductList = () => {
         {
           headers: {
             Authorization: auth.token,
+            // "Content-Type": "application/json",
           },
         }
       );

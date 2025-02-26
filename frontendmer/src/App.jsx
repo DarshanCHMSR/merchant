@@ -140,7 +140,8 @@ function App() {
                 path="admin/delete-category/:id"
                 element={<DeleteCategory />}
               />
-              <Route path="merchant/product-list" element={<ProductListMerchant />} />
+
+
               // ! Product routes
               <Route path="admin/product-list" element={<ProductList />} />
               <Route path="admin/create-product" element={<CreateProduct />} />
@@ -195,13 +196,16 @@ function App() {
                 </Layout>
               }
             />
+
+//Merchant Routes
+            <Route path="merchant/product-list" element={<ProductListMerchant />} />
+
+
             <Route path="/signup" element={<Signup />} />
             <Route
               path="/"
               element={
-                <Layout>
-                  <Home />
-                </Layout>
+                <ProductListMerchant />
           
               }
             />
@@ -213,14 +217,7 @@ function App() {
                 </Layout>
               }
             />
-            <Route
-              path="/cart"
-              element={
-                <Layout>
-                  <Cart />
-                </Layout>
-              }
-            />
+            
 
             // * this route is product list page
             <Route
@@ -239,14 +236,7 @@ function App() {
                 </Layout>
               }
             />
-            <Route
-              path="/orderConfirmed"
-              element={
-                <Layout>
-                  <OrderConfirmed />
-                </Layout>
-              }
-            />
+           
             <Route path="/login" element={<Login />} />
             <Route
               path="/book-ride"
@@ -256,38 +246,10 @@ function App() {
                 </Layout>
               }
             />
-            <Route
-              path="/event"
-              element={
-                <Layout>
-                  <Event />
-                </Layout>
-              }
-            />
-            <Route
-              path="/event-details/:id"
-              element={
-                <Layout>
-                  <EventDetails />
-                </Layout>
-              }
-            />
-            <Route
-              path="/order-tracking"
-              element={
-                <Layout>
-                  <OrderTracking />
-                </Layout>
-              }
-            />
-            <Route
-              path="/urban-services"
-              element={
-                <Layout>
-                  <Labour />{" "}
-                </Layout>
-              }
-            />
+
+
+
+
             <Route
               path="/search"
               element={

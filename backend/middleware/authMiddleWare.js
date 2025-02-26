@@ -32,6 +32,7 @@ export const requireSignin = async (req,res,next) =>{
     if(!token){
         return res.status(401).send({
             message:"Token is missing in header",
+            token:token,
         })
     }
     const decode = jwt.verify(token, JWT_SECRET);

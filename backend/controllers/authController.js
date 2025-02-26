@@ -98,7 +98,6 @@ export const loginController = async (req, res) => {
     } else if (phone) {
       user = await userModel.findOne({ phone }).lean();
     }
-
     if (!user) {
       return res.status(400).send({ message: "User does not exist" });
     }
