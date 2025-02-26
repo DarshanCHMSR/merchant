@@ -86,7 +86,7 @@ export const generatePreSignedURLForProductSheet = async (req, res) => {
     }
 
     const params = {
-      Bucket: process.env.AWS_S3_PRODUCT_SHEET,
+      Bucket: "valuekarts-product-sheet",
       Key: `${vendorName}/${file}`, // * file refers to spreadsheet
       Expires: 60,
       ContentType: "xlsx",

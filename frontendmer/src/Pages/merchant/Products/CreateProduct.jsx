@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { json, Link, useNavigate } from "react-router-dom";
-import Admin_Header from "../Components/Admin_Header";
+import Merchant_Header from "../Components/Merchant_Header";
 import axios from "axios";
 import { url } from "../../../Components/backend_link/data";
 import { useSelector } from "react-redux";
@@ -117,7 +117,7 @@ const CreateProduct = () => {
       );
 
       if (res.data.success) {
-        navigate("/dashboard/admin/product-list");
+        navigate("/dashboard/merchant/product-list");
         toast.success(res.data.message);
         setLoading(false);
       } else {
@@ -236,12 +236,12 @@ const CreateProduct = () => {
 
   return (
     <>
-      <Admin_Header />
+      <Merchant_Header />
 
       <div className="w-75 mx-auto mt-5 p-1">
         <h1 className="text-center mb-4 mt-5">Create Product</h1>
         <span>
-          <Link to="/dashboard/admin/product-list">
+          <Link to="/dashboard/merchant/product-list">
             <button className="btn btn-primary mb-3 ">See All</button>
           </Link>
         </span>

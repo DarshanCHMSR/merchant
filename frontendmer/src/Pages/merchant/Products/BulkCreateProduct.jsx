@@ -1,14 +1,14 @@
 import React from "react";
-import Admin_Header from "../Components/Admin_Header";
 import Backbutton from "../../../Components/Backbutton";
 import FileUpload from "../Components/FileUpload";
+import Merchant_Header from "../Components/Merchant_Header";
 
 const BulkCreateProduct = () => {
   return (
     <>
-      <Admin_Header />
+      <Merchant_Header />
       <div className="" style={{ marginTop: "8vh" }}>
-        <Backbutton path={"/dashboard/admin/product-list"} />
+        <Backbutton path={"/dashboard/merchant/product-list"} />
       </div>
 
       <div className="justify-between">

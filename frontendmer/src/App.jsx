@@ -164,7 +164,7 @@ function App() {
             />
 
 //Merchant Routes
-<Route path="dashboard" element={<Admin_Private />}>
+<Route path="dashboard" >
               <Route path="merchant" element={<ProductListMerchant />} />
               <Route
                 path="merchant/search-products/:searchValue"
@@ -204,12 +204,8 @@ function App() {
                 element={<OutofStockProductsMerchant />}
               />
 
-              <Route path = 'merchant/bulk-upload' element = {<BulkCreateProductMerchant/>}/>
-              
-
-           
-              
             </Route>
+            <Route path = 'dashboard/merchant/bulk-upload' element = {<BulkCreateProductMerchant/>}/>  
 
 
             <Route path="/signup" element={<Signup />} />
