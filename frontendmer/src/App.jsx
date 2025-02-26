@@ -21,11 +21,9 @@ import CategoryList from "./Pages/admin/Cateogry/CategoryList";
 import CreateCategory from "./Pages/admin/Cateogry/CreateCategory";
 import UpdateCateogry from "./Pages/admin/Cateogry/UpdateCategory";
 import DeleteCategory from "./Pages/admin/Cateogry/DeleteCategory";
-import OrderList from "./Pages/admin/orders/OrderList";
 import DeleteProduct from "./Pages/admin/Products/DeleteProduct";
 import UpdateProduct from "./Pages/admin/Products/UpdateProduct";
 import SearchPage from "./Pages/SearchPage";
-import OrderDetail from "./Pages/admin/orders/OrderDetails";
 
 
 import { useDispatch, useSelector } from "react-redux";
@@ -43,8 +41,7 @@ import ContactUs from "./Pages/ContactUs";
 import OutofStockProducts from "./Pages/admin/Products/OutofStockProducts";
 import UserList from "./Pages/admin/user-data/UserList";
 import UpdateUserProfile from "./Pages/user/UpdateUserProfile";
-import GetAllPincodes from "./Pages/admin/pincode/GetAllPincodes";
-import CreatePincode from "./Pages/admin/pincode/CreatePincode";
+
 import BulkCreateProduct from "./Pages/admin/Products/BulkCreateProduct";
 
 
@@ -104,7 +101,6 @@ function App() {
             // ? Private routes for admin
             <Route path="dashboard" element={<Admin_Private />}>
               <Route path="admin" element={<AdminDashboard />} />
-              <Route path="admin/order-tracking" element={<OrderList />} />
               <Route path="admin/review" element={<Review />} />
               <Route
                 path="admin/search-products/:searchValue"
