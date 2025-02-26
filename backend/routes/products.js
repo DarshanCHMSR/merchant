@@ -18,7 +18,7 @@ router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
 router.get("/by-date", getProductsByDate);
 
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
-  router.post('/create-product',requireSignin,isAdmin ,createProduct);
+  router.post('/create-product',requireSignin  ,createProduct);
  
 
 router.put("/set-product-status/:id", setProductStatus);
@@ -27,9 +27,9 @@ router.get("/get-status", getStatus);
   router.get('/get-single-product/:id',getSingleProduct);
 router.get('/get-product-photo/:pid',getProductPhoto);
 
-router.put('/update-product/:id',requireSignin,isAdmin ,updateProduct);
+router.put('/update-product/:id',requireSignin  ,updateProduct);
 
-router.delete('/delete-product/:id',requireSignin,isAdmin, deleteProduct);
+router.delete('/delete-product/:id',requireSignin , deleteProduct);
 
 // * for searching of the product
 
@@ -50,11 +50,11 @@ router.get('/get-product-by-category/:id',getCategoryProducts);
 
 
 // * This function is used to search the products for the admin by the customid
-router.post('/search-admin-product',requireSignin,isAdmin ,searchAdminProducts);
+router.post('/search-admin-product',requireSignin  ,searchAdminProducts);
 
 // * this router is for checking the existing product custom id
 
-router.get('/get-customid',requireSignin,isAdmin,getCustomProductId);
+router.get('/get-customid',requireSignin ,getCustomProductId);
 
 // * this route is used for suggesting the products on the search bar.
 router.get('/suggest-product/:keyword',getSuggestProducts);
