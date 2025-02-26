@@ -31,7 +31,7 @@ const Admin_Header = () => {
           className="navbar navbar-expand-lg navbar-light bg-white fixed-top mx-auto"
         >
           <div className="container-fluid">
-            <Link to={"/dashboard/admin"} className="navbar-brand text-primary">
+            <Link  className="navbar-brand text-primary">
               Valuekarts <small className="text-muted ms-2"> Logistics</small>
             </Link>
 
@@ -67,23 +67,9 @@ const Admin_Header = () => {
                     Categories
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link
-                    to={"/dashboard/admin/event-list"}
-                    className="nav-link text-black"
-                  >
-                    Events
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    to={"/dashboard/admin/vehicle-list"}
-                    className="nav-link text-black"
-                  >
-                    Vehicles
-                  </Link>
-                </li>
-                <li className="nav-item">
+                
+                
+                {/* <li className="nav-item">
                   <Link
                     to={"/dashboard/admin/labour-list"}
                     className="nav-link text-black"
@@ -106,16 +92,16 @@ const Admin_Header = () => {
                   >
                     Banners
                   </Link>
-                </li>
+                </li> */}
 
-                <li>
+                {/* <li>
                   <Link
                     to={"/dashboard/admin/pincodes-list"}
                     className="nav-link text-black"
                   >
                     Pincodes
                   </Link>
-                </li>
+                </li> */}
               </ul>
 
               <div className="d-flex align-items-center ms-3">

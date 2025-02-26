@@ -22,6 +22,7 @@ export const createProduct= async (req, res) => {
           replacementDays,
           serviceDays,
           additionalDiscription,
+          status,
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
           return res.status(401).send({
@@ -49,6 +50,7 @@ export const createProduct= async (req, res) => {
           replacementDays,
           serviceDays,
           user: req.user._id,
+          status,
           
         });
     //      if (photo) {
@@ -167,10 +169,11 @@ export const createProduct= async (req, res) => {
         replacementDays: product.replacementDays,
         serviceDays: product.serviceDays,
         additionalDiscription: product.additionalDiscription,
+        status:product.status,
       }));
   
       // Define CSV column headers
-      const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription"];
+      const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status"];
         
       // Create a new json2csv parser instance
       const json2csvParser = new Parser({ fields: fieldNames });
@@ -218,10 +221,11 @@ export const createProduct= async (req, res) => {
           replacementDays: product.replacementDays,
           serviceDays: product.serviceDays,
           additionalDiscription: product.additionalDiscription,
+          status:product.status,
         }));
     
         // Define CSV column headers
-        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription"];
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status"];
           
         // Create a new json2csv parser instance
         const json2csvParser = new Parser({ fields: fieldNames });
@@ -266,10 +270,11 @@ export const createProduct= async (req, res) => {
           replacementDays: product.replacementDays,
           serviceDays: product.serviceDays,
           additionalDiscription: product.additionalDiscription,
+          status:product.status,
         }));
     
         // Define CSV column headers
-        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription"];
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status"];
           
         // Create a new json2csv parser instance
         const json2csvParser = new Parser({ fields: fieldNames });
@@ -301,8 +306,10 @@ export const fetchAllProducts = async (req, res) => {
 
   export const fetchUserProduct = async (req, res) => {
     try {
-      const notes = await Product.find({ user: req.user._id });
-      res.json(notes);
+      const products = await Product.find({ user: req.user._id });
+      res.status(200).send({
+        products,
+      });
     } catch (error) {
       console.log(error.message);
       res.status(500).send("Internal server error");
@@ -346,7 +353,7 @@ export const fetchAllProducts = async (req, res) => {
     }
   };
   
-  export const getSingleProduct = async (req, res) => {
+  export const getSingleProduct = async (req, res) => { 
     try {
       const id = req.params.id;
   
@@ -357,7 +364,7 @@ export const fetchAllProducts = async (req, res) => {
       res.status(200).send({
         success: true,
         message: "Product fetched successfully",
-        pd,
+        pd
       });
     } catch (error) {
       res.status(400).send({
@@ -365,6 +372,43 @@ export const fetchAllProducts = async (req, res) => {
       });
     }
   };
+  export const getStatus = async (req, res) => { 
+    try {
+      const id = req.params.id;
+  
+      const pd = await Product
+        .findById(id)
+        .lean();
+  
+      res.json({ status: pd.status });
+    } catch (error) {
+      res.status(400).send({
+        message: "something went wrong while fetching the product",
+      });
+    }
+  };
+  export const setProductStatus=async (req, res) => {
+    try {
+      const { id } = req.params; // Get product ID from URL
+      const { status } = req.body; // Get status from request body
+  
+      // Find and update the product status
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { status },
+        { new: true } // Returns the updated product
+      );
+  
+      if (!updatedProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+  
+      res.json(updatedProduct);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
   
   export const getProductPhoto = async (req, res) => {
     try {
@@ -405,6 +449,7 @@ export const fetchAllProducts = async (req, res) => {
         returnDays,
         replacementDays,
         serviceDays,
+        status,
         
       } = req.fields;
   
@@ -437,6 +482,7 @@ export const fetchAllProducts = async (req, res) => {
       product.returnDays = returnDays;
       product.replacementDays = replacementDays;
       product.serviceDays = serviceDays;
+      product.status=status;
   
       // Handle multiple image links
       if (imgLink) {

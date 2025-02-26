@@ -5,6 +5,7 @@ import Admin_Header from "../Components/Admin_Header";
 import { Link } from "react-router-dom";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
+import SetStatus from "./SetStatus";
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
@@ -15,6 +16,8 @@ const ProductList = () => {
     maxPrice: "",
     inStock: false,
   });
+  
+
 
   useEffect(() => {
     fetchProducts();
@@ -52,9 +55,10 @@ const ProductList = () => {
       ? item.price <= filter.maxPrice
       : true;
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-
     return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock;
   });
+
+
 
   return (
     <>
@@ -177,6 +181,11 @@ const ProductList = () => {
                                 Update
                               </button>
                             </Link>
+                            <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{product.name}</h3>
+          <SetStatus productId={item._id} />
+        </div>
+                            
                           </div>
                         </td>
                       </tr>

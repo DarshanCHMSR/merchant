@@ -33,15 +33,11 @@ import UpdateProduct from "./Pages/admin/Products/UpdateProduct";
 import Labour from "./Pages/labour/Labour";
 import SearchPage from "./Pages/SearchPage";
 import OrderDetail from "./Pages/admin/orders/OrderDetails";
-import EventList from "./Pages/admin/events/EventList";
-import CreateEvent from "./Pages/admin/events/CreateEvent";
-import UpdateEvent from "./Pages/admin/events/UpdateEvent";
+
 
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./State/auth_action";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CreateVechicle from "./Pages/admin/vechicle/CreateVechicle";
-import UpdateVechicle from "./Pages/admin/vechicle/UpdateVechicle";
 import ReadVechicle from "./Pages/admin/vechicle/ReadVechicle";
 import CategoryBased from "./Pages/CategoryBased";
 import SectionLinks from "./Pages/admin/sections/SectionLinks";
@@ -62,6 +58,9 @@ import GetAllPincodes from "./Pages/admin/pincode/GetAllPincodes";
 import CreatePincode from "./Pages/admin/pincode/CreatePincode";
 import BulkCreateProduct from "./Pages/admin/Products/BulkCreateProduct";
 
+
+//merchant 
+import ProductListMerchant from "./Pages/merchant/Products/ProductList";
 function App() {
   const dispatch = useDispatch();
 
@@ -141,6 +140,7 @@ function App() {
                 path="admin/delete-category/:id"
                 element={<DeleteCategory />}
               />
+              <Route path="merchant/product-list" element={<ProductListMerchant />} />
               // ! Product routes
               <Route path="admin/product-list" element={<ProductList />} />
               <Route path="admin/create-product" element={<CreateProduct />} />

@@ -83,7 +83,7 @@ const UpdateProduct = () => {
         productData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: auth.token,
           },
         }

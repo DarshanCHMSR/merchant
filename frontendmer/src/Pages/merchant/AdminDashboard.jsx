@@ -249,10 +249,9 @@ const AdminDashboard = () => {
               marginTop: "58px",
             }}
           >
-             <div style={{display:"flex",justifyContent:"space-around",marginTop:"100px"}}>
-              <br></br>
+             <div>
       <h2>Filter Products by Date</h2>
-      <div style={{}}>
+      
       <label>Start Date: </label>
       <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
 
@@ -261,20 +260,16 @@ const AdminDashboard = () => {
 
       <button onClick={fetchProductsByDate}>Fetch Products</button>
 
-      </div>
+    
     </div>
             <div className="container pt-4">
-            <h2>Download Excel file of all the products</h2>
             <button 
       onClick={handleDownload}
       className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
       style={{color:"white",backgroundColor:"black",border:"1px solid black"}}
     >
-      📥 Download Excel file 
+      📥 Download Excel
     </button>
-    <br></br>
-    <br></br> <br></br>
-    <h2>Download Excel file of products of last 5</h2>
     <button 
       onClick={handleDownload2}
       className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"

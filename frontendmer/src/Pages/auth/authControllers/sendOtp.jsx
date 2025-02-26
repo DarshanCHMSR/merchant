@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { url } from '../../../Components/backend_link/data';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const sendOtp = async (phone) => {
   if(phone.includes('+91')){
@@ -18,6 +21,7 @@ const sendOtp = async (phone) => {
     return res.data.orderId;
   }catch(error){
     toast.error("Error while sending otp");
+    console.log("Error while sending otp",error);
     throw error;
   }
 }

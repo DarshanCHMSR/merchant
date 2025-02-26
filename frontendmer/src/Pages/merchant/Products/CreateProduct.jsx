@@ -54,6 +54,7 @@ const CreateProduct = () => {
   const handleProductImagesUpload = (e) => {
     const files = Array.from(e.target.files);
     productImages = [...productImages, ...files];
+    // console.log(productImages);
   };
 
 
@@ -71,6 +72,7 @@ const CreateProduct = () => {
           "Products-Images"
         )
       }
+      // console.log(productImgURL);
 
       const productData = new FormData();
 
@@ -99,6 +101,8 @@ const CreateProduct = () => {
 
       productData.append("returnDays", returDays);
       productData.append("replacementDays", replacementDays);
+      // console.log(auth.token);
+      
 
       // console.log(variety);
       const res = await axios.post(
@@ -106,7 +110,7 @@ const CreateProduct = () => {
         productData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: auth.token,
           },
         }
@@ -341,7 +345,7 @@ const CreateProduct = () => {
             <input
               type="number"
               className="form-control"
-              onChange={(e) => seriviceDays(e.target.value)}
+              onChange={(e) => setSeriviceDays(e.target.value)}
             />
           </div>
 

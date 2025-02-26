@@ -5,6 +5,9 @@ import Admin_Header from "../Components/Admin_Header";
 import { Link } from "react-router-dom";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
+import SetStatus from "./SetStatus";
+import { useSelector } from "react-redux";
+
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
@@ -15,15 +18,23 @@ const ProductList = () => {
     maxPrice: "",
     inStock: false,
   });
+  
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     fetchProducts();
   }, []);
-  
+
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${url}/api/v2/products/get-products`);
+      const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`,
+        {
+          headers: {
+            Authorization: auth.token,
+          },
+        }
+      );
       setProduct(res.data.products);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -42,8 +53,9 @@ const ProductList = () => {
 
   const filteredProducts = product.filter((item) => {
     const matchesName = item.name
-      .toLowerCase()
-      .includes(filter.name.toLowerCase());
+    ? item.name.toLowerCase().includes(filter.name.toLowerCase())
+    : false;
+
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
       : true;
@@ -51,9 +63,10 @@ const ProductList = () => {
       ? item.price <= filter.maxPrice
       : true;
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-
     return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock;
   });
+
+
 
   return (
     <>
@@ -176,6 +189,11 @@ const ProductList = () => {
                                 Update
                               </button>
                             </Link>
+                            <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{product.name}</h3>
+          <SetStatus productId={item._id} />
+        </div>
+                            
                           </div>
                         </td>
                       </tr>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { url } from "../../../Components/backend_link/data";
 import toast from "react-hot-toast";
 
-const merchantOrderList = () => {
+const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [filterStatus, setFilterStatus] = useState(""); // State for filter status
@@ -163,4 +163,4 @@ const merchantOrderList = () => {
   );
 };
 
-export default merchantOrderList;
+export default OrderList;
