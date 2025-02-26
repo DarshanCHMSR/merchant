@@ -27,7 +27,7 @@ export default function SetStatus({ productId }) {
   const updateStatus = () => {
     axios.put(`${url}/api/v2/products/set-product-status/${productId}`, { status: 1 })
       .then(() => {
-        console.log(`Status updated for product ${productId}`);
+        // console.log(`Status updated for product ${productId}`);
         setStatu(1); // Update UI after successful API call
       })
       .catch((error) => {
