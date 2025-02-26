@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../../../Components/Loading/Loader";
-import Admin_Header from "../Components/Admin_Header";
+import Merchant_Header from "../Components/Merchant_Header";
 import { Link } from "react-router-dom";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
@@ -20,14 +20,14 @@ const ProductList = () => {
   });
   
   const auth = useSelector((state) => state.auth);
-console.log(auth.token);  
+// console.log(auth.token);  
   useEffect(() => {
     fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
     setLoading(true);
-    console.log(auth.token);
+    // console.log(auth.token);
     try {
       const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`,
         {
@@ -73,7 +73,7 @@ console.log(auth.token);
 
   return (
     <>
-      <Admin_Header />
+      <Merchant_Header />
       {loading ? (
         <Loader />
       ) : (
@@ -86,11 +86,11 @@ console.log(auth.token);
 
           <h1 className="text-center mb-5">Product List</h1>
           <div className="d-flex justify-content-between mb-4">
-            <Link to={"/dashboard/admin/create-product"}>
+            <Link to={"/dashboard/merchant/create-product"}>
               <button className="btn btn-primary">Add a Product</button>
             </Link>
 
-            <Link to={"/dashboard/admin/bulk-upload"}>
+            <Link to={"/dashboard/merchant/bulk-upload"}>
               <button className="btn btn-primary">Upload in Bulk</button>
             </Link>
 
