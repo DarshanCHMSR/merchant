@@ -164,7 +164,7 @@ function App() {
             />
 
 //Merchant Routes
-<Route path="dashboard" >
+<Route path="dashboard" element={<Admin_Private />}>
               <Route path="merchant" element={<AdminDashboardMerchant />} />
               <Route
                 path="merchant/search-products/:searchValue"

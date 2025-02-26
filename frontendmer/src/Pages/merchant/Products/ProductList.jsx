@@ -20,13 +20,14 @@ const ProductList = () => {
   });
   
   const auth = useSelector((state) => state.auth);
-// console.log(auth.token);  
+console.log(auth.token);  
   useEffect(() => {
     fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
     setLoading(true);
+    console.log(auth.token);
     try {
       const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`,
         {
@@ -34,6 +35,7 @@ const ProductList = () => {
             Authorization: auth.token,
             // "Content-Type": "application/json",
           },
+          
         }
       );
       setProduct(res.data.products);
@@ -78,7 +80,7 @@ const ProductList = () => {
         <div className="container mt-5">
           <div className="row mb-0">
             <div className="col-12">
-              <Backbutton path={"/dashboard/admin"} />
+              <Backbutton path={"/dashboard/merchant"} />
             </div>
           </div>
 
