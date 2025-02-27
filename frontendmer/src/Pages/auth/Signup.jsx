@@ -77,7 +77,7 @@ const Signup = () => {
       });
 
       if (res.data.success) {
-        navigate("/");
+        navigate("/dashboard/merchant/product-list");
         toast.success(res.data.message);
         dispatch(
           setAuth({
@@ -139,7 +139,7 @@ const Signup = () => {
         <Loader />
       ) : (
         <>
-          <Backbutton path={"/"} />
+          <Backbutton path={"/dashboard/merchant/product-list"} />
           <div className="container-fluid form-container mb-10 mt-10 p-4 form-container">
             <Toaster position="top-center" reverseOrder={false} />
             <div className="container login-container ">

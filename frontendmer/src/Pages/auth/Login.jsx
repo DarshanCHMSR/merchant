@@ -75,7 +75,7 @@ const Login = () => {
         if (res.data.user.role === 1) {
           navigate("/dashboard/admin");
         } else {
-          navigate("/");
+          navigate("/dashboard/merchant");
         }
         toast.success(res.data.message);
         setloading(false);
@@ -129,7 +129,7 @@ const Login = () => {
         <Loader />
       ) : (
         <>
-          <Backbutton path="/" />
+          <Backbutton path="//dashboard/merchant/product-list" />
 
           <div className="container-fluid form-container mb-10 mt-10 p-4">
             <div className="container login-container">
