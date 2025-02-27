@@ -116,14 +116,14 @@ const CreateProduct = () => {
         }
       );
 
-      if (res.data.success) {
+      // if (res.data.success) {
         navigate("/dashboard/merchant/product-list");
-        toast.success(res.data.message);
-        setLoading(false);
-      } else {
-        toast.error(res.data.message);
-        setLoading(false);
-      }
+      //   toast.success(res.data.message);
+      //   setLoading(false);
+      // } else {
+      //   toast.error(res.data.message);
+      //   setLoading(false);
+      // }
     } catch (error) {
       console.error(error);
       setLoading(false);
