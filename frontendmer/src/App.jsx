@@ -212,7 +212,7 @@ function App() {
             <Route
               path="/"
               element={
-                <ProductListMerchant />
+                <CreateProductMerchant />
           
               }
             />

@@ -30,7 +30,7 @@ const ProductList = () => {
     // console.log(auth.token);
     try {
       const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`,
-        {
+        {  
           headers: {
             Authorization: auth.token,
             // "Content-Type": "application/json",
