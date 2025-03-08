@@ -93,12 +93,12 @@ const ProductList = () => {
       ) : (
         <div className="container mt-5">
           <div className="row mb-0">
-            <div className="col-12">
-              <Backbutton path={"/dashboard/merchant"} />
+            <div className="col-12" style={{marginTop: "50px" }}>
+              {/* <Backbutton path={"/dashboard/merchant"} /> */}
             </div>
           </div>
 
-          <h1 className="text-center mb-5">Product List</h1>
+          <h1 className="text-center mb-5 ">Product List</h1>
           <div className="d-flex justify-content-between mb-4">
             <Link to={"/dashboard/merchant/create-product"}>
               <button className="btn btn-primary">Add a Product</button>

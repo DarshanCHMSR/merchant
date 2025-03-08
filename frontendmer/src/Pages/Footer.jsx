@@ -6,7 +6,8 @@ function Footer() {
     <div>
         <footer className="bg-dark text-light py-3 footer" >
             <p className="text-center">ValueCart &copy; {new Date().getFullYear()}</p>
-            <a href='/'>Contact Us</a>
+            <a href='/dashboard/merchant/register-form'>Contact Us</a>
+            {/* <a href='/contact-us'>Products</a> */}
         </footer>
        
     </div>

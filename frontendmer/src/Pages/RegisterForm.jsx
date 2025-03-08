@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import React from "react"; 
+import Backbutton from "../Components/Backbutton";
+import Merchant_Header from "../Pages/merchant/Components/Merchant_Header";  
 
 
 const RegisterForm = () => {
@@ -32,14 +34,84 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" required />
-      <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Your Email" required />
-      <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Your Message" required />
-      <button type="submit">Send</button>
-      
-      <p>{status}</p>
-    </form>
+    <>
+          <Merchant_Header />
+
+      <form onSubmit={handleSubmit} style={{ width: "50%", margin: "auto", marginTop: "100px" }}>
+         <div className="row mb-0">
+            <div className="col-12">
+              <Backbutton path={"/dashboard/merchant"} />
+            </div>
+          </div>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label">
+                Name
+              </label>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" required className="form-control" />
+
+            </div>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={formData.email}
+                onChange={handleChange} 
+                placeholder="Your Email"
+                required
+              />
+            </div>
+
+            {/* <div className="mb-3">
+              <label htmlFor="phone" className="form-label">
+                Phone
+              </label>
+              <input
+                type="phone"
+                className="form-control"
+                name="phone"
+                value={formData.phone}
+                placeholder="Your Phone"
+                required
+              />
+            </div> */}
+
+            {/* <div className="mb-3">
+              <label htmlFor="subject" className="form-label">
+                Subject
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                name="subject"
+                value={formData.subject}
+                placeholder="Subject"
+              />
+            </div> */}
+            {/* <div className="mb-3">
+              <label htmlFor="message" className="form-label">
+                Message
+              </label>
+              <textarea
+                className="form-control"
+                name="message"
+                value={formData.message}
+                rows="4"
+                placeholder="Your Message"
+                required
+              ></textarea>
+            </div> */}
+            <button type="submit" >
+            Send
+            </button>
+            <p>{status}</p>
+          </form>
+
+
+    </> 
   );
 };
 
