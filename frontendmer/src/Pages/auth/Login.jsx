@@ -68,6 +68,7 @@ const Login = () => {
 
       // * Saving the user data in local storage if the application refreshed then the user will be logged in automatically
       localStorage.setItem("auth-Data", JSON.stringify(res.data));
+// console.log(res.data.token);
 
       // console.log(user, token);
       // await handelOTP();
@@ -129,7 +130,7 @@ const Login = () => {
         <Loader />
       ) : (
         <>
-          <Backbutton path="//dashboard/merchant/product-list" />
+          <Backbutton path="/dashboard/merchant/product-list" />
 
           <div className="container-fluid form-container mb-10 mt-10 p-4">
             <div className="container login-container">

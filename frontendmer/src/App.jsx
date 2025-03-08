@@ -23,6 +23,8 @@ import DeleteCategory from "./Pages/admin/Cateogry/DeleteCategory";
 import DeleteProduct from "./Pages/admin/Products/DeleteProduct";
 import UpdateProduct from "./Pages/admin/Products/UpdateProduct";
 import SearchPage from "./Pages/SearchPage";
+import RegisterForm from "./Pages/RegisterForm";
+import Footer from "./Pages/Footer";
 
 
 import { useDispatch, useSelector } from "react-redux";
@@ -186,6 +188,8 @@ function App() {
                 path="merchant/delete-category/:id"
                 element={<DeleteCategoryMerchant />}
               />
+              <Route path="merchant/register-form" element={<RegisterForm />} />
+              <Route path="merchant/footer" element={<Footer />} />
 
 
               // ! Product routes

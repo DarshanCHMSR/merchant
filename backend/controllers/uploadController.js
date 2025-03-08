@@ -13,8 +13,8 @@ dotenv.config();
 // });
 
 AWS.config.update({
-  accessKeyId: "AKIA6K5V7UA5HJMQ5U5I",
-  secretAccessKey: "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",
+  accessKeyId: "AKIA6K5V7UA5IDHAGF4M",
+  secretAccessKey: "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",
   region: "ap-south-1",
 });
 const s3 = new AWS.S3();

@@ -7,6 +7,7 @@ import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
 import { useSelector } from "react-redux";
+import Footer from "../../Footer";
 
 
 const ProductList = () => {
@@ -20,6 +21,17 @@ const ProductList = () => {
   });
   
   const auth = useSelector((state) => state.auth);
+  const getAuthToken = () => {
+    const authData = localStorage.getItem("auth-Data");
+
+    if (!authData) return null; // Return null if no data is found
+
+    const parsedData = JSON.parse(authData); // Convert JSON string back to object
+
+    return parsedData.token; // Assuming the token is stored under "token"
+};
+
+
 // console.log(auth.token);  
   useEffect(() => {
     fetchProducts();
@@ -27,12 +39,14 @@ const ProductList = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
+    const token = getAuthToken();
+// console.log(token); 
     // console.log(auth.token);
     try {
       const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`,
         {  
           headers: {
-            Authorization: auth.token,
+            Authorization: token,
             // "Content-Type": "application/json",
           },
           
@@ -208,6 +222,7 @@ const ProductList = () => {
           </div>
         </div>
       )}
+              <Footer />
     </>
   );
 };

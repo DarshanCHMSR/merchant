@@ -61,6 +61,7 @@ export const UploadToS3 = async (fileList, foldername) => {
         await axios.put(uploadURL, image, {
           headers: {
             "Content-Type": image.type,
+            "Access-Control-Allow-Origin": "*",
           },
         });
 
@@ -98,7 +99,8 @@ export const UploadProductSheet = async (file, uploader) => {
     // Step 2: Upload the file to S3 using the pre-signed URL
     const uploadResponse = await axios.put(uploadURL, file, {
       headers: {
-        "Content-Type": file.type, // Set the correct content type for the file
+        "Content-Type": file.type,
+        "Access-Control-Allow-Origin": "*", // Set the correct content type for the file
       },
     });
 

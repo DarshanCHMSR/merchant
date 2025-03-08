@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import { comparePassword, hashPassword } from "../helpers/authEncryption.js";
-// import axios from "axios";
+import axios from "axios";
 
 // * register handler
 const JWT_SECRET = "asdfghjkl12345678";
@@ -147,8 +147,8 @@ export const loginController = async (req, res) => {
 export const otpController = async (req, res) => {
   const { phone } = req.body;
 
-  const clientId = process.env.CLIENT_ID;
-  const clientSecret = process.env.CLIENT_SECRET;
+  const clientId = "7ZTENLFHEYX58X5EKJSPS1B7CKQ0VFJ7";
+  const clientSecret = "rs4k4hgx7azgq8cnh9hvhlibtt5f2xa7";
 
   let data = JSON.stringify({
     phoneNumber: "91" + phone,
@@ -156,7 +156,7 @@ export const otpController = async (req, res) => {
     channel: "SMS",
     expiry: 60,
   });
-
+console.log("data",data)
   let config = {
     method: "POST",
     maxBodyLength: Infinity,
@@ -168,10 +168,11 @@ export const otpController = async (req, res) => {
     },
     data: data,
   };
-
+console.log("config",config)
   try {
     const response = await axios.request(config);
-    const orderId = response.data.orderId; // Extracting the orderId from the response
+    const orderId = response.data.orderId;
+    console.log("orderid",orderId) // Extracting the orderId from the response
     res.status(200).json({ orderId });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -183,8 +184,8 @@ export const otpVerification = async (req, res) => {
   try {
     const { phone, otp, orderId } = req.body;
 
-    const clientId = process.env.CLIENT_ID;
-    const clientSecret = process.env.CLIENT_SECRET;
+    const clientId = "7ZTENLFHEYX58X5EKJSPS1B7CKQ0VFJ7";
+    const clientSecret = "rs4k4hgx7azgq8cnh9hvhlibtt5f2xa7";
 
     let data = JSON.stringify({
       orderId: orderId,
@@ -205,6 +206,7 @@ export const otpVerification = async (req, res) => {
     };
 
     const response = await axios.request(config);
+    console.log("response",response.data)
     res.status(200).json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -215,8 +217,8 @@ export const otpVerification = async (req, res) => {
 export const resendOtpcontroller = async (req, res) => {
   const { orderId } = req.body;
 
-  const clientId = process.env.CLIENT_ID;
-  const clientSecret = process.env.CLIENT_SECRET;
+  const clientId = "7ZTENLFHEYX58X5EKJSPS1B7CKQ0VFJ7";
+  const clientSecret = "rs4k4hgx7azgq8cnh9hvhlibtt5f2xa7";
 
   let data = JSON.stringify({
     orderId: orderId,

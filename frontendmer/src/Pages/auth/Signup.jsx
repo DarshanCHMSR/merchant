@@ -266,14 +266,10 @@ const Signup = () => {
                                     >
                                       Resend OTP
                                     </p>
-                                    <p>
-                                      {" "}
-                                      <CountDown
-                                        key={resendCount}
-                                        initialMinutes={1}
-                                        initialSeconds={0}
-                                      />
-                                    </p>
+                                    <div>
+  <CountDown key={resendCount} initialMinutes={1} initialSeconds={0} />
+</div>
+
                                   </div>
                                   <button
                                     className={`btn btn-${
