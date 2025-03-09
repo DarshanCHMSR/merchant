@@ -7,7 +7,7 @@ import axios from "axios";
 const JWT_SECRET = "asdfghjkl12345678";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, emailPassword,role } = req.body;
+    const { name, email, password, phone, emailPassword,role,gst,shop } = req.body;
 
     // if ((!phone || !email) && !name) {
     //   return res.send({ message: "All fields are required" });
@@ -40,6 +40,8 @@ export const registerController = async (req, res) => {
       email,
       phone,
       role,
+      gst,
+      shop,
     });
     // * Registering the user
 
@@ -74,6 +76,8 @@ export const registerController = async (req, res) => {
         role: user.role,
         location: user.location,
         cart: user.cart,
+        gst: user.gst,
+        shop: user.shop,
       },
       token,
     });

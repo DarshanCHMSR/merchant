@@ -24,6 +24,12 @@ const userModel = new mongoose.Schema(
     altPhone: {
       type: String,
     },
+    gst:{
+      type: String,
+    },
+    shop:{
+      type: String,
+    },
 
     address: {
       type: String,

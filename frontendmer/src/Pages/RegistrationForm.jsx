@@ -131,9 +131,9 @@ const RegistrationForm = () => {
            required
          />
        </div> 
-       <button type="submit" >
+       <button type="submit" className={`btn btn-primary w-100 mb-3`}>
        Submit
-       </button>
+       </button >
        <p>{result}</p>
      </form>
      <p className="signinlink">
