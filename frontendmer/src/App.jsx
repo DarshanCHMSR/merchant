@@ -23,8 +23,7 @@ import DeleteCategory from "./Pages/admin/Cateogry/DeleteCategory";
 import DeleteProduct from "./Pages/admin/Products/DeleteProduct";
 import UpdateProduct from "./Pages/admin/Products/UpdateProduct";
 import SearchPage from "./Pages/SearchPage";
-import RegisterForm from "./Pages/RegisterForm";
-import Footer from "./Pages/Footer";
+
 
 
 import { useDispatch, useSelector } from "react-redux";
@@ -56,6 +55,8 @@ import UserListMerchant from "./Pages/merchant/user-data/UserList";
 import BulkCreateProductMerchant from "./Pages/merchant/Products/BulkCreateProduct";
 import ProductListMerchant from "./Pages/merchant/Products/ProductList";
 import RegistrationForm from "./Pages/RegistrationForm";
+import RegisterForm from "./Pages/RegisterForm";
+import Footer from "./Pages/Footer";
 function App() {
   const dispatch = useDispatch();
 
@@ -212,7 +213,7 @@ function App() {
             </Route>
             <Route path = 'dashboard/merchant/bulk-upload' element = {<BulkCreateProductMerchant/>}/>  
               <Route path="/register-form" element={<RegisterForm />} />
-
+              /register-form
 
             <Route path="/signup" element={<Signup />} />
             <Route
