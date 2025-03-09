@@ -13,6 +13,7 @@
     "@auth0/auth0-react": "^2.2.4",
     "@emailjs/browser": "^4.3.3",
     "@reduxjs/toolkit": "^2.2.5",
+    "@supabase/supabase-js": "^2.49.1",
     "algoliasearch": "^4.24.0",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.7.2",

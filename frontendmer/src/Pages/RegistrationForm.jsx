@@ -1,5 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { useEffect } from "react";
+import { supabase } from "./supabase";
+import FormOtp from "./FormOtp";
 import React from "react"; 
 import { Link, useNavigate } from "react-router-dom";
 import Backbutton from "../Components/Backbutton";
@@ -33,6 +36,16 @@ const RegistrationForm = () => {
       setResult(data.message);
     }
   };
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (data?.user) setUser(data.user);
+    };
+
+    fetchUser();
+  }, []);
 
     
   return (
@@ -82,6 +95,15 @@ const RegistrationForm = () => {
            required
          />
        </div>
+
+       <div className="p-6">
+      {user ? (
+        <h2>Welcome, {user.email}! 🎉</h2>
+      ) : (
+        <FormOtp />
+      )}
+    </div>
+
 
        <div className="mb-3">
          <label htmlFor="key" className="form-label">
