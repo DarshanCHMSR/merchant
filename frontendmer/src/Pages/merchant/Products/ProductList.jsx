@@ -222,7 +222,6 @@ const ProductList = () => {
           </div>
         </div>
       )}
-      <a href='/register-form'>Contact Us</a>
               <Footer />
     </>
   );
