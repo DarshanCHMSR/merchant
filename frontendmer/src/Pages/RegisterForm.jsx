@@ -22,7 +22,7 @@ const email=parsedData.user.email;
     setStatus("Sending...");
 
     try {
-      const response = await axios.post("https://formspree.io/f/meoajvyw", formData, {
+      const response = await axios.post("https://formspree.io/f/mblgrvol", formData, {
         headers: { "Content-Type": "application/json" },
       });
 
