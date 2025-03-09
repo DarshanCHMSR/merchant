@@ -1,0 +1,286 @@
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import Loader from "../../Components/Loading/Loader";
+import Backbutton from "../../Components/Backbutton";
+import CountDown from "../../Components/timer/CountDown";
+import sendOtp from "./authControllers/sendOtp";
+import verifyOtp from "./authControllers/verifyOtp";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth } from "../../State/auth_action";
+import { url } from "../../Components/backend_link/data";
+import resendOtp from "./authControllers/resendOtp";
+import Admin_Header from "../admin/Components/Admin_Header";
+
+const CreateMerchant = () => {
+  const [mail, setMail] = useState("");
+  const [Name, setName] = useState("");
+//   const [phone, setPhone] = useState("");
+
+  // * this state used for setting the password for phone signup users
+  const [password, setpassword] = useState("");
+
+  // * this state is used for setting the password for email signup users
+  const [emailPassword, setEmailPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gst, setGst] = useState("");
+  const [shop, setShop] = useState("");
+
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // ! when user get resitered in that time only we will store the data in local storage
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const [input, setinput] = useState("");
+
+
+  const [Number, setNumber] = useState(false);
+  const [checkMail, setCheckMail] = useState(false);
+
+  const navigate = useNavigate();
+
+  const [loading, setloading] = useState(false);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+
+  const [min, setmin] = useState(1);
+
+  // ? this state is used to handel the resend OTP time recount.
+
+  const handelsubmit = async (e) => {
+    e.preventDefault();
+
+    if (Number) {
+      // here we have to send otp to the user
+    } else {
+      if (emailPassword !== confirmPassword) {
+        toast.error("Passwords do not match");
+        return;
+      }
+    }
+
+    setloading(true);
+
+    try {
+      const res = await axios.post(`${url}/api/v2/auth/register`, {
+        name: Name,
+        email: mail,
+        password,
+        emailPassword,
+        phone,
+        gst,
+        shop,
+      });
+      console.log(res.data);
+
+      if (res.data.success) {
+        navigate("/create-merchant");
+        setName("");
+        setMail("");
+        setPhone("");
+        setpassword("");
+        setEmailPassword("");
+        setinput("");
+        setConfirmPassword(""); 
+        setGst("");
+        setShop("");
+        toast.success(res.data.message);
+        dispatch(
+          setAuth({
+            user: res.data.user,
+            token: res.data.token,
+          })
+        );
+        localStorage.setItem("auth-Data", JSON.stringify(res.data));
+
+        setloading(false);
+      } else {
+        // alert(res.data.message);
+        toast.error(res.data.message);
+        setloading(false);
+      }
+    } catch (error) {
+
+      toast.error(error.response.data.message);
+      setloading(false);
+    }
+  };
+
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+                  <Admin_Header />
+                  <div style={{marginTop:"50px"}}></div>
+          <Backbutton path={"/dashboard/admin/product-list"} />
+          <div className="container-fluid form-container mb-10 mt-10 p-4 form-container">
+            <Toaster position="top-center" reverseOrder={false} />
+            <div className="container login-container ">
+              <div className="row ">
+                <div className="col-md-5 content-part">
+                  {/* <!-- <h4 class="logo">Smart Account</h4> --> */}
+                  <h2 className="text-primary">Create Merchant account</h2>
+                  <p>
+                    Accounts of the Merchants are created here. Please fill in
+                    the details to create an account.
+                  </p>
+
+                 
+                </div>
+
+                <div className="">
+                  <div className="row">
+                    <div className="col-lg-8 col-md-11  formcol mx-auto">
+                      <h3 className="text-primary">Create account</h3>
+
+                      <form onSubmit={handelsubmit}>
+                        <div className="form-floating mb-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="floatingInput"
+                            value={Name}
+                            onChange={(e) => {
+                              setName(e.target.value);
+                            }}
+                            placeholder="Enter Your Name: "
+                          />
+                          <label htmlFor="floatingInput">Full Name</label>
+                        </div>
+                        <div className="form-floating mb-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="floatingInput"
+                            value={input}
+                            onChange={(e) => {
+                              setinput(e.target.value);
+                              if (emailRegex.test(e.target.value)) {
+                                setMail(e.target.value);
+                                setCheckMail(true);
+                                setPhone("");
+                              }
+                              if (
+                                phoneRegex.test(e.target.value) &&
+                                e.target.value.length === 10
+                              ) {
+                                setMail(null);
+                                setPhone(e.target.value);
+                                setNumber(true);
+                              }
+                              if (e.target.value == "") {
+                                setCheckMail(false);
+                                setNumber(false);
+                              }
+                            }}
+                            placeholder="Email"
+                          />
+                          <label htmlFor="floatingInput">
+                            Email 
+                          </label>
+                        </div>
+
+
+                        {/* If the user is entering the email address */}
+                        {checkMail && (
+                          <>
+                            <div className="form-floating mb-3">
+                              <input
+                                type="password"
+                                className="form-control"
+                                id="floatingInput"
+                                value={emailPassword}
+                                onChange={(e) => {
+                                  setEmailPassword(e.target.value);
+                                }}
+                                placeholder="Enter Email Address"
+                              />
+                              <label htmlFor="floatingInput">Password</label>
+                            </div>
+                            <div className="form-floating">
+                              <input
+                                type="password"
+                                className="form-control"
+                                id="floatingPassword"
+                                placeholder="Password"
+                                value={confirmPassword}
+                                onChange={(e) => {
+                                  setConfirmPassword(e.target.value);
+                                }}
+                              />
+                              <label htmlFor="floatingPassword">
+                                Confirm Password
+                              </label>
+                            </div>
+                            <div className="form-floating mb-3">
+                              <input
+                                type="number"
+                                className="form-control"
+                                id="floatingInput"
+                                value={phone}
+                                onChange={(e) => {
+                                  setPhone(e.target.value);
+                                }}
+                                placeholder="Enter phone Number"
+                              />
+                              <label htmlFor="floatingInput">Phone number</label>
+                            </div>
+                            <div className="form-floating mb-3">
+                              <input
+                                type="number"
+                                className="form-control"
+                                id="floatingInput"
+                                value={gst}
+                                onChange={(e) => {
+                                  setGst(e.target.value);
+                                }}
+                                placeholder="Enter Gst Number"
+                              />
+                              <label htmlFor="floatingInput">Gst number</label>
+                            </div>
+                            <div className="form-floating mb-3">
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="floatingInput"
+                                value={shop}
+                                onChange={(e) => {
+                                  setShop(e.target.value);
+                                }}
+                                placeholder="Enter Shop Name"
+                              />
+                              <label htmlFor="floatingInput">Shop Name</label>
+                            </div>
+                          </>
+                        )}
+
+                        {checkMail && (
+                          <div className="form-floating mt-4 w-100">
+                            <button
+                              className="btn btn-primary w-100"
+                              type="submit"
+                            >
+                              Create Account
+                            </button>
+                          </div>
+                        )}
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
+};
+
+export default CreateMerchant;

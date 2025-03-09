@@ -71,7 +71,7 @@ const Admin_Header = () => {
                 
                  <li className="nav-item">
                   <Link
-                    to={"/signup"}
+                    to={"/create-merchant"}
                     className="nav-link text-black"
                   >
                     Create Merchant

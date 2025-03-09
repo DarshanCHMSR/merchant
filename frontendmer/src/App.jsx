@@ -57,6 +57,8 @@ import ProductListMerchant from "./Pages/merchant/Products/ProductList";
 import RegistrationForm from "./Pages/RegistrationForm";
 import RegisterForm from "./Pages/RegisterForm";
 import Footer from "./Pages/Footer";
+import CreateMerchant from "./Pages/auth/CreateMerchant";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -216,6 +218,7 @@ function App() {
               /register-form
 
             <Route path="/signup" element={<Signup />} />
+            <Route path="/create-merchant" element={<CreateMerchant />} />
             <Route
               path="/"
               element={

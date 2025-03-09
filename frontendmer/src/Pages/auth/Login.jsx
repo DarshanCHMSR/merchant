@@ -130,7 +130,7 @@ const Login = () => {
         <Loader />
       ) : (
         <>
-          <Backbutton path="/dashboard/merchant/product-list" />
+          <Backbutton path="/registration-form" />
 
           <div className="container-fluid form-container mb-10 mt-10 p-4">
             <div className="container login-container">
