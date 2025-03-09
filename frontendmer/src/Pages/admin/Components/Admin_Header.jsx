@@ -69,15 +69,15 @@ const Admin_Header = () => {
                 </li>
                 
                 
-                {/* <li className="nav-item">
+                 <li className="nav-item">
                   <Link
-                    to={"/dashboard/admin/labour-list"}
+                    to={"/signup"}
                     className="nav-link text-black"
                   >
-                    Labour
+                    Create Merchant
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link
                     to={"/dashboard/admin/orders"}
                     className="nav-link text-black"
@@ -92,7 +92,7 @@ const Admin_Header = () => {
                   >
                     Banners
                   </Link>
-                </li> */}
+                </li> */} 
 
                 {/* <li>
                   <Link

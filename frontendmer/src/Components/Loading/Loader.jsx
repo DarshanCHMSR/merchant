@@ -7,7 +7,7 @@ const Loader = () => {
     window.scrollTo(0, 0);
   }, [])
   
-  return (
+  return (  
     <div>
           <div
         style={{
