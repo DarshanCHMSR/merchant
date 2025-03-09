@@ -55,6 +55,7 @@ import OutofStockProductsMerchant from "./Pages/merchant/Products/OutofStockProd
 import UserListMerchant from "./Pages/merchant/user-data/UserList";
 import BulkCreateProductMerchant from "./Pages/merchant/Products/BulkCreateProduct";
 import ProductListMerchant from "./Pages/merchant/Products/ProductList";
+import RegistrationForm from "./Pages/RegistrationForm";
 function App() {
   const dispatch = useDispatch();
 
@@ -217,6 +218,13 @@ function App() {
               path="/"
               element={
                 <Login />
+          
+              }
+            />
+            <Route
+              path="/registration-form"
+              element={
+                <RegistrationForm />
           
               }
             />

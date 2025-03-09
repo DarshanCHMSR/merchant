@@ -148,7 +148,7 @@ const Login = () => {
                 <div className="col-lg-7 col-md-6 form-part login-form">
                   <div className="row">
                     <p className="signinlink">
-                      Don't have an account? <Link to="/signup">Sign Up</Link>
+                      Don't have an account? <Link to="/registration-form">Contact us</Link>
                     </p>
 
                     <div className="col-lg-8 col-md-10 col-12 login formcol mx-auto">

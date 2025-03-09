@@ -6,7 +6,11 @@ import Merchant_Header from "../Pages/merchant/Components/Merchant_Header";
 
 
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const authData = localStorage.getItem("auth-Data");
+    const parsedData = JSON.parse(authData);
+     const name=parsedData.user.name; 
+const email=parsedData.user.email; 
+  const [formData, setFormData] = useState({ name: name, email: email,  subject: "", message: "" ,});
   const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
@@ -24,7 +28,7 @@ const RegisterForm = () => {
 
       if (response.status === 200) {
         setStatus("Message Sent!");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", subject: "" , message: ""});
       } else {
         setStatus("Error sending message.");
       }
@@ -33,6 +37,7 @@ const RegisterForm = () => {
     }
   };
 
+    
   return (
     <>
           <Merchant_Header />
@@ -43,6 +48,8 @@ const RegisterForm = () => {
               <Backbutton path={"/dashboard/merchant"} />
             </div>
           </div>
+          
+          
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
                 Name
@@ -79,7 +86,7 @@ const RegisterForm = () => {
               />
             </div> */}
 
-            {/* <div className="mb-3">
+            <div className="mb-3">
               <label htmlFor="subject" className="form-label">
                 Subject
               </label>
@@ -88,10 +95,11 @@ const RegisterForm = () => {
                 className="form-control"
                 name="subject"
                 value={formData.subject}
+                onChange={handleChange} 
                 placeholder="Subject"
               />
-            </div> */}
-            {/* <div className="mb-3">
+            </div>
+            <div className="mb-3">
               <label htmlFor="message" className="form-label">
                 Message
               </label>
@@ -99,11 +107,12 @@ const RegisterForm = () => {
                 className="form-control"
                 name="message"
                 value={formData.message}
+                onChange={handleChange}
                 rows="4"
                 placeholder="Your Message"
                 required
               ></textarea>
-            </div> */}
+            </div>
             <button type="submit" >
             Send
             </button>
