@@ -9,32 +9,28 @@ import Merchant_Header from "../Pages/merchant/Components/Merchant_Header";
 
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({ name: "", email: "",  phone: "", shop: "" ,password:"",gst:"" });
-  const [status, setStatus] = useState("");
-
+  const [result, setResult] = React.useState("");
   const [loading, setloading] = useState(false);
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = new FormData(event.target);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    formData.append("access_key", "121a629f-fb7c-4ce1-9181-d48c8de588c3");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Sending...");
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
 
-    try {
-      const response = await axios.post("https://formspree.io/f/mkgjwlgw", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
+    const data = await response.json();
 
-      if (response.status === 200) {
-        setStatus("Message Sent!");
-        setFormData({ name: "", email: "", phone: "" , shop: "",password:"",gst:""});
-      } else {
-        setStatus("Error sending message.");
-      }
-    } catch (error) {
-      setStatus("Error sending message.");
+    if (data.success) {
+      setResult("Form Submitted Successfully");
+      event.target.reset();
+    } else {
+      console.log("Error", data);
+      setResult(data.message);
     }
   };
 
@@ -66,12 +62,12 @@ const RegistrationForm = () => {
 
                     <div className="col-lg-8 col-md-10 col-12 login formcol mx-auto">
                       <h3 className="text-primary">Register Now</h3>
-                      <form onSubmit={handleSubmit} >   
+                      <form onSubmit={onSubmit} >   
        <div className="mb-3">
          <label htmlFor="name" className="form-label">
            Name
          </label>
-         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" required className="form-control" />
+         <input type="text" name="name" placeholder="Your Name" required className="form-control" />
 
        </div>
        <div className="mb-3">
@@ -82,23 +78,19 @@ const RegistrationForm = () => {
            type="email"
            className="form-control"
            name="email"
-           value={formData.email}
-           onChange={handleChange} 
            placeholder="Your Email"
            required
          />
        </div>
 
        <div className="mb-3">
-         <label htmlFor="password" className="form-label">
+         <label htmlFor="key" className="form-label">
            Password
          </label>
          <input
-           type="password"
+           type="text"
            className="form-control"
-           name="password"
-           value={formData.password}
-           onChange={handleChange} 
+           name="key"
            placeholder="Your Password"
            required
          />
@@ -112,8 +104,6 @@ const RegistrationForm = () => {
            type="phone"
            className="form-control"
            name="phone"
-           value={formData.phone}
-           onChange={handleChange} 
            placeholder="Phone Number"
          />
        </div>
@@ -125,8 +115,6 @@ const RegistrationForm = () => {
          type="text"
            className="form-control"
            name="shop"
-           value={formData.shop}
-           onChange={handleChange}
            placeholder="Your shop name"
            required
          ></input>
@@ -139,8 +127,6 @@ const RegistrationForm = () => {
            type="text"
            className="form-control"
            name="gst"
-           value={formData.gst}
-           onChange={handleChange} 
            placeholder="Your Gst Number"
            required
          />
@@ -148,7 +134,7 @@ const RegistrationForm = () => {
        <button type="submit" >
        Submit
        </button>
-       <p>{status}</p>
+       <p>{result}</p>
      </form>
      <p className="signinlink">
                     Already have an account?  <Link to={"/login"}>Sign In</Link>
