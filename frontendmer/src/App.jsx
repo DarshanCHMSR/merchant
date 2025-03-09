@@ -189,7 +189,7 @@ function App() {
                 path="merchant/delete-category/:id"
                 element={<DeleteCategoryMerchant />}
               />
-              <Route path="merchant/register-form" element={<RegisterForm />} />
+              {/* <Route path="merchant/register-form" element={<RegisterForm />} /> */}
               <Route path="merchant/footer" element={<Footer />} />
 
 
@@ -211,6 +211,7 @@ function App() {
 
             </Route>
             <Route path = 'dashboard/merchant/bulk-upload' element = {<BulkCreateProductMerchant/>}/>  
+              <Route path="/register-form" element={<RegisterForm />} />
 
 
             <Route path="/signup" element={<Signup />} />
