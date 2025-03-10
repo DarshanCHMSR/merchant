@@ -90,6 +90,29 @@ const [location, setLocation] = useState({
       });
     }};
     
+    const [email, setEmail] = useState("");
+    const [loading2, setLoading2] = useState(false);
+    const [message, setMessage] = useState("");
+  
+    const sendOTP = async () => {
+      setLoading2(true);
+      setMessage("");
+      try {
+        const response = await fetch("http://localhost:5000/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        const data = await response.text();
+        setMessage(data);
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+        setMessage("Failed to send OTP. Try again.");
+      }
+      setLoading2(false);
+    };
+
+
   return (
     <>
  {loading ? (
@@ -244,6 +267,28 @@ const [location, setLocation] = useState({
               </div>
             </div>
           </div>
+
+
+
+
+          <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
+      <h2>Send OTP</h2>
+      <input
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ width: "100%", padding: "10px", marginBottom: "10px", borderRadius: "4px", border: "1px solid #ccc" }}
+      />
+      <button
+        onClick={sendOTP}
+        disabled={loading2}
+        style={{ width: "100%", padding: "10px", backgroundColor: "blue", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+      >
+        {loading2 ? "Sending..." : "Send OTP"}
+      </button>
+      {message && <p style={{ marginTop: "10px", color: "green" }}>{message}</p>}
+    </div>
           </>
       )}
 
