@@ -5,6 +5,8 @@ import products from "./routes/products.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import uploadRoutes from './routes/uploadRoutes.js'
 
+import SibApiV3Sdk from 'sib-api-v3-sdk';
+
 import AWS from "aws-sdk";
 import crypto from "crypto";
 
@@ -23,6 +25,30 @@ app.use(express.json())
 app.get('/', (req, res) => {
   res.send('Hello, your backend is running!');
 });
+
+const client = SibApiV3Sdk.ApiClient.instance;
+const apiKey = client.authentications['api-key'];
+apiKey.apiKey = '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';
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+app.post('/send-otp', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.to = [{ email }];
+    sendSmtpEmail.templateId = 1;
+    sendSmtpEmail.params = { otp };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    res.status(200).send('OTP sent successfully');
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //avaiable routes
 // app.use('/api/auth',require('./routes/auth'))
 // app.use('/api/notes',require('./routes/notes'))
