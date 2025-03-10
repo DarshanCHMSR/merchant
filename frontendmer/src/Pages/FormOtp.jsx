@@ -1,66 +1,68 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+import { auth } from "./firebaseConfig";
+import { sendSignInLinkToEmail, signInWithEmailLink } from "firebase/auth";
+import React from "react";
+const actionCodeSettings = {
+  url: window.location.href, // Redirect URL after login
+  handleCodeInApp: true,
+};
 
-function Location() {
-  const [location, setLocation] = useState({
-    latitude: null,
-    longitude: null,
-    error: null,
-  });
+const FormOtp = () => {
+  const [email, setEmail] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const handleCheckboxChange = (event) => {
-    if (event.target.checked) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setLocation({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              error: null,
-            });
-          },
-          (error) => {
-            setLocation({
-              latitude: null,
-              longitude: null,
-              error: error.message,
-            });
-          }
-        );
-      } else {
-        setLocation({
-          latitude: null,
-          longitude: null,
-          error: 'Geolocation is not supported by your browser.',
-        });
-      }
-    } else {
-      // Reset location if checkbox is unchecked
-      setLocation({
-        latitude: null,
-        longitude: null,
-        error: null,
-      });
+  // Send OTP to Email
+  const sendOTP = async () => {
+    try {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      setOtpSent(true);
+      setMessage("✅ OTP link sent to your email. Check your inbox!");
+    } catch (error) {
+      setMessage("⚠️ Error: " + error.message);
+    }
+  };
+
+  // Verify OTP and Sign In
+  const verifyOTP = async () => {
+    try {
+      const email = window.localStorage.getItem("emailForSignIn");
+      if (!email) throw new Error("No email found. Try again.");
+
+      await signInWithEmailLink(auth, email, window.location.href);
+      setMessage("✅ Login successful! 🎉");
+    } catch (error) {
+      setMessage("⚠️ Error: " + error.message);
     }
   };
 
   return (
-    <div>
-      <label>
-        <input 
-          type="checkbox" 
-          onChange={handleCheckboxChange} 
-        />
-        Are you in the shop?
-      </label>
-      {location.latitude && location.longitude && (
-        <div>
-          <p>Latitude: {location.latitude}</p>
-          <p>Longitude: {location.longitude}</p>
-        </div>
+    <div className="p-4 max-w-md mx-auto bg-white shadow-lg rounded-lg">
+      <h2 className="text-xl font-bold mb-2">Login with Email OTP</h2>
+
+      {!otpSent ? (
+        <>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border p-2 w-full mb-2"
+          />
+          <button onClick={sendOTP} className="bg-blue-500 text-white px-4 py-2 rounded">
+            Send OTP
+          </button>
+        </>
+      ) : (
+        <button onClick={verifyOTP} className="bg-green-500 text-white px-4 py-2 rounded">
+          Verify OTP
+        </button>
       )}
-      {location.error && <p>Error: {location.error}</p>}
+
+      {message && <p className="mt-2 text-sm">{message}</p>}
     </div>
   );
-}
+};
 
-export default Location;
+export default FormOtp;
