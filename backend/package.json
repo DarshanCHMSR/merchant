@@ -31,7 +31,11 @@
     "mongoose": "^8.10.1",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.14",
+    "serverless": "^4.7.0",
     "serverless-http": "^3.2.0",
     "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "serverless-offline": "^14.4.0"
   }
 }

@@ -96,13 +96,13 @@ const RegistrationForm = () => {
          />
        </div>
 
-       <div className="p-6">
+       {/* <div className="p-6">
       {user ? (
         <h2>Welcome, {user.email}! 🎉</h2>
       ) : (
         <FormOtp />
       )}
-    </div>
+    </div> */}
 
 
        <div className="mb-3">
