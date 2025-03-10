@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { supabase } from "./supabase";
 import React from "react";
 import { Link } from "react-router-dom";
 import Backbutton from "../Components/Backbutton";
@@ -154,7 +153,7 @@ const RegistrationForm = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                           />
-                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px"}}>Send OTP</button>
+                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px",marginLeft:"0"}}>Send OTP</button>
                           {showOtpInput && (
                             <>
                               <input
@@ -164,7 +163,7 @@ const RegistrationForm = () => {
                                 onChange={(e) => setOtp(e.target.value)}
                                 className="form-control"
                               />
-                              <button type="button" onClick={verifyOTP} className="form-control" style={{margin:"7px"}}>Verify OTP</button>
+                              <button type="button" onClick={verifyOTP} className="form-control" style={{margin:"7px",marginLeft:"0"}}>Verify OTP</button>
                             </>
                           )}
                         </div>
