@@ -9,6 +9,7 @@ import Backbutton from "../Components/Backbutton";
 import Loader from "../Components/Loading/Loader";
 import LocationChecker from "./LocationChecker";
 import Merchant_Header from "../Pages/merchant/Components/Merchant_Header";  
+import { set } from "mongoose";
 
 
 const RegistrationForm = () => {
@@ -46,7 +47,48 @@ const RegistrationForm = () => {
 
     fetchUser();
   }, []);
+  const [result2, setResult2] = React.useState("");
+const [location, setLocation] = useState({
+    latitude: null,
+    longitude: null,
+    error: null,
+  });
 
+  const handleCheckboxChange = (event) => {
+    if (event.target.checked) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLocation({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              error: null,
+            });
+            setResult2("Location is enabled");
+          },
+          (error) => {
+            setLocation({
+              latitude: null,
+              longitude: null,
+              error: error.message,
+            });
+          }
+        );
+      } else {
+        setLocation({
+          latitude: null,
+          longitude: null,
+          error: 'Geolocation is not supported by your browser.',
+        });
+      }
+    } else {
+      // Reset location if checkbox is unchecked
+      setLocation({
+        latitude: null,
+        longitude: null,
+        error: null,
+      });
+    }};
     
   return (
     <>
@@ -153,10 +195,45 @@ const RegistrationForm = () => {
            required
          />
        </div> 
+       <div>
+      <label>
+        <input 
+          type="checkbox" 
+          onChange={handleCheckboxChange} 
+        />
+        Are you in the shop?
+      </label>
+      {location.latitude && location.longitude && (
+        <div>
+          <input
+           type="text"
+           className="form-control"
+           name="latitude"
+           placeholder="latitude"
+           required
+           value={location.latitude}
+           style={{display:"none"}}
+         />
+                   <input
+           type="text"
+           className="form-control"
+           name="longitude"
+           placeholder="longitude"
+           required
+           value={location.longitude}
+           style={{display:"none"}}
+
+         />
+           <p>{result2}</p>
+        </div>
+      )}
+      {location.error && <p>Error: {location.error}</p>}
+    </div>
        <button type="submit" className={`btn btn-primary w-100 mb-3`}>
        Submit
        </button >
        <p>{result}</p>
+       
      </form>
      <p className="signinlink">
                     Already have an account?  <Link to={"/login"}>Sign In</Link>
