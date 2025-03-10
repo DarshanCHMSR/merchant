@@ -31,10 +31,13 @@ const apiKey = client.authentications['api-key'];
 apiKey.apiKey = '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';
 
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
+const otpStore = {};
 app.post('/send-otp', async (req, res) => {
   try {
-    const { email, otp } = req.body;
+    const { email} = req.body;
+    const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
+    const expiresAt = Date.now() + 5 * 60 * 1000; // Expires in 5 minutes
+    otpStore[email] = { otp, expiresAt };
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
     sendSmtpEmail.to = [{ email }];
@@ -49,9 +52,33 @@ app.post('/send-otp', async (req, res) => {
   }
 });
 
-//avaiable routes
-// app.use('/api/auth',require('./routes/auth'))
-// app.use('/api/notes',require('./routes/notes'))
+app.post('/verify-otp', (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!otpStore[email]) {
+      return res.status(400).json({ message: 'OTP not found or expired' });
+    }
+
+    const { otp: storedOtp, expiresAt } = otpStore[email];
+
+    if (Date.now() > expiresAt) {
+      delete otpStore[email]; // Remove expired OTP
+      return res.status(400).json({ message: 'OTP expired' });
+    }
+
+    if (parseInt(otp) !== storedOtp) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+
+    delete otpStore[email]; // Remove OTP after successful verification
+    res.status(200).json({ message: 'OTP verified successfully' });
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.use("/api/v2/products", products);
 app.use("/api/v2/auth", authRoutes);
