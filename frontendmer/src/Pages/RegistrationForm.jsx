@@ -91,26 +91,39 @@ const [location, setLocation] = useState({
     }};
     
     const [email, setEmail] = useState("");
-    const [loading2, setLoading2] = useState(false);
-    const [message, setMessage] = useState("");
-  
-    const sendOTP = async () => {
-      setLoading2(true);
-      setMessage("");
-      try {
-        const response = await fetch("http://localhost:5000/send-otp", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        });
-        const data = await response.text();
-        setMessage(data);
-      } catch (error) {
-        console.error("Error sending OTP:", error);
-        setMessage("Failed to send OTP. Try again.");
-      }
-      setLoading2(false);
-    };
+  const [otp, setOtp] = useState("");
+  const [showOtpInput, setShowOtpInput] = useState(false);
+
+  const sendOTP = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.text();
+      alert(data);
+      setShowOtpInput(true);
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
+  };
+
+  const verifyOTP = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await response.json();
+      alert(data.message);
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+    }
+  };
 
 
   return (
@@ -158,7 +171,21 @@ const [location, setLocation] = useState({
            name="email"
            placeholder="Your Email"
            required
-         />
+           value={email}
+           onChange={(e) => setEmail(e.target.value)}
+         />      <button onClick={sendOTP}className="form-control">Send OTP</button>
+         {showOtpInput && (
+           <>
+             <input
+               type="text"
+               placeholder="Enter OTP"
+               value={otp}
+               onChange={(e) => setOtp(e.target.value)}
+                       className="form-control"
+             />
+             <button onClick={verifyOTP}    className="form-control">Verify OTP</button>
+           </>
+         )}
        </div>
 
        {/* <div className="p-6">
@@ -267,27 +294,31 @@ const [location, setLocation] = useState({
               </div>
             </div>
           </div>
+        
 
 
-
-
-          <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
-      <h2>Send OTP</h2>
+          <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+      <h2>OTP Verification</h2>
       <input
         type="email"
         placeholder="Enter your email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ width: "100%", padding: "10px", marginBottom: "10px", borderRadius: "4px", border: "1px solid #ccc" }}
+        style={{ display: "block", margin: "10px 0", padding: "8px", width: "100%" }}
       />
-      <button
-        onClick={sendOTP}
-        disabled={loading2}
-        style={{ width: "100%", padding: "10px", backgroundColor: "blue", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
-      >
-        {loading2 ? "Sending..." : "Send OTP"}
-      </button>
-      {message && <p style={{ marginTop: "10px", color: "green" }}>{message}</p>}
+      <button onClick={sendOTP} style={{ padding: "10px", width: "100%" }}>Send OTP</button>
+      {showOtpInput && (
+        <>
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            style={{ display: "block", margin: "10px 0", padding: "8px", width: "100%" }}
+          />
+          <button onClick={verifyOTP} style={{ padding: "10px", width: "100%" }}>Verify OTP</button>
+        </>
+      )}
     </div>
           </>
       )}
