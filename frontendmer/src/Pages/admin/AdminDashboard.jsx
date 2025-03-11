@@ -246,37 +246,50 @@ const AdminDashboard = () => {
           <div className="dash" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}} >
           <h1 style={{textAlign:"center",marginBottom:"50px"}}>Admin Dashboard</h1>
           <div className="container" style={{maxWidth:"500px",margin:"auto",background:"white",marginTop:"50px",padding:"20px",borderRadius:"10px",boxShadow:"0 0 10px rgba(0,0,0,0.1)"}}>
-          <h3>Download all products</h3>
+          <h3>Download Excel file of all products by date</h3>
 
         <div className="download-buttons">
-            <button className="btn" style={{flex:1,margin:"0,5px",padding:"10px",border:"none",borderRadius:"5px",backgroundColor:"#007BFF",color:"white",fontSize:"16px",cursor:"pointer",transition:"all 0.3s ease"}}>Download PDF</button>
+            <button className="btn" onClick={fetchProductsByDate} style={{flex:1,margin:"0,5px",padding:"10px",border:"none",borderRadius:"5px",backgroundColor:"#007BFF",color:"white",fontSize:"16px",cursor:"pointer",transition:"all 0.3s ease"}}>Download Excel file</button>
         </div>
 
         <div className="date-section" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"20px",padding:"15px",border:"2px solid #007BFF",borderRadius:"5px",background:"#f9f9f9"}}>
             <label style={{fontWeight:"bold",margin:"0 5px"}}>From:</label>
-            <input type="date" className="date-input" style={{padding:"8px",border:"1px solid #ccc",borderRadius:"5px",fontSize:"14px"}}/>
+            <input type="date" className="date-input" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{padding:"8px",border:"1px solid #ccc",borderRadius:"5px",fontSize:"14px"}}/>
             <label style={{fontWeight:"bold",margin:"0 5px"}}>To:</label>
-            <input type="date" className="date-input"/>
+            <input type="date" className="date-input" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
         </div>
         
 
     </div>
     </div>
     <div className="dash" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}} >
-          <h1 style={{textAlign:"center",marginBottom:"50px"}}>Admin Dashboard</h1>
-          <div className="container" style={{maxWidth:"500px",margin:"auto",background:"white",marginTop:"50px",padding:"20px",borderRadius:"10px",boxShadow:"0 0 10px rgba(0,0,0,0.1)"}}>
+          <div className="container" style={{maxWidth:"500px",margin:"auto",background:"white",padding:"20px",borderRadius:"10px",boxShadow:"0 0 10px rgba(0,0,0,0.1)"}}>
 
         <div className="date-section" style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",marginTop:"20px",padding:"30px",border:"2px solid #007BFF",borderRadius:"5px",background:"#f9f9f9"}}>
-       <h4>filtered  productsproductsproductsproducts</h4>
+       <h4>Download Excel file of all products till now</h4>
         <div className="download-buttons">
-            <button className="btn" style={{flex:1,margin:"0,5px",marginTop:"20px",padding:"10px",border:"none",borderRadius:"5px",backgroundColor:"#007BFF",color:"white",fontSize:"16px",cursor:"pointer",transition:"all 0.3s ease"}}>Download PDF</button>
+            <button className="btn" onClick={handleDownload} style={{flex:1,margin:"0,5px",marginTop:"20px",padding:"10px",border:"none",borderRadius:"5px",backgroundColor:"#007BFF",color:"white",fontSize:"16px",cursor:"pointer",transition:"all 0.3s ease"}}>Download PDF</button>
         </div>
         </div>
         
 
     </div>
     </div>
-          <main
+    <div className="dash" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}} >
+          {/* <h1 style={{textAlign:"center",marginBottom:"50px"}}>Admin Dashboard</h1> */}
+          <div className="container" style={{maxWidth:"500px",margin:"auto",background:"white",padding:"20px",borderRadius:"10px",boxShadow:"0 0 10px rgba(0,0,0,0.1)"}}>
+
+        <div className="date-section" style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",marginTop:"20px",padding:"30px",border:"2px solid #007BFF",borderRadius:"5px",background:"#f9f9f9"}}>
+       <h4>Download Excel file of recent 5 entries</h4>
+        <div className="download-buttons">
+            <button className="btn"  onClick={handleDownload2} style={{flex:1,margin:"0,5px",marginTop:"20px",padding:"10px",border:"none",borderRadius:"5px",backgroundColor:"#007BFF",color:"white",fontSize:"16px",cursor:"pointer",transition:"all 0.3s ease"}}>Download PDF</button>
+        </div>
+        </div>
+        
+
+    </div>
+    </div>
+          {/* <main
             style={{
               marginTop: "58px",
             }}
@@ -317,7 +330,7 @@ const AdminDashboard = () => {
    
             </div>
             
-          </main>
+          </main> */}
           
         </div>
         
