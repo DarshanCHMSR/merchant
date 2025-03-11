@@ -28,8 +28,7 @@ app.get('/', (req, res) => {
 
 const client = SibApiV3Sdk.ApiClient.instance;
 const apiKey = client.authentications['api-key'];
-apiKey.apiKey = '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';
-
+apiKey.apiKey = process.env.BREVO_API_KEY;
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 const otpStore = {};
 app.post('/send-otp', async (req, res) => {
@@ -41,7 +40,7 @@ app.post('/send-otp', async (req, res) => {
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
     sendSmtpEmail.to = [{ email }];
-    sendSmtpEmail.templateId = 1;
+    sendSmtpEmail.templateId = 2;
     sendSmtpEmail.params = { otp };
 
     await apiInstance.sendTransacEmail(sendSmtpEmail);

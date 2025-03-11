@@ -345,6 +345,7 @@ const UpdateProduct = () => {
                     type="button"
                     className="btn btn-danger ms-2"
                     onClick={() => removeVarietyField(index)}
+                    disabled
                   >
                     Remove
                   </button>
