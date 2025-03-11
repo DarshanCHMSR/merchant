@@ -39,7 +39,7 @@ const userModel = new mongoose.Schema(
       type: Number,
     default: 0,
     },
-
+    
     cart: {
       type: [Object], // Changed 'typeof' to 'type' and used Mixed to allow any item structure
       default: [],

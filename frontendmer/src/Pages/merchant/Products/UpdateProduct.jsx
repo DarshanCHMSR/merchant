@@ -58,7 +58,7 @@ const UpdateProduct = () => {
       productData.append("description", description);
       productData.append("stock", stock);
       productData.append("shipping", shipping);
-      productData.append("pid", id);
+      // productData.append("pid", id);
       productData.append("originalPrice", originalPrice);
       productData.append("deliveryCharge", deliveryCharge);
 
@@ -83,7 +83,7 @@ const UpdateProduct = () => {
         productData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: auth.token,
           },
         }
@@ -91,7 +91,7 @@ const UpdateProduct = () => {
 
       if (res.data.success) {
         setTimeout(() => {
-          navigate("/dashboard/admin/product-list");
+          navigate("/dashboard/merchant/product-list");
           toast.success(res.data.message);
           setLoading(false);
         }, 1000);
@@ -189,21 +189,22 @@ const UpdateProduct = () => {
       <Admin_Header />
 
       <div className="w-75 mx-auto mb-5 mt-5">
-        <Backbutton path="/dashboard/admin/product-list" />
+        <Backbutton path="/dashboard/merchant/product-list" />
         <h1 className="text-center mb-4">Update Product</h1>
         <span>
-          <Link to="/dashboard/admin/product-list">
+          <Link to="/dashboard/merchant/product-list">
             <button className="btn btn-primary mb-3">See All</button>
           </Link>
         </span>
         <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
-          <div className="mb-3">
+          <div className="mb-3" >
             <label className="form-label">Product Custom ID</label>
             <input
               type="text"
               className="form-control"
               value={id}
               onChange={(e) => setId(e.target.value)}
+              disabled
             />
           </div>
 
@@ -214,6 +215,7 @@ const UpdateProduct = () => {
               className="form-control"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              disabled
             />
           </div>
 
@@ -222,7 +224,8 @@ const UpdateProduct = () => {
             <select
               className="form-select"
               value={categoryValue}
-              onChange={(e) => setCategoryValue(e.target.value)}
+              onChange={(e) => setCategoryValue(e.target.value)}               disabled
+
             >
               <option>Select Category</option>
               {category.map((c) => (
@@ -239,7 +242,8 @@ const UpdateProduct = () => {
               className="form-control"
               rows="3"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}               disabled
+
             ></textarea>
           </div>
 
@@ -260,7 +264,7 @@ const UpdateProduct = () => {
               type="number"
               className="form-control"
               value={originalPrice}
-              onChange={(e) => setOriginalPrice(e.target.value)}
+              onChange={(e) => setOriginalPrice(e.target.value)}              disabled
             />
           </div>
 
@@ -270,7 +274,7 @@ const UpdateProduct = () => {
               type="number"
               className="form-control"
               value={deliveryCharge}
-              onChange={(e) => setdeliveryCharge(e.target.value)}
+              onChange={(e) => setdeliveryCharge(e.target.value)} disabled
             />
           </div>
 
@@ -280,7 +284,7 @@ const UpdateProduct = () => {
               type="number"
               className="form-control"
               value={returDays}
-              onChange={(e) => setReturDays(e.target.value)}
+              onChange={(e) => setReturDays(e.target.value)}disabled
             />
           </div>
 
@@ -290,7 +294,7 @@ const UpdateProduct = () => {
               type="number"
               className="form-control"
               value={replacementDays}
-              onChange={(e) => setReplacementDays(e.target.value)}
+              onChange={(e) => setReplacementDays(e.target.value)} disabled
             />
           </div>
 
@@ -310,7 +314,7 @@ const UpdateProduct = () => {
               type="text"
               className="form-control"
               value={shipping || ""}
-              onChange={(e) => setShipping(e.target.value)}
+              onChange={(e) => setShipping(e.target.value)}disabled
             />
           </div>
 
@@ -321,16 +325,16 @@ const UpdateProduct = () => {
                 <input
                   type="text"
                   className="form-control me-2"
-                  value={item.name}
+                  value={item.name} disabled
                   onChange={(e) =>
-                    handleVarietyChange(index, "name", e.target.value)
+                    handleVarietyChange(index, "name", e.target.value) 
                   }
                   placeholder={`Variety Name ${index + 1}`}
                 />
                 <input
                   type="number"
                   className="form-control me-2"
-                  value={item.price}
+                  value={item.price}disabled
                   onChange={(e) =>
                     handleVarietyChange(index, "price", e.target.value)
                   }
@@ -366,7 +370,7 @@ const UpdateProduct = () => {
                 alignItems: "center",
               }}
             >
-              <div
+              {/* <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -405,7 +409,7 @@ const UpdateProduct = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -417,7 +421,7 @@ const UpdateProduct = () => {
               type="file"
               multiple
               id="UploadImage"
-              className="form-control"
+              className="form-control"disabled
               onChange={handleProductImagesUpload}
             />
           </div>

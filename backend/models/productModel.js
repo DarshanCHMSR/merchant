@@ -104,7 +104,12 @@ const productSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-
+    vendername:{
+      type: String,
+     },
+     venderAddress:{
+      type: String,
+     },
     replacementDays: {
       type: Number, 
       default: 0,

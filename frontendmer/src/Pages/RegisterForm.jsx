@@ -28,7 +28,7 @@ const email=parsedData.user.email;
 
       if (response.status === 200) {
         setStatus("Message Sent!");
-        setFormData({ name: "", email: "", subject: "" , message: ""});
+        setFormData({ subject: "" , message: ""});
       } else {
         setStatus("Error sending message.");
       }

@@ -148,6 +148,7 @@ const ProductList = () => {
                       <th>Price</th>
                       <th>Stock</th>
                       <th>Actions</th>
+                      <th>Image</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -187,6 +188,24 @@ const ProductList = () => {
         </div>
                             
                           </div>
+                          
+                        </td>
+                        <td>
+                        <div className="my-card-img-container">
+            {item.imgLink && (
+              <img
+                src={item.imgLink[0]}
+                alt={item.name}
+                className="card-img-top rounded-2 p-1 w-100"
+                loading="lazy"
+                style={{
+                  width: "90%",
+                  height: "90%",
+                  objectFit: "contain",
+                }}
+              />
+            )}
+          </div>
                         </td>
                       </tr>
                     ))}

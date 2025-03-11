@@ -167,12 +167,6 @@ const RegistrationForm = () => {
                             </>
                           )}
                         </div>
-
-                        <div className="mb-3">
-                          <label htmlFor="password" className="form-label">Password</label>
-                          <input type="password" className="form-control" name="key" placeholder="Your Password" required />
-                        </div>
-
                         <div className="mb-3">
                           <label htmlFor="phone" className="form-label">Phone Number</label>
                           <input type="phone" className="form-control" name="phone" placeholder="Phone Number" />

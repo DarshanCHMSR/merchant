@@ -27,7 +27,7 @@ router.get("/get-status", getStatus);
   router.get('/get-single-product/:id',getSingleProduct);
 router.get('/get-product-photo/:pid',getProductPhoto);
 
-router.put('/update-product/:id',requireSignin  ,updateProduct);
+router.put('/update-product/:id'  ,updateProduct);
 
 router.delete('/delete-product/:id',requireSignin , deleteProduct);
 

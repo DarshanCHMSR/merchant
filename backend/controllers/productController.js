@@ -435,21 +435,11 @@ export const fetchAllProducts = async (req, res) => {
     try {
       const { id } = req.params;
       const {
-        pid,
-        name,
-        description,
+       
         price,
-        category,
+       
         stock,
-        shipping,
-        imgLink,
-        variety,
-        originalPrice,
-        deliveryCharge,
-        returnDays,
-        replacementDays,
-        serviceDays,
-        status,
+        
         
       } = req.fields;
   
@@ -462,45 +452,14 @@ export const fetchAllProducts = async (req, res) => {
       }
   
       // Check for required fields
-      if (!name || !description || !price || !category || !stock || !shipping) {
-        return res
-          .status(400)
-          .send({ error: "All required fields must be filled" });
-      }
-  
       // Update product fields
-      product.name = name;
-      product.slug = slugify(name); // Ensure slugify is correctly imported
-      product.description = description;
+
       product.price = price;
-      product.category = category;
+      
       product.stock = stock;
-      product.shipping = shipping;
-      product.id = pid; // * Custom ID for Product
-      product.originalPrice = originalPrice;
-      product.deliveryCharge = deliveryCharge;
-      product.returnDays = returnDays;
-      product.replacementDays = replacementDays;
-      product.serviceDays = serviceDays;
-      product.status=status;
+      
   
-      // Handle multiple image links
-      if (imgLink) {
-        product.imgLink = JSON.parse(imgLink); // Replace existing links
-      }
-  
-      // Handle variety
-      if (variety) {
-        try {
-          const parsedVariety = JSON.parse(variety);
-  
-          product.variety = parsedVariety;
-  
-          // Replace existing varieties
-        } catch (error) {
-          return res.status(400).send({ message: "Invalid variety format" });
-        }
-      }
+
   
       // Save updated product
       await product.save();
