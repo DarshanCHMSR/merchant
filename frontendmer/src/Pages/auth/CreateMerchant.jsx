@@ -13,6 +13,7 @@ import { url } from "../../Components/backend_link/data";
 import resendOtp from "./authControllers/resendOtp";
 import Admin_Header from "../admin/Components/Admin_Header";
 
+
 const CreateMerchant = () => {
   const [mail, setMail] = useState("");
   const [Name, setName] = useState("");
@@ -75,7 +76,7 @@ const CreateMerchant = () => {
         gst,
         shop,
       });
-      console.log(res.data);
+      // console.log(res.data);
 
       if (res.data.success) {
         navigate("/create-merchant");
@@ -85,6 +86,8 @@ const CreateMerchant = () => {
         setpassword("");
         setEmailPassword("");
         setinput("");
+        setOtp("");
+        setEmail("");
         setConfirmPassword(""); 
         setGst("");
         setShop("");
@@ -109,6 +112,52 @@ const CreateMerchant = () => {
       setloading(false);
     }
   };
+
+
+  const [email, setEmail] = useState("");
+    const [otp, setOtp] = useState("");
+    const [showOtpInput, setShowOtpInput] = useState(false);
+    const [isOtpVerified, setIsOtpVerified] = useState(false); // ✅ New state to track OTP verification
+  
+    const sendOTP = async () => {
+      try {
+        const response = await fetch(`${url}/api/v2/otp/send-otp`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+  
+        const data = await response.text();
+        alert(data);
+        // console.log(data);
+        setShowOtpInput(true);
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+      }
+    };
+  
+    const verifyOTP = async () => {
+      try {
+        const response = await fetch(`${url}/api/v2/otp/verify-otp`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp }),
+        });
+  
+        const data = await response.json();
+        if (data.message === "OTP verified successfully") {
+          alert("OTP Verified Successfully");
+          setIsOtpVerified(true); // ✅ Enable form submission after OTP verification
+        } else {
+          alert("Invalid OTP, please try again.");
+          setIsOtpVerified(false);
+        }
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+        setIsOtpVerified(false);
+      }
+    };
+  
 
   return (
     <>
@@ -158,11 +207,11 @@ const CreateMerchant = () => {
                             type="text"
                             className="form-control"
                             id="floatingInput"
-                            value={input}
+                            value={email}
                             onChange={(e) => {
                               setinput(e.target.value);
                               if (emailRegex.test(e.target.value)) {
-                                setMail(e.target.value);
+                                setEmail(e.target.value);
                                 setCheckMail(true);
                                 setPhone("");
                               }
@@ -184,6 +233,20 @@ const CreateMerchant = () => {
                           <label htmlFor="floatingInput">
                             Email 
                           </label>
+                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px",marginLeft:"0"}}>Send OTP</button>
+                          {showOtpInput && (
+                            <>
+                              <input
+                                type="text"
+                                placeholder="Enter OTP"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                className="form-control"
+                              />
+                              <button type="button" onClick={verifyOTP} className="form-control" style={{margin:"7px",marginLeft:"0"}}>Verify OTP</button>
+                            </>
+                          )}
+
                         </div>
 
 
@@ -203,7 +266,7 @@ const CreateMerchant = () => {
                               />
                               <label htmlFor="floatingInput">Password</label>
                             </div>
-                            <div className="form-floating">
+                            <div className="form-floating mb-3">
                               <input
                                 type="password"
                                 className="form-control"
@@ -229,7 +292,7 @@ const CreateMerchant = () => {
                                 }}
                                 placeholder="Enter phone Number"
                               />
-                              <label htmlFor="floatingInput">Phone number</label>
+                              <label htmlFor="floatingInput mb-3">Phone number</label>
                             </div>
                             <div className="form-floating mb-3">
                               <input
