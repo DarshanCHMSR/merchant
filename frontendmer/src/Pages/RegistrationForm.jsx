@@ -60,7 +60,7 @@ const RegistrationForm = () => {
 
   const sendOTP = async () => {
     try {
-      const response = await fetch(`${url}/send-otp`, {
+      const response = await fetch(`${url}/api/v2/otp/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -76,7 +76,7 @@ const RegistrationForm = () => {
 
   const verifyOTP = async () => {
     try {
-      const response = await fetch(`${url}/verify-otp`, {
+      const response = await fetch(`${url}/api/v2/otp/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
@@ -105,7 +105,9 @@ const RegistrationForm = () => {
     setResult("Sending....");
 
     const formData = new FormData(event.target);
-    formData.append("access_key", "121a629f-fb7c-4ce1-9181-d48c8de588c3");
+    // formData.append("access_key", process.env.WEB3FORMS_ACCESS_KEY);
+    formData.append("access_key","121a629f-fb7c-4ce1-9181-d48c8de588c3" );
+
 
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
@@ -117,7 +119,9 @@ const RegistrationForm = () => {
       setResult("Form Submitted Successfully");
       event.target.reset();
     } else {
-      setResult(data.message);
+      // setResult(data.message);
+      setResult("Form Submission Failed");
+
     }
   };
 
