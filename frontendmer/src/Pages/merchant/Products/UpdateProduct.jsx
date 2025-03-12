@@ -14,20 +14,20 @@ const UpdateProduct = () => {
   const [category, setCategory] = useState([]);
 
   // * Product Attributes
-  const [name, setName] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
-  const [photo, setPhoto] = useState(null); // Change to null for better handling
-  const [description, setDescription] = useState("");
+  // const [name, setName] = useState("");
+  // const [categoryValue, setCategoryValue] = useState("");
+  // const [photo, setPhoto] = useState(null); // Change to null for better handling
+  // const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
-  const [deliveryCharge, setdeliveryCharge] = useState("");
-  const [returDays, setReturDays] = useState("");
-  const [replacementDays, setReplacementDays] = useState("");
-  const [shipping, setShipping] = useState("");
-  const [imageLinks, setImageLinks] = useState([""]);
-  const [variety, setVariety] = useState([{ name: "", price: "" }]);
+  // const [deliveryCharge, setdeliveryCharge] = useState("");
+  // const [returDays, setReturDays] = useState("");
+  // const [replacementDays, setReplacementDays] = useState("");
+  // const [shipping, setShipping] = useState("");
+  // const [imageLinks, setImageLinks] = useState([""]);
+  // const [variety, setVariety] = useState([{ name: "", price: "" }]);
 
   var productImages = [];
 
@@ -52,53 +52,52 @@ const UpdateProduct = () => {
     try {
       const productData = new FormData();
 
-      productData.append("name", name);
-      productData.append("category", categoryValue);
+      // productData.append("name", name);
+      // productData.append("category", categoryValue);
       productData.append("price", price);
-      productData.append("description", description);
+      // productData.append("description", description);
       productData.append("stock", stock);
-      productData.append("shipping", shipping);
+      // productData.append("shipping", shipping);
       // productData.append("pid", id);
       productData.append("originalPrice", originalPrice);
-      productData.append("deliveryCharge", deliveryCharge);
+      // productData.append("deliveryCharge", deliveryCharge);
 
       // Check if new images are uploaded
-      const uploadedImageUrl = await handleImageUpload();
+      // const uploadedImageUrl = await handleImageUpload();
 
-      if (uploadedImageUrl && uploadedImageUrl.length > 0) {
+      // if (uploadedImageUrl && uploadedImageUrl.length > 0) {
         // If new images are uploaded, append the new image URLs
-        productData.append("imgLink", JSON.stringify(uploadedImageUrl));
-      } else {
+      //   productData.append("imgLink", JSON.stringify(uploadedImageUrl));
+      // } else {
         // If no new images are uploaded, keep the existing image links
-        const existingImageLinks = product.imgLink || []; // Assuming product.imgLink holds the existing image URLs
-        productData.append("imgLink", JSON.stringify(existingImageLinks));
-      }
+      //   const existingImageLinks = product.imgLink || []; // Assuming product.imgLink holds the existing image URLs
+      //   productData.append("imgLink", JSON.stringify(existingImageLinks));
+      // }
 
-      productData.append("variety", JSON.stringify(variety));
-      productData.append("returnDays", returDays);
-      productData.append("replacementDays", replacementDays);
+      // productData.append("variety", JSON.stringify(variety));
+      // productData.append("returnDays", returDays);
+      // productData.append("replacementDays", replacementDays);
 
       const res = await axios.put(
         `${url}/api/v2/products/update-product/${params.id}`,
         productData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: auth.token,
           },
         }
       );
-
-      if (res.data.success) {
-        setTimeout(() => {
+      // if (res.data.success) {
+      //   setTimeout(() => {
           navigate("/dashboard/merchant/product-list");
-          toast.success(res.data.message);
-          setLoading(false);
-        }, 1000);
-      } else {
-        toast.error(res.data.message);
-        setLoading(false);
-      }
+      //     toast.success(res.data.message);
+      //     setLoading(false);
+      //   }, 1000);
+      // } else {
+      //   console.log(res.data.message);
+      //   setLoading(false);
+      // }
     } catch (error) {
       toast.error("Failed to update product");
       setLoading(false);
@@ -264,7 +263,7 @@ const UpdateProduct = () => {
               type="number"
               className="form-control"
               value={originalPrice}
-              onChange={(e) => setOriginalPrice(e.target.value)}              disabled
+              onChange={(e) => setOriginalPrice(e.target.value)} 
             />
           </div>
 

@@ -430,45 +430,41 @@ export const fetchAllProducts = async (req, res) => {
       });
     }
   };
-  
+
+
+ 
   export const updateProduct = async (req, res) => {
     try {
-      const { id } = req.params;
+      const  id  = req.params.id;
       const {
-       
         price,
-       
-        stock,
-        
-        
-      } = req.fields;
+        stock, 
+      } = req.body;
   
       // Find the product by ID
   
-      const product = await Product.findById(id);
+      let product = await Product.findById(id);
   
       if (!product) {
         return res.status(404).send({ error: "Product not found" });
       }
-  
+  const newProduct = {};
+      if (price) {
+        newProduct.price = price;
+      }
+      if (stock) {
+        newProduct.stock = stock;
+      }
       // Check for required fields
       // Update product fields
 
-      product.price = price;
-      
-      product.stock = stock;
-      
-  
-
-  
-      // Save updated product
-      await product.save();
-  
-      res.status(200).send({
-        success: true,
-        message: "Product updated successfully",
-        product,
-      });
+       product = await Product.findByIdAndUpdate(
+        id,
+        { $set: newProduct },
+        { new: true }
+      );
+     // Save updated product
+      res.json({ product });
     } catch (error) {
       // Log the error for debugging
       res
