@@ -438,7 +438,8 @@ export const fetchAllProducts = async (req, res) => {
       const  id  = req.params.id;
       const {
         price,
-        stock, 
+        stock,
+        originalPrice 
       } = req.body;
   
       // Find the product by ID
@@ -454,6 +455,9 @@ export const fetchAllProducts = async (req, res) => {
       }
       if (stock) {
         newProduct.stock = stock;
+      }
+      if (originalPrice) {
+        newProduct.originalPrice = originalPrice;
       }
       // Check for required fields
       // Update product fields

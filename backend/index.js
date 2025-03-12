@@ -32,7 +32,7 @@ apiKey.apiKey = process.env.BREVO_API_KEY;
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 const otpStore = {};
 app.post('/send-otp', async (req, res) => {
-  try {
+  try {  
     const { email} = req.body;
     const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
     const expiresAt = Date.now() + 5 * 60 * 1000; // Expires in 5 minutes

@@ -4,6 +4,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Backbutton from "../Components/Backbutton";
 import Loader from "../Components/Loading/Loader";
+import { url } from "../Components/backend_link/data";
+
 
 const RegistrationForm = () => {
   const [result, setResult] = useState("");
@@ -58,7 +60,7 @@ const RegistrationForm = () => {
 
   const sendOTP = async () => {
     try {
-      const response = await fetch("http://localhost:5000/send-otp", {
+      const response = await fetch(`${url}/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -74,7 +76,7 @@ const RegistrationForm = () => {
 
   const verifyOTP = async () => {
     try {
-      const response = await fetch("http://localhost:5000/verify-otp", {
+      const response = await fetch(`${url}/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),

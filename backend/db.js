@@ -11,6 +11,8 @@
 
 
  import mongoose from "mongoose";
+ import dotenv from "dotenv";  
+dotenv.config();
 
 // Function to connect to the database
 const connectDB = async () => {
@@ -20,7 +22,7 @@ const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect("mongodb+srv://chdarshan99:merchant@cluster0.i7o9b.mongodb.net/", {
+    await mongoose.connect(process.env.MONGO_URI, {
       dbName: "Valuekarts",
       maxPoolSize:10
     }); 

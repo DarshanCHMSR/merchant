@@ -14,20 +14,20 @@ const UpdateProduct = () => {
   const [category, setCategory] = useState([]);
 
   // * Product Attributes
-  // const [name, setName] = useState("");
-  // const [categoryValue, setCategoryValue] = useState("");
-  // const [photo, setPhoto] = useState(null); // Change to null for better handling
-  // const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
+  const [photo, setPhoto] = useState(null); // Change to null for better handling
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
-  // const [id, setId] = useState("");
+  const [id, setId] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
-  // const [deliveryCharge, setdeliveryCharge] = useState("");
-  // const [returDays, setReturDays] = useState("");
-  // const [replacementDays, setReplacementDays] = useState("");
-  // const [shipping, setShipping] = useState("");
-  // const [imageLinks, setImageLinks] = useState([""]);
-  // const [variety, setVariety] = useState([{ name: "", price: "" }]);
+  const [deliveryCharge, setdeliveryCharge] = useState("");
+  const [returDays, setReturDays] = useState("");
+  const [replacementDays, setReplacementDays] = useState("");
+  const [shipping, setShipping] = useState("");
+  const [imageLinks, setImageLinks] = useState([""]);
+  const [variety, setVariety] = useState([{ name: "", price: "" }]);
 
   var productImages = [];
 
@@ -88,6 +88,17 @@ const UpdateProduct = () => {
           },
         }
       );
+  
+      const formData = new FormData(e.target);
+      formData.append("access_key", "121a629f-fb7c-4ce1-9181-d48c8de588c3");
+  
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+     
       // if (res.data.success) {
       //   setTimeout(() => {
           navigate("/dashboard/merchant/product-list");
@@ -100,6 +111,7 @@ const UpdateProduct = () => {
       // }
     } catch (error) {
       toast.error("Failed to update product");
+      console.log(error);
       setLoading(false);
     }
   };
@@ -141,7 +153,9 @@ const UpdateProduct = () => {
   useEffect(() => {
     findProduct();
   }, [params.id]);
-
+const oldprice = product.price;
+const oldoriginalPrice = product.originalPrice;
+const oldstock = product.stock;
   useEffect(() => {
     if (product) {
       setName(product.name || "");
@@ -182,7 +196,7 @@ const UpdateProduct = () => {
     const newVariety = variety.filter((_, i) => i !== index);
     setVariety(newVariety);
   };
-
+  
   return (
     <>
       <Admin_Header />
@@ -195,7 +209,7 @@ const UpdateProduct = () => {
             <button className="btn btn-primary mb-3">See All</button>
           </Link>
         </span>
-        <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
+        <form className="border p-4 rounded shadow" onSubmit={handleSubmit} >
           <div className="mb-3" >
             <label className="form-label">Product Custom ID</label>
             <input
@@ -252,8 +266,17 @@ const UpdateProduct = () => {
               type="number"
               step="0.01"
               className="form-control"
+              value={oldprice}
+              style={{display:"none"}}
+              name="old price"
+            />
+            <input
+              type="number"
+              step="0.01"
+              className="form-control"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+              name="new price"
             />
           </div>
 
@@ -262,8 +285,16 @@ const UpdateProduct = () => {
             <input
               type="number"
               className="form-control"
+              value={oldoriginalPrice}
+              style={{display:"none"}}
+              name="old originalPrice"
+            />
+            <input
+              type="number"
+              className="form-control"
               value={originalPrice}
               onChange={(e) => setOriginalPrice(e.target.value)} 
+              name="new originalPrice"
             />
           </div>
 
@@ -303,7 +334,16 @@ const UpdateProduct = () => {
               type="number"
               className="form-control"
               value={stock || ""}
+              style={{display:"none"}}
+              name="old stock"
+            
+            />
+            <input
+              type="number"
+              className="form-control"
+              value={stock || ""}
               onChange={(e) => setStock(e.target.value)}
+              name="new stock"
             />
           </div>
 
@@ -440,6 +480,7 @@ const UpdateProduct = () => {
             </button>
           </div>
         </form>
+        
       </div>
     </>
   );
