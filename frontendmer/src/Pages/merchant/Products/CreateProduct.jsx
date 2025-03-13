@@ -56,8 +56,6 @@ const CreateProduct = () => {
     productImages = [...productImages, ...files];
     // console.log(productImages);
   };
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,6 +86,7 @@ const CreateProduct = () => {
       productData.append("deliveryCharge", deliveryCharge);
       productData.append("imgLink", JSON.stringify(productImgURL));
       productData.append("seriviceDays", seriviceDays);
+      productData.append("vendername",auth.user.name)
 
       // Check if variety is needed and append accordingly
       if (hasVarieties && variety.length > 0) {

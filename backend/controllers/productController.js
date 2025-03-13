@@ -23,6 +23,7 @@ export const createProduct= async (req, res) => {
           serviceDays,
           additionalDiscription,
           status,
+          vendername
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
           return res.status(401).send({
@@ -51,7 +52,7 @@ export const createProduct= async (req, res) => {
           serviceDays,
           user: req.user._id,
           status,
-          
+          vendername,        
         });
     //      if (photo) {
     //   if (photo.size > 4000000) {
@@ -170,6 +171,7 @@ export const createProduct= async (req, res) => {
         serviceDays: product.serviceDays,
         additionalDiscription: product.additionalDiscription,
         status:product.status,
+        
       }));
   
       // Define CSV column headers

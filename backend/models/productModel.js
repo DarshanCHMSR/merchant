@@ -9,7 +9,7 @@ const productSchema = mongoose.Schema(
     // * this is custom id for admin purpose
     id: {
       type:String,
-      // unique:true
+      unique:true
     },
 
     name: {
