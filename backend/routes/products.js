@@ -19,8 +19,6 @@ router.get("/by-date", getProductsByDate);
 
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
   router.post('/create-product',requireSignin  ,createProduct);
- 
-
 router.put("/set-product-status/:id", setProductStatus);
 router.get("/get-status", getStatus);
   router.get('/get-products',getProducts);

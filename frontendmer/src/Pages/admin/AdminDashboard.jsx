@@ -31,10 +31,6 @@ const AdminDashboard = () => {
     // totalProducts();
   }, []);
 
-  
-
-  
-
   // useEffect(() => {
   //   // Process orders to update orderData after orders are fetched
   //   const updateOrderData = () => {
