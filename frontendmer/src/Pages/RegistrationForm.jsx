@@ -8,13 +8,15 @@ import { url } from "../Components/backend_link/data";
 
 
 const RegistrationForm = () => {
+  const [loading, setloading] = useState(false);
   const [result, setResult] = useState("");
-  const [loading, setloading] = useState(false);const [result2, setResult2] = React.useState("");
+  const [result2, setResult2] = React.useState("");
   const [location, setLocation] = useState({
       latitude: null,
       longitude: null,
       error: null,
-    });const handleCheckboxChange = (event) => {
+    });
+    const handleCheckboxChange = (event) => {
     if (event.target.checked) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -199,7 +201,7 @@ const RegistrationForm = () => {
         <div>
           <input
            type="text"
-           className="form-control"
+           className="form-control"   
            name="latitude"
            placeholder="latitude"
            required

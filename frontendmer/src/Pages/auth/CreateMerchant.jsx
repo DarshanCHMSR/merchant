@@ -91,7 +91,7 @@ const [Longitude, setLongitude] = useState("");
         setOtp("");
         toast.success(res.data.message);
         dispatch(
-          setAuth({
+          setAuth({   
             user: res.data.user,
             token: res.data.token,
           })
@@ -155,7 +155,49 @@ const [Longitude, setLongitude] = useState("");
         setIsOtpVerified(false);
       }
     };
+    const [result, setResult] = useState("");
+      const [result2, setResult2] = React.useState("");
+    const [location, setLocation] = useState({
+          latitude: null,
+          longitude: null,
+          error: null,
+        });
   
+    const handleCheckboxChange = (event) => {
+      if (event.target.checked) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              setLocation({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                error: null,
+              });
+              setResult2("Location is enabled");
+            },
+            (error) => {
+              setLocation({
+                latitude: null,
+                longitude: null,
+                error: error.message,
+              });
+            }
+          );
+        } else {
+          setLocation({
+            latitude: null,
+            longitude: null,
+            error: 'Geolocation is not supported by your browser.',
+          });
+        }
+      } else {
+        // Reset location if checkbox is unchecked
+        setLocation({
+          latitude: null,
+          longitude: null,
+          error: null,
+        });
+      }};
 
   return (
     <>
@@ -328,23 +370,43 @@ const [Longitude, setLongitude] = useState("");
                                 onChange={(e) => {
                                   setLatitude(e.target.value);
                                 }}
-                                placeholder="Enter Latitude "
+                                placeholder="Enter Shop Address "
                               />
-                              <label htmlFor="floatingInput">Latitude</label>
+                              <label htmlFor="floatingInput">Shop Address</label>
                             </div>
-                            <div className="form-floating mb-3">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="floatingInput"
-                                value={Longitude}
-                                onChange={(e) => {
-                                  setLongitude(e.target.value);
-                                }}
-                                placeholder="Enter Longitude"
-                              />
-                              <label htmlFor="floatingInput">Longitude</label>
-                            </div>
+                             <label>
+        <input 
+          type="checkbox" 
+          onChange={handleCheckboxChange} 
+        />
+        Are you in the shop?
+      </label>
+      {location.latitude && location.longitude && (
+        <div>
+          <input
+           type="text"
+           className="form-control"   
+           name="latitude"
+           placeholder="latitude"
+           required
+           value={location.latitude}
+           style={{display:"none"}}
+         />
+                   <input
+           type="text"
+           className="form-control"
+           name="longitude"
+           placeholder="longitude"
+           required
+           value={location.longitude}
+           style={{display:"none"}}
+
+         />
+           <p>{result2}</p>
+        </div>
+      )}
+      {location.error && <p>Error: {location.error}</p>}
+      
                           </>
                         )}
 

@@ -7,7 +7,7 @@ import axios from "axios";
 const JWT_SECRET = "asdfghjkl12345678";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude } = req.body;
+    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address } = req.body;
 
     // if ((!phone || !email) && !name) {
     //   return res.send({ message: "All fields are required" });
@@ -41,6 +41,7 @@ export const registerController = async (req, res) => {
       role,
       gst,
       shop,
+      address,
     Latitude,
     Longitude,
     });
@@ -81,6 +82,7 @@ export const registerController = async (req, res) => {
         shop: user.shop,
         Latitude: user.Latitude,
         Longitude: user.Longitude,
+        address: user.address,
       },
 
       token,
