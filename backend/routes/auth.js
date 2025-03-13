@@ -29,7 +29,7 @@ router.get('/get-user/:id',requireSignin,getUserController)
 router.put('/update-user/:id',requireSignin,updateProfileController)
 
 // * this route is getting all users
-router.get('/get-users',requireSignin,isAdmin,getUsersListController);
+router.get('/get-users',getUsersListController);
 
 // * this route is finding those who are rated the product
 router.get('/get-rated-user/:id',getRateUserListController)

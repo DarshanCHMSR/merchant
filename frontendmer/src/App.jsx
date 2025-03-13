@@ -13,6 +13,7 @@ import UserPrivate from "./Components/Private_Routes/UserPrivate";
 import Admin_Private from "./Components/Private_Routes/Admin_Private";
 import CreateProduct from "./Pages/admin/Products/CreateProduct";
 import ProductList from "./Pages/admin/Products/ProductList";
+import MerchantList from "./Pages/admin/Products/MerchantList";
 import AdminDashboard from "./Pages/admin/AdminDashboard";
 import Loader from "./Components/Loading/Loader";
 import Layout from "./Components/Layout";
@@ -138,6 +139,7 @@ function App() {
 
               // ! Product routes
               <Route path="admin/product-list" element={<ProductList />} />
+              <Route path="admin/merchant-list" element={<MerchantList />} />
               <Route path="admin/create-product" element={<CreateProduct />} />
               <Route
                 path="admin/update-product/:id"

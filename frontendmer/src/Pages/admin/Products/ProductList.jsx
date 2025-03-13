@@ -84,9 +84,9 @@ const ProductList = () => {
     const matchesName = item.name
     ? item.name.toLowerCase().includes(filter.name.toLowerCase())
     : false;
-    // const matchesName2 = item.vendername
-    // ? item.vendername.toLowerCase().includes(filter.vendername.toLowerCase())
-    // : false;
+    const matchesName2 = item.vendername
+    ? item.vendername.toLowerCase().includes(filter.vendername.toLowerCase())
+    : false;
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
       : true;
@@ -96,7 +96,8 @@ const ProductList = () => {
       const matchesStatus = filter.status ? item.status === 1 : true; 
       const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 ;
+    // return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
+    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
   });
 
 

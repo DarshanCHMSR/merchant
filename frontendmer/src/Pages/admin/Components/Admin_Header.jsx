@@ -77,31 +77,15 @@ const Admin_Header = () => {
                     Create Merchant
                   </Link>
                 </li>
-                {/* <li className="nav-item">
-                  <Link
-                    to={"/dashboard/admin/orders"}
-                    className="nav-link text-black"
-                  >
-                    Orders
-                  </Link>
-                </li>
+
                 <li className="nav-item">
                   <Link
-                    to={"/dashboard/admin/create-link"}
+                    to={"/dashboard/admin/merchant-list"}
                     className="nav-link text-black"
                   >
-                    Banners
+                    Merchant List
                   </Link>
-                </li> */} 
-
-                {/* <li>
-                  <Link
-                    to={"/dashboard/admin/pincodes-list"}
-                    className="nav-link text-black"
-                  >
-                    Pincodes
-                  </Link>
-                </li> */}
+                </li> 
               </ul>
 
               <div className="d-flex align-items-center ms-3">
