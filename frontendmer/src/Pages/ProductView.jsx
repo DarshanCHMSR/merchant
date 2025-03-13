@@ -201,7 +201,7 @@ const ProductView = ({ dep }) => {
                 </div>
               </div>
             </section>
-          </div>
+          </div>   
         </>
       )}
     </>

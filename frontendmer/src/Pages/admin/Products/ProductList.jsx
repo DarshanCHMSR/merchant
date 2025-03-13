@@ -54,8 +54,10 @@ const ProductList = () => {
     const matchesMaxPrice = filter.maxPrice
       ? item.price <= filter.maxPrice
       : true;
+      const matchesStatus = filter.status ? item.status === 1 : true; 
+      const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock;
+    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
   });
 
 
@@ -132,6 +134,32 @@ const ProductList = () => {
               />
               <label className="form-check-label" htmlFor="inStock">
                 In Stock Only
+              </label>
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="status"
+                name="status"
+                checked={filter.status}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status">
+                Approved
+              </label>
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="status2"
+                name="status2"
+                checked={filter.status2}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status2">
+                Waiting
               </label>
             </div>
           </div>

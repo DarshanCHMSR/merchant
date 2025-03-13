@@ -200,7 +200,7 @@ function App() {
               <Route path="merchant/product-list" element={<ProductListMerchant />} />
               <Route path="merchant/create-product" element={<CreateProductMerchant />} />
               <Route
-                path="merchant/update-product/:id"
+                path="merchant/update-product/:id"  
                 element={<UpdateProductMerchant />}
               />
               <Route

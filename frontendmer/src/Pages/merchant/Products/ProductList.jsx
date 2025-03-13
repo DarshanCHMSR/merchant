@@ -8,6 +8,7 @@ import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
 import { useSelector } from "react-redux";
 import Footer from "../../Footer";
+import ReactPaginate from 'react-paginate';
 
 
 const ProductList = () => {
@@ -18,8 +19,21 @@ const ProductList = () => {
     minPrice: "",
     maxPrice: "",
     inStock: false,
+    status: false,
+    status2: false,
   });
+
+  const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const productsPerPage = 9; // Number of products per page
   
+
+
+
+
   const auth = useSelector((state) => state.auth);
   const getAuthToken = () => {
     const authData = localStorage.getItem("auth-Data");
@@ -63,27 +77,31 @@ const ProductList = () => {
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFilter((prev) => ({
-      ...prev,
+      ...prev,  
       [name]: type === "checkbox" ? checked : value,
     }));
-  };
+};
 
-  const filteredProducts = product.filter((item) => {
+const filteredProducts = product.filter((item) => {
     const matchesName = item.name
-    ? item.name.toLowerCase().includes(filter.name.toLowerCase())
-    : false;
+      ? item.name.toLowerCase().includes(filter.name.toLowerCase())
+      : false;
 
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
       : true;
+    
     const matchesMaxPrice = filter.maxPrice
       ? item.price <= filter.maxPrice
       : true;
+
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock;
-  });
+    const matchesStatus = filter.status ? item.status === 1 : true; 
+    const matchesStatus2 = filter.status2 ? item.status === 0 : true; 
 
-
+    // Assuming `item.status` is either "active" or "inactive"
+    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
+});
 
   return (
     <>
@@ -157,6 +175,32 @@ const ProductList = () => {
               />
               <label className="form-check-label" htmlFor="inStock">
                 In Stock Only
+              </label>
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="status"
+                name="status"
+                checked={filter.status}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status">
+                Approved
+              </label>
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="status2"
+                name="status2"
+                checked={filter.status2}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status2">
+                Waiting
               </label>
             </div>
           </div>
@@ -241,6 +285,27 @@ const ProductList = () => {
                 </table>
               </div>
             </div>
+            <nav aria-label="Page navigation example" className="d-flex justify-content-center mt-3">
+                      <ReactPaginate
+                        previousLabel={"«"}
+                        nextLabel={"»"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={totalPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={3}
+                        onPageChange={({ selected }) => handlePageChange(selected + 1)} // Adjust for zero-based index
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                        disabledClassName={"disabled"}
+                        pageClassName={"page-item"} // Add custom class for page items
+                        pageLinkClassName={"page-link"} // Add custom class for page links
+                        previousClassName={"page-item"} // Add custom class for previous button
+                        previousLinkClassName={"page-link"} // Add custom class for previous link
+                        nextClassName={"page-item"} // Add custom class for next button
+                        nextLinkClassName={"page-link"} // Add custom class for next link
+                      />
+                    </nav>
           </div>
         </div>
       )}

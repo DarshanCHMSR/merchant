@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const Grid_Product = ({ item }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cart);
+  const cartItems = useSelector((state) => state.cart.cart);    
   const [selectedVariety, setSelectedVariety] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
