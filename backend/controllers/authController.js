@@ -7,14 +7,13 @@ import axios from "axios";
 const JWT_SECRET = "asdfghjkl12345678";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, emailPassword,role,gst,shop } = req.body;
+    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude } = req.body;
 
     // if ((!phone || !email) && !name) {
     //   return res.send({ message: "All fields are required" });
     // }
 
     // * Check if the use already exists or not
-
     if (email) {
       const existingUser = await userModel.findOne({ email });
 
@@ -42,9 +41,11 @@ export const registerController = async (req, res) => {
       role,
       gst,
       shop,
+    Latitude,
+    Longitude,
     });
     // * Registering the user
-
+// console.log("user ",user.Latitude)
     if (!password) {
       const hashedEmailPass = await hashPassword(emailPassword);
       user.emailPassword = hashedEmailPass;
@@ -78,7 +79,10 @@ export const registerController = async (req, res) => {
         cart: user.cart,
         gst: user.gst,
         shop: user.shop,
+        Latitude: user.Latitude,
+        Longitude: user.Longitude,
       },
+
       token,
     });
   } catch (error) {
@@ -160,7 +164,7 @@ export const otpController = async (req, res) => {
     channel: "SMS",
     expiry: 60,
   });
-console.log("data",data)
+// console.log("data",data)
   let config = {
     method: "POST",
     maxBodyLength: Infinity,
@@ -172,11 +176,10 @@ console.log("data",data)
     },
     data: data,
   };
-console.log("config",config)
+// console.log("config",config)
   try {
     const response = await axios.request(config);
     const orderId = response.data.orderId;
-    console.log("orderid",orderId) // Extracting the orderId from the response
     res.status(200).json({ orderId });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -210,7 +213,7 @@ export const otpVerification = async (req, res) => {
     };
 
     const response = await axios.request(config);
-    console.log("response",response.data)
+    // console.log("response",response.data)
     res.status(200).json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });

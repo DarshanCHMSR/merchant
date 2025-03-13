@@ -44,14 +44,11 @@ const userModel = new mongoose.Schema(
       type: [Object], // Changed 'typeof' to 'type' and used Mixed to allow any item structure
       default: [],
     },
-
-    location: {
-      longitude: {
-        type: Number,
-      },
-      latitude: {
-        type: Number,
-      },
+    Latitude:{
+      type: Number,
+    },
+    Longitude:{
+      type: Number,
     },
   },
   { timestamps: true }

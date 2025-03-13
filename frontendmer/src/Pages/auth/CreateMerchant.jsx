@@ -34,24 +34,17 @@ const CreateMerchant = () => {
   // ! when user get resitered in that time only we will store the data in local storage
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+const [Latitude, setLatitude] = useState("");
+const [Longitude, setLongitude] = useState("");
   const [input, setinput] = useState("");
-
-
   const [Number, setNumber] = useState(false);
   const [checkMail, setCheckMail] = useState(false);
-
   const navigate = useNavigate();
-
   const [loading, setloading] = useState(false);
-
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\+?[1-9]\d{1,14}$/;
-
   const [min, setmin] = useState(1);
-
   // ? this state is used to handel the resend OTP time recount.
-
   const handelsubmit = async (e) => {
     e.preventDefault();
 
@@ -70,11 +63,13 @@ const CreateMerchant = () => {
       const res = await axios.post(`${url}/api/v2/auth/register`, {
         name: Name,
         email: mail,
-        password,
         emailPassword,
+        confirmPassword,
         phone,
         gst,
         shop,
+        Latitude,
+        Longitude,
       });
       // console.log(res.data);
 
@@ -212,6 +207,7 @@ const CreateMerchant = () => {
                               setinput(e.target.value);
                               if (emailRegex.test(e.target.value)) {
                                 setEmail(e.target.value);
+                                setMail(e.target.value)
                                 setCheckMail(true);
                                 setPhone("");
                               }
@@ -262,7 +258,7 @@ const CreateMerchant = () => {
                                 onChange={(e) => {
                                   setEmailPassword(e.target.value);
                                 }}
-                                placeholder="Enter Email Address"
+                                placeholder="Enter password"
                               />
                               <label htmlFor="floatingInput">Password</label>
                             </div>
@@ -271,7 +267,7 @@ const CreateMerchant = () => {
                                 type="password"
                                 className="form-control"
                                 id="floatingPassword"
-                                placeholder="Password"
+                                placeholder="Confirm Password"
                                 value={confirmPassword}
                                 onChange={(e) => {
                                   setConfirmPassword(e.target.value);
@@ -319,6 +315,32 @@ const CreateMerchant = () => {
                                 placeholder="Enter Shop Name"
                               />
                               <label htmlFor="floatingInput">Shop Name</label>
+                            </div>
+                            <div className="form-floating mb-3">
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="floatingInput"
+                                value={Latitude}
+                                onChange={(e) => {
+                                  setLatitude(e.target.value);
+                                }}
+                                placeholder="Enter Latitude "
+                              />
+                              <label htmlFor="floatingInput">Latitude</label>
+                            </div>
+                            <div className="form-floating mb-3">
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="floatingInput"
+                                value={Longitude}
+                                onChange={(e) => {
+                                  setLongitude(e.target.value);
+                                }}
+                                placeholder="Enter Longitude"
+                              />
+                              <label htmlFor="floatingInput">Longitude</label>
                             </div>
                           </>
                         )}
