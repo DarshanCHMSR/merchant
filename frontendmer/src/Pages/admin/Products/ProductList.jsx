@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
+import ReactPaginate from 'react-paginate';
+
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
@@ -19,23 +21,55 @@ const ProductList = () => {
     status:false,
     status2:false,
   });
-  
+  const [products, setProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const productsPerPage = 9; // Number of products per page
 
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
+
+  // const fetchProducts = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await axios.get(`${url}/api/v2/products/get-products`);
+  //     setProduct(res.data.products);
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${url}/api/v2/products/get-products`);
-      setProduct(res.data.products);
+      const params = {
+        page: currentPage,
+        limit: productsPerPage,
+      };
+      
+      // Add cache-buster only for product filtering
+      
+      
+      const res = await axios.get(`${url}/api/v2/products/get-k-products`, { params });
+      setProducts(res.data.products);
+      setTotalPages(Math.ceil(res.data.totalProducts / productsPerPage));
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
+      console.error(error);
+      toast.error("Please try again later");
       setLoading(false);
     }
+  };
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   const handleFilterChange = (e) => {
@@ -46,7 +80,7 @@ const ProductList = () => {
     }));
   };
 
-  const filteredProducts = product.filter((item) => {
+  const filteredProducts = products.filter((item) => {
     const matchesName = item.name
     ? item.name.toLowerCase().includes(filter.name.toLowerCase())
     : false;
@@ -257,6 +291,27 @@ const ProductList = () => {
                 </table>
               </div>
             </div>
+            <nav aria-label="Page navigation example" className="d-flex justify-content-center mt-3">
+                      <ReactPaginate
+                        previousLabel={"«"}
+                        nextLabel={"»"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={totalPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={3}
+                        onPageChange={({ selected }) => handlePageChange(selected + 1)} // Adjust for zero-based index
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                        disabledClassName={"disabled"}
+                        pageClassName={"page-item"} // Add custom class for page items
+                        pageLinkClassName={"page-link"} // Add custom class for page links
+                        previousClassName={"page-item"} // Add custom class for previous button
+                        previousLinkClassName={"page-link"} // Add custom class for previous link
+                        nextClassName={"page-item"} // Add custom class for next button
+                        nextLinkClassName={"page-link"} // Add custom class for next link
+                      />
+                    </nav>
           </div>
         </div>
       )}

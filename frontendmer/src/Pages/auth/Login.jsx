@@ -130,9 +130,9 @@ const Login = () => {
         <Loader />
       ) : (
         <>
-          <Backbutton path="/registration-form" />
+          {/* <Backbutton path="/registration-form" /> */}
 
-          <div className="container-fluid form-container mb-10 mt-10 p-4">
+          <div className="container-fluid form-container mb-10 mt-10 p-4" style={{marginTop:"100px"}}>
             <div className="container login-container">
               <div className="row">
                 <div className="col-lg-5 col-md-6 content-part">
