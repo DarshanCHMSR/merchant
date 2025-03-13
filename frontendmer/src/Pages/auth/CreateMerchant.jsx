@@ -85,7 +85,10 @@ const [Longitude, setLongitude] = useState("");
         setEmail("");
         setConfirmPassword(""); 
         setGst("");
+        setLatitude("");
+        setLongitude("");
         setShop("");
+        setOtp("");
         toast.success(res.data.message);
         dispatch(
           setAuth({
