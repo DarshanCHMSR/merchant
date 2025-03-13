@@ -24,7 +24,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const productsPerPage = 9; // Number of products per page
+    const productsPerPage = 10; // Number of products per page
 
 
   // useEffect(() => {
@@ -311,6 +311,7 @@ const ProductList = () => {
                         previousLinkClassName={"page-link"} // Add custom class for previous link
                         nextClassName={"page-item"} // Add custom class for next button
                         nextLinkClassName={"page-link"} // Add custom class for next link
+                        forcePage={currentPage - 1} // This ensures the correct page is highlighted
                       />
                     </nav>
           </div>
