@@ -39,6 +39,7 @@ const [Longitude, setLongitude] = useState("");
   const [input, setinput] = useState("");
   const [Number, setNumber] = useState(false);
   const [checkMail, setCheckMail] = useState(false);
+  const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -70,6 +71,7 @@ const [Longitude, setLongitude] = useState("");
         shop,
         Latitude,
         Longitude,
+        address,
       });
       // console.log(res.data);
 
@@ -89,6 +91,7 @@ const [Longitude, setLongitude] = useState("");
         setLongitude("");
         setShop("");
         setOtp("");
+        setAddress("");
         toast.success(res.data.message);
         dispatch(
           setAuth({   
@@ -168,6 +171,8 @@ const [Longitude, setLongitude] = useState("");
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
+              setLatitude(position.coords.latitude);
+              setLongitude(position.coords.longitude);
               setLocation({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -248,33 +253,23 @@ const [Longitude, setLongitude] = useState("");
                             className="form-control"
                             id="floatingInput"
                             value={email}
-                            onChange={(e) => {
+                            // disabled={isOtpVerified} 
+                              onChange={(e) => {
                               setinput(e.target.value);
                               if (emailRegex.test(e.target.value)) {
                                 setEmail(e.target.value);
                                 setMail(e.target.value)
                                 setCheckMail(true);
-                                setPhone("");
                               }
-                              if (
-                                phoneRegex.test(e.target.value) &&
-                                e.target.value.length === 10
-                              ) {
-                                setMail(null);
-                                setPhone(e.target.value);
-                                setNumber(true);
-                              }
-                              if (e.target.value == "") {
-                                setCheckMail(false);
-                                setNumber(false);
-                              }
+                              
+                              
                             }}
                             placeholder="Email"
                           />
                           <label htmlFor="floatingInput">
                             Email 
                           </label>
-                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px",marginLeft:"0"}}>Send OTP</button>
+                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px",marginLeft:"0"}} >Send OTP</button>
                           {showOtpInput && (
                             <>
                               <input
@@ -340,6 +335,7 @@ const [Longitude, setLongitude] = useState("");
                                 type="number"
                                 className="form-control"
                                 id="floatingInput"
+                                required
                                 value={gst}
                                 onChange={(e) => {
                                   setGst(e.target.value);
@@ -366,9 +362,9 @@ const [Longitude, setLongitude] = useState("");
                                 type="text"
                                 className="form-control"
                                 id="floatingInput"
-                                value={Latitude}
+                                value={address}
                                 onChange={(e) => {
-                                  setLatitude(e.target.value);
+                                  setAddress(e.target.value);
                                 }}
                                 placeholder="Enter Shop Address "
                               />
@@ -383,25 +379,6 @@ const [Longitude, setLongitude] = useState("");
       </label>
       {location.latitude && location.longitude && (
         <div>
-          <input
-           type="text"
-           className="form-control"   
-           name="latitude"
-           placeholder="latitude"
-           required
-           value={location.latitude}
-           style={{display:"none"}}
-         />
-                   <input
-           type="text"
-           className="form-control"
-           name="longitude"
-           placeholder="longitude"
-           required
-           value={location.longitude}
-           style={{display:"none"}}
-
-         />
            <p>{result2}</p>
         </div>
       )}
