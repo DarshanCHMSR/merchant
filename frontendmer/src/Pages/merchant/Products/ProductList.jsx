@@ -59,7 +59,7 @@ const ProductList = () => {
         page: currentPage,
         limit: productsPerPage,
       };
-      
+
       // Add cache-buster only for product filtering
       
       

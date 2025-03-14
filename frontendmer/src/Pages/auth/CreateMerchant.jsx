@@ -253,7 +253,7 @@ const [Longitude, setLongitude] = useState("");
                             className="form-control"
                             id="floatingInput"
                             value={email}
-                            // disabled={isOtpVerified} 
+                            disabled={isOtpVerified} 
                               onChange={(e) => {
                               setinput(e.target.value);
                               if (emailRegex.test(e.target.value)) {
