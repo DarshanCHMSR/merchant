@@ -317,6 +317,50 @@ export const fetchAllProducts = async (req, res) => {
       res.status(500).send("Internal server error");
     }
   };
+  export const getUserProducts = async (req, res) => {
+    try {
+      const { page = 1, limit = 10, category } = req.query;
+  
+      const pageNumber = Math.max(1, Number(page));
+      const limitNumber = Math.min(Math.max(1, Number(limit)), 100);
+  
+      const query = { user: req.user._id };
+      if (category) {
+        query.category = category;
+      }
+  
+      const totalProducts = await Product.countDocuments(query);
+      const totalPages = Math.ceil(totalProducts / limitNumber);
+  
+      // Prevent skipping all data when currentPage is greater than totalPages
+      if (pageNumber > totalPages) {
+        return res.json({
+          products: [],
+          totalProducts,
+          currentPage: pageNumber,
+          totalPages,
+        });
+      }
+  
+      const products = await Product.find(query)
+        .skip((pageNumber - 1) * limitNumber)
+        .limit(limitNumber)
+        .sort({ createdAt: -1 })
+        .lean();
+  
+      res.status(200).json({
+        products,
+        totalProducts,
+        currentPage: pageNumber,
+        totalPages,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  
 
   export const getProducts = async (req, res) => {
     try {

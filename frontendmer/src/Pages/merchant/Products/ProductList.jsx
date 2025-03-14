@@ -49,16 +49,21 @@ const ProductList = () => {
 // console.log(auth.token);  
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const fetchProducts = async () => {
     setLoading(true);
     const token = getAuthToken();
-// console.log(token); 
-    // console.log(auth.token);
     try {
-      const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`,
-        {  
+      const params = {
+        page: currentPage,
+        limit: productsPerPage,
+      };
+      
+      // Add cache-buster only for product filtering
+      
+      
+      const res = await axios.get(`${url}/api/v2/products/fetch`, { params ,
           headers: {
             Authorization: token,
             // "Content-Type": "application/json",
@@ -66,14 +71,17 @@ const ProductList = () => {
           
         }
       );
-      setProduct(res.data.products);
+      setProducts(res.data.products);
+      setTotalPages(Math.ceil(res.data.totalProducts / productsPerPage));
+      setLoading(false);
     } catch (error) {
-      // console.error("Error fetching products:", error);
-    } finally {
+      console.error(error);
       setLoading(false);
     }
   };
-
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFilter((prev) => ({
@@ -82,7 +90,7 @@ const ProductList = () => {
     }));
 };
 
-const filteredProducts = product.filter((item) => {
+const filteredProducts = products.filter((item) => {
     const matchesName = item.name
       ? item.name.toLowerCase().includes(filter.name.toLowerCase())
       : false;
@@ -304,6 +312,7 @@ const filteredProducts = product.filter((item) => {
                         previousLinkClassName={"page-link"} // Add custom class for previous link
                         nextClassName={"page-item"} // Add custom class for next button
                         nextLinkClassName={"page-link"} // Add custom class for next link
+                        forcePage={currentPage - 1} // This ensures the correct page is highlighted
                       />
                     </nav>
           </div>
