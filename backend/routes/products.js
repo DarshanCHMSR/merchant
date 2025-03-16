@@ -7,7 +7,7 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,getStatus,getUserProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,getStatus,getUserProducts,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -17,6 +17,7 @@ router.get("/getproductsbydate",getProductsByDate );
 router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
 router.get("/by-date", getProductsByDate);
 router.get("/fetch", requireSignin, getUserProducts);
+router.get("/fetchtotal/:user_id", getUserTotalProducts);
 
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
   router.post('/create-product',requireSignin  ,createProduct);

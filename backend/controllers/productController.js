@@ -2,6 +2,8 @@ import slugify from "slugify";
 import Product from "../models/productModel.js";
 import { validationResult,body } from "express-validator";
 import { Parser } from "json2csv";
+import mongoose from "mongoose";
+
 
 
 export const createProduct= async (req, res) => {
@@ -314,7 +316,29 @@ export const fetchAllProducts = async (req, res) => {
       res.status(500).send("Internal server error");
     }
   };
-  export const getUserProducts = async (req, res) => {
+  export const getUserTotalProducts = async (req, res) => {  
+    try {
+      const { user_id } = req.params; // Get user ID from URL
+  
+      // Validate if user_id is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+  
+      // Count total products where the user field matches the given user_id
+      const totalProducts = await Product.countDocuments({ user: user_id });
+  
+      res.status(200).json({
+        success: true,
+        totalProducts,
+      });
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  export const getUserProducts = async (req, res) => {  
     try {
       const { page = 1, limit = 10, category } = req.query;
   

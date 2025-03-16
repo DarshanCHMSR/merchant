@@ -31,7 +31,7 @@ router.get('/get-user/:id',requireSignin,getUserController)
 router.put('/update-user/:id',requireSignin,updateProfileController)
 
 // * This routes is for user profile update.
-router.delete('/delete-user/:id',deleteUser)
+router.delete('/delete-user/:id',requireSignin,deleteUser)
 
 // * this route is getting all users
 router.get('/get-users',getUsersListController);
