@@ -8,7 +8,9 @@ import {
   updateProfileController,
   getUsersListController,
   resendOtpcontroller,
-  getRateUserListController
+  getRateUserListController,
+  getkUsers,
+  deleteUser
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleWare.js";
 
@@ -28,8 +30,12 @@ router.get('/get-user/:id',requireSignin,getUserController)
 // * This routes is for user profile update.
 router.put('/update-user/:id',requireSignin,updateProfileController)
 
+// * This routes is for user profile update.
+router.delete('/delete-user/:id',requireSignin,deleteUser)
+
 // * this route is getting all users
 router.get('/get-users',getUsersListController);
+router.get('/get-k-users',getkUsers)
 
 // * this route is finding those who are rated the product
 router.get('/get-rated-user/:id',getRateUserListController)

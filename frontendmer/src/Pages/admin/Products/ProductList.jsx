@@ -24,7 +24,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const productsPerPage = 10; // Number of products per page
+    const productsPerPage = 20; // Number of products per page
 
 
   // useEffect(() => {

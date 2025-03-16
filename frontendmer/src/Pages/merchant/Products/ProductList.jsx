@@ -48,7 +48,7 @@ const ProductList = () => {
 
 // console.log(auth.token);  
   useEffect(() => {
-    fetchProducts();
+    fetchProducts();   
   }, [currentPage]);
 
   const fetchProducts = async () => {
