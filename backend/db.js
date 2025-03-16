@@ -1,16 +1,4 @@
-// const mongoose = require('mongoose');
-// const mongoURI ="mongodb+srv://chdarshan99:merchant@cluster0.i7o9b.mongodb.net/";
-// const connectToMongo = ()=>{
-//     mongoose.connect(mongoURI,{
-    
-//     },).then(()=>console.log("connected successfully"))
-//     .catch((err)=>{console.log(err)})
-// };
-//  module.exports= connectToMongo;
-
-
-
- import mongoose from "mongoose";
+import mongoose from "mongoose";
  import dotenv from "dotenv";  
 dotenv.config();
 
@@ -22,7 +10,7 @@ const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect("mongodb+srv://chdarshan99:merchant@cluster0.i7o9b.mongodb.net/", {
+    await mongoose.connect(process.env.MONGO_URI, {
       dbName: "Valuekarts",
       maxPoolSize:10
     }); 

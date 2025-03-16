@@ -96,8 +96,8 @@ const ProductList = () => {
       const matchesStatus = filter.status ? item.status === 1 : true; 
       const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    // return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
+    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
+    // return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
   });
 
 

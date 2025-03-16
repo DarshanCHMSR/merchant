@@ -90,7 +90,6 @@ export const deleteCategory = async (req,res) =>{
             message:"Category deleted successfully",
         })
     } catch (error) {
-        // console.log(error);
         res.status(500).send({
             message:"something went wrong while deleting category"
         })

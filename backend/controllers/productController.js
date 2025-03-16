@@ -123,7 +123,6 @@ export const createProduct= async (req, res) => {
         const savedNote = await product.save();
         res.json(savedNote);
       } catch (error) {
-        console.log(error.message);
         res.status(500).send("Internal server error");
         
       }
@@ -301,7 +300,6 @@ export const fetchAllProducts = async (req, res) => {
    
       res.json(notes);
     } catch (error) {
-      console.log(error.message);
       res.status(500).send("Internal server error");
     }
   };
@@ -313,7 +311,6 @@ export const fetchAllProducts = async (req, res) => {
         products,
       });
     } catch (error) {
-      console.log(error.message);
       res.status(500).send("Internal server error");
     }
   };
