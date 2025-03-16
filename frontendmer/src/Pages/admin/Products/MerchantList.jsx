@@ -19,10 +19,10 @@ const [filter, setFilter] = useState({
   
 
   useEffect(() => {
-    fetchProducts();
+    fetchUsers();
   }, [currentPage]);
 
-  const fetchProducts = async () => {
+  const fetchUsers = async () => {
     setLoading(true);
     try {
       const params = {
@@ -105,6 +105,7 @@ const filteredUsers = users.filter((item) => {
                         {/* <th>Merchant Address</th> */}
                      <th>Merchant address</th>
                      <th>Merchant Shop Name</th>
+                     <th>Delete Merchant</th>
 
 
                     </tr>
@@ -117,6 +118,26 @@ const filteredUsers = users.filter((item) => {
                         <td>{item.phone}</td>
                         <td>{item.address}</td>
                         <td>{item.shop}</td>
+                        <td>
+                          <button
+                            className="btn btn-danger"
+                            onClick={async () => {
+                              const confirm = window.confirm(
+                                `Are you sure you want to delete ${item.name}?`
+                              );
+                              if (confirm) {
+                                try {
+                                  await axios.delete(`${url}/api/v2/auth/delete-user/${item._id}` );
+                                  fetchUsers();
+                                } catch (error) {
+                                  console.error(error);
+                                }
+                              }
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

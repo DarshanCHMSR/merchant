@@ -363,6 +363,7 @@ export const getUsersListController = async (req, res) => {
     });
   }
 };
+// this is the fucntion is used the get the k users
 export const getkUsers = async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
   
@@ -392,6 +393,25 @@ export const getkUsers = async (req, res) => {
     }
   };
   
+  export const deleteUser = async (req, res) => {
+    try {
+      const users = await userModel
+        .findByIdAndDelete(req.params.id)
+  
+      res.status(201).send({
+        success: true,
+        message: "User deleted successfully",
+        users,
+      });
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+
 // * the route should return the rated user details but it is not working as expected.(future update)
 export const getRateUserListController = async (req, res) => {
   try {
