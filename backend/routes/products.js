@@ -7,14 +7,13 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
 // * for exporting the user
 router.get("/exportuser",exportUser);
 router.get("/exportuserbylast5",exportUserBylast5);
-// router.get("/getproductsbydate",getProductsByDate );
 router.get("/by-date", getProductsByDate);
 router.get("/get-products-by-vendor/:vendername", getProductsByVendor);
 
@@ -22,8 +21,9 @@ router.get("/get-products-by-vendor/:vendername", getProductsByVendor);
 router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
 router.get("/fetch", requireSignin, getUserProducts);
 router.get("/fetchtotal/:user_id", getUserTotalProducts);
+router.delete("/delete-user-products/:user_id", deleteUserProducts);
 
-// * for fetching all the products
+// * for fetching all the products  
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
   router.post('/create-product',requireSignin  ,createProduct);
 router.put("/set-product-status/:id", setProductStatus);

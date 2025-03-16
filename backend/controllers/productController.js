@@ -358,6 +358,27 @@ export const createProduct= async (req, res) => {
         res.status(500).json({ message: "Error fetching products", error: error.message });
       }
     };
+    export const deleteUserProducts = async (req, res) => {
+      try {
+        const { user_id } = req.params; // Get user ID from request parameters
+    
+        // Validate if user_id is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(user_id)) {
+          return res.status(400).json({ success: false, message: "Invalid user ID" });
+        }
+    
+        // Delete all products where the 'user' field matches the given user_id
+        const deletedProducts = await Product.deleteMany({ user: user_id });
+    
+        res.status(200).json({
+          success: true,
+          message: `Deleted ${deletedProducts.deletedCount} products successfully`,
+        });
+      } catch (error) {
+        console.error("Error deleting user products:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+      }
+    };
 export const fetchAllProducts = async (req, res) => {
     try {
       const notes = await Product.find();

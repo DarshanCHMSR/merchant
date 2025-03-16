@@ -81,8 +81,30 @@ const MerchantList = () => {
     }
   };
 
+  // Function to delete all products for a specific user
+  const deleteUserProducts = async (userId) => {
+    try {
+      const confirmDelete = window.confirm(`Are you sure you want to delete all products for this user?`);
+      if (!confirmDelete) return;
+  
+      const response = await axios.delete(`${url}/api/v2/products/delete-user-products/${userId}`);
+  
+      if (response.data.success) {
+        alert(response.data.message);
+        // Optionally, refresh the product list after deletion
+        fetchUsers();
+      } else {
+        alert("Failed to delete products");
+      }
+    } catch (error) {
+      console.error("Error deleting user products:", error);
+      alert("An error occurred while deleting products");
+    }
+  };
+  
+
   return (
-    <>
+    <> 
       <Admin_Header />
       {loading ? (
         <Loader />
@@ -119,6 +141,7 @@ const MerchantList = () => {
                       <th>Merchant Shop Name</th>
                       <th>Delete Merchant</th>
                       <th>Merchant Products Number</th>
+                      <th>Delete All Products</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -160,6 +183,14 @@ const MerchantList = () => {
                           {productCounts[item._id] !== undefined
                             ? productCounts[item._id]
                             : "Loading..."}
+                        </td>
+                        <td>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => deleteUserProducts(item._id)}
+                          >
+                            Delete All Products
+                          </button>
                         </td>
                       </tr>
                     ))}
