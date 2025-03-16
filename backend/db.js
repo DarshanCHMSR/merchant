@@ -22,7 +22,7 @@ const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect("mongodb+srv://chdarshan99:merchant@cluster0.i7o9b.mongodb.net/", {
       dbName: "Valuekarts",
       maxPoolSize:10
     }); 
