@@ -26,101 +26,10 @@ const AdminDashboard = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    // fetchOrders();
-    // fetchUsers();
-    // totalProducts();
   }, []);
 
-  // useEffect(() => {
-  //   // Process orders to update orderData after orders are fetched
-  //   const updateOrderData = () => {
-  //     let delivered = 0;
-  //     let pending = 0;
-  //     let cancelled = 0;
-  //     let totalAmt = 0;
 
-  //     orders.forEach((order) => {
-  //       if (order.status === "Delivered") {
-  //         delivered += 1;
-  //         order.products.forEach((product) => {
-  //           totalAmt += product.price;
-  //         });
-  //       }
-  //       if (order.status === "Cancelled") {
-  //         cancelled += 1;
-  //       }
-  //       if (order.status === "Not Processed") {
-  //         pending += 1;
-  //       }
-  //     });
 
-  //     setOrderData((prevData) => ({
-  //       ...prevData,
-  //       delivered,
-  //       pending,
-  //       cancelled,
-  //       totalAmt,
-  //       totalOrders: orders.length,
-  //     }));
-  //   };
-
-  //   if (orders.length > 0) {
-  //     updateOrderData();
-  //   }
-  // }, [orders]);
-
-  // const fetchOrders = async () => {
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/order/admin-orders`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: auth.token,
-          
-  //       },
-  //     });
-  //     setOrders(res.data);
-  //   } catch (error) {
-  //     console.error("Error fetching orders:", error);
-  //   }
-  // };
-
-  // const fetchUsers = async () => {
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/auth/get-users`, {
-  //       headers: {
-  //         Authorization: auth.token,
-  //       },
-  //     });
-
-  //     if (res.data.success) {
-  //       setOrderData((prevData) => ({
-  //         ...prevData,
-  //         users: res.data.count,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching users:", error);
-  //   }
-  // };
-
-  // const totalProducts = async () => {
-
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/products/get-products`, {
-  //       headers: {
-  //         Authorization: auth.token,
-  //       },
-  //     });
-
-  //     setOrderData((prevData) => ({
-  //       ...prevData,
-  //       productsCount: res.data.total_products,
-  //       outofstock: res.data.outofstock,
-  //     }));
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   }
-  // };
   const handleDownload = async () => {
     try {
      
@@ -226,8 +135,35 @@ const AdminDashboard = () => {
   // console.log(res.data);
   // console.log(auth-Data);
 
+  const [vendorName, setVendorName] = useState("");
 
+  const fetchProductsByVendor = async () => {
+    if (!vendorName.trim()) {
+      alert("Please enter a vendor name.");
+      return;
+    }
 
+    try {
+      const response = await axios.get(
+        `${url}/api/v2/products/get-products-by-vendor/${vendorName}`, {
+          responseType: "blob", // Ensure we get binary data
+        });
+        const url3 = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url3;
+        link.setAttribute("download", "products.csv"); // File name
+        document.body.appendChild(link);
+        link.click();
+  
+        // Cleanup
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url3);
+      } 
+        catch (error) {
+      console.error("Error fetching vendor products:", error);
+      alert("Failed to fetch products. Please check the vendor name.");
+    }
+  };
 
 
   return (
@@ -285,48 +221,35 @@ const AdminDashboard = () => {
 
     </div>
     </div>
-          {/* <main
-            style={{
-              marginTop: "58px",
-            }}
-          >
-             <div style={{display:"flex",justifyContent:"space-around",marginTop:"100px"}}>
-              <br></br>
-      <h2>Filter Products by Date</h2>
-      <div style={{}}>
-      <label>Start Date: </label>
-      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-
-      <label>End Date: </label>
-      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-
-      <button onClick={fetchProductsByDate}>Fetch Products</button>
-
+    <div className="container mt-5" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}}>
+      <h3>Search Products by Vendor</h3>
+      <div className="d-flex mb-3">
+        <input
+          type="text"
+          className="form-control me-2"
+          placeholder="Enter Vendor Name"
+          value={vendorName}
+          onChange={(e) => setVendorName(e.target.value)}
+        />
+        <button className="btn btn-primary" onClick={fetchProductsByVendor}>
+          Search
+        </button>
       </div>
+
+      {/* Display Products */}
+      {/* {products.length > 0 && (
+        <div className="mt-4">
+          <h4>Products for "{vendorName}"</h4>
+          <ul className="list-group">
+            {products.map((product) => (
+              <li key={product._id} className="list-group-item">
+                <strong>{product.name}</strong> - ${product.price}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )} */}
     </div>
-            <div className="container pt-4">
-            <h2>Download Excel file of all the products</h2>
-            <button 
-      onClick={handleDownload}
-      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-      style={{color:"white",backgroundColor:"black",border:"1px solid black"}}
-    >
-      📥 Download Excel file 
-    </button>
-    <br></br>
-    <br></br> <br></br>
-    <h2>Download Excel file of products of last 5</h2>
-    <button 
-      onClick={handleDownload2}
-      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-      style={{color:"white",backgroundColor:"black",border:"1px solid black",marginLeft:"10px"}}
-    >
-      📥 Download Excel of last 5
-    </button>
-   
-            </div>
-            
-          </main> */}
           
         </div>
         

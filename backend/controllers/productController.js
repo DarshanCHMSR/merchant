@@ -172,11 +172,12 @@ export const createProduct= async (req, res) => {
         serviceDays: product.serviceDays,
         additionalDiscription: product.additionalDiscription,
         status:product.status,
+        vendername:product.vendername,
         
       }));
   
       // Define CSV column headers
-      const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status"];
+      const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
         
       // Create a new json2csv parser instance
       const json2csvParser = new Parser({ fields: fieldNames });
@@ -225,10 +226,11 @@ export const createProduct= async (req, res) => {
           serviceDays: product.serviceDays,
           additionalDiscription: product.additionalDiscription,
           status:product.status,
+          vendername:product.vendername,
         }));
     
         // Define CSV column headers
-        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status"];
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
           
         // Create a new json2csv parser instance
         const json2csvParser = new Parser({ fields: fieldNames });
@@ -247,6 +249,65 @@ export const createProduct= async (req, res) => {
         res.status(500).json({ message: "Error fetching products", error: error.message });
       }
     };
+
+
+    export const getProductsByVendor = async (req, res) => {
+      try {
+        const { vendername } = req.params; // Get vendor name from URL params
+    
+        if (!vendername) {
+          return res.status(400).json({ message: "Vendor name is required." });
+        }
+    
+        // Fetch products where vendername matches the provided parameter
+        const products = await Product.find({ vendername });
+    
+        if (!products || products.length === 0) {
+          return res.status(404).json({ message: "No products found for this vendor." });
+        }
+    
+        const fields = products.map((product) => ({
+          id: product.id,
+         name: product.name,
+         description: product.description,
+         price: product.price,
+         category: product.category,
+         stock: product.stock,
+         shipping: product.shipping,
+         imgLink: product.imgLink,
+         variety: product.variety,
+         originalPrice: product.originalPrice,
+         deliveryCharge: product.deliveryCharge,
+         returnDays: product.returnDays,
+         replacementDays: product.replacementDays,
+         serviceDays: product.serviceDays,
+         additionalDiscription: product.additionalDiscription,
+         status:product.status,
+         vendername:product.vendername,
+       }));
+   
+       // Define CSV column headers
+       const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
+         
+       // Create a new json2csv parser instance
+       const json2csvParser = new Parser({ fields: fieldNames });
+       const csv = json2csvParser.parse(fields); // Convert JSON to CSV format
+   
+       // Set headers for CSV file download
+       res.setHeader("Content-Type", "text/csv");
+       res.setHeader("Content-Disposition", "attachment; filename=products.csv");
+       
+       // Send CSV file as response
+       res.status(200).end(csv);
+   
+       console.log("CSV file successfully created.");
+
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    };
+    
     export const exportUserBylast5 = async (req, res) => {
       try {
         // Fetch all products with populated user details
@@ -274,10 +335,11 @@ export const createProduct= async (req, res) => {
           serviceDays: product.serviceDays,
           additionalDiscription: product.additionalDiscription,
           status:product.status,
+          vendername:product.vendername,
         }));
     
         // Define CSV column headers
-        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status"];
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
           
         // Create a new json2csv parser instance
         const json2csvParser = new Parser({ fields: fieldNames });

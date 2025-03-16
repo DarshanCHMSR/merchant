@@ -7,26 +7,32 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,getStatus,getUserProducts,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
+// * for exporting the user
 router.get("/exportuser",exportUser);
 router.get("/exportuserbylast5",exportUserBylast5);
-router.get("/getproductsbydate",getProductsByDate );
-router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
+// router.get("/getproductsbydate",getProductsByDate );
 router.get("/by-date", getProductsByDate);
+router.get("/get-products-by-vendor/:vendername", getProductsByVendor);
+
+// * for fetching the user products
+router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
 router.get("/fetch", requireSignin, getUserProducts);
 router.get("/fetchtotal/:user_id", getUserTotalProducts);
 
+// * for fetching all the products
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
   router.post('/create-product',requireSignin  ,createProduct);
 router.put("/set-product-status/:id", setProductStatus);
 router.get("/get-status", getStatus);
+  // * for getting the products
   router.get('/get-products',getProducts);
   router.get('/get-single-product/:id',getSingleProduct);
 router.get('/get-product-photo/:pid',getProductPhoto);
-
+// * for updating the product
 router.put('/update-product/:id',requireSignin  ,updateProduct);
 
 router.delete('/delete-product/:id',requireSignin , deleteProduct);
