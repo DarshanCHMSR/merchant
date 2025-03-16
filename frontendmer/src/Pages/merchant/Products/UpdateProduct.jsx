@@ -88,9 +88,9 @@ const UpdateProduct = () => {
           },
         }
       );
-  
+  const access_keys= import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
       const formData = new FormData(e.target);
-      formData.append("access_key", "121a629f-fb7c-4ce1-9181-d48c8de588c3");
+      formData.append("access_key", access_keys);
   
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -99,16 +99,8 @@ const UpdateProduct = () => {
   
       const data = await response.json();
      
-      // if (res.data.success) {
-      //   setTimeout(() => {
           navigate("/dashboard/merchant/product-list");
-      //     toast.success(res.data.message);
-      //     setLoading(false);
-      //   }, 1000);
-      // } else {
-      //   console.log(res.data.message);
-      //   setLoading(false);
-      // }
+     
     } catch (error) {
       toast.error("Failed to update product");
       console.log(error);
@@ -196,6 +188,7 @@ const oldstock = product.stock;
     const newVariety = variety.filter((_, i) => i !== index);
     setVariety(newVariety);
   };
+  const sd = "sd";
   
   return (
     <>
@@ -262,6 +255,7 @@ const oldstock = product.stock;
 
           <div className="mb-3">
             <label className="form-label">MRP Price</label>
+            <input type="hidden" name="subject" value="New Update of the product is here " />
             <input
               type="number"
               step="0.01"

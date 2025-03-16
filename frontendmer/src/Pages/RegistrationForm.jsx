@@ -107,8 +107,9 @@ const RegistrationForm = () => {
     setResult("Sending....");
 
     const formData = new FormData(event.target);
-    // formData.append("access_key", process.env.WEB3FORMS_ACCESS_KEY);
-    formData.append("access_key","5cfb18e9-5cf8-4eac-9db3-1cfcef0c6e67" );
+    const access_keys= import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    formData.append("access_key",access_keys );
 
 
     const response = await fetch("https://api.web3forms.com/submit", {

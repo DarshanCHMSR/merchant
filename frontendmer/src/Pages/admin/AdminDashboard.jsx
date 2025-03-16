@@ -197,7 +197,7 @@ const AdminDashboard = () => {
     </div>
     </div>
     <div className="container mt-5" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}}>
-      <h3>Search Products by Vendor</h3>
+      <h3>Search Products by VendorName</h3>
       <div className="d-flex mb-3">
         <input
           type="text"
@@ -207,7 +207,7 @@ const AdminDashboard = () => {
           onChange={(e) => setVendorName(e.target.value)}
         />
         <button className="btn btn-primary" onClick={fetchProductsByVendor}>
-          Search
+          Download
         </button>
       </div>
 
