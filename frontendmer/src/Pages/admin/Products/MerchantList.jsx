@@ -10,7 +10,7 @@ const MerchantList = () => {
   const [loading, setLoading] = useState(false);
 const [users, setUsers] = useState([]);
 const [filter, setFilter] = useState({
-    role: false,
+  name: "",
 });
   
 
@@ -22,10 +22,9 @@ const [filter, setFilter] = useState({
     setLoading(true);
     try {
 
-      const res = await axios.get(`${url}/api/v2/auth/get-users`);
+      const res = await axios.get(`${url}/api/v2/auth/get-k-users`);
       setUsers(res.data.users);
 users=res.data.users;
-
 
     } catch (error) {
       setLoading(false);
@@ -37,6 +36,24 @@ users=res.data.users;
 
 //     return matchesrole; ;
 //   });
+
+
+
+const handleFilterChange = (e) => {
+  const { name, value, type, checked } = e.target;
+  setFilter((prev) => ({
+    ...prev,
+    [name]: type === "checkbox" ? checked : value,
+  }));
+};
+
+const filteredUsers = users.filter((item) => {
+  const matchesName = item.name
+  ? item.name.toLowerCase().includes(filter.name.toLowerCase())
+  : false;
+
+  return matchesName
+});
 
   return (
     <>
@@ -50,10 +67,24 @@ users=res.data.users;
               <Backbutton path={"/dashboard/admin"} />
             </div>
           </div>
+          <div className="mb-4 row mt-5">
+          <div className="col-md-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Vender Name"
+                  name="name"
+                  value={filter.name}
+                  onChange={handleFilterChange}
+                />
+              </div>
+              </div>
+
                 
 
           <div className="row">
             <div className="col-12">
+
               <div className="table-responsive">
                 <table className="table table-striped table-bordered">
                   <thead>
@@ -70,7 +101,7 @@ users=res.data.users;
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((item) => (
+                    {filteredUsers.map((item) => (
                       <tr key={item._id}>
                         <td>{item.name}</td>
                         <td>{item.email}</td>

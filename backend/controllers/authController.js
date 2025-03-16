@@ -363,7 +363,35 @@ export const getUsersListController = async (req, res) => {
     });
   }
 };
-
+export const getkUsers = async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+  
+    const pageNumber = Math.max(1, Number(page));
+    const limitNumber = Math.min(Math.max(1, Number(limit)), 100);
+  
+  
+    try {
+      const users = await userModel
+        .find()
+        .skip((pageNumber - 1) * limitNumber)
+        .limit(limitNumber)
+        .sort({ createdAt: -1 })
+        .lean();
+  
+      const totalUsers = await userModel.countDocuments();
+  
+      res.json({
+        users,
+        totalUsers,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalUsers / limitNumber),
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
 // * the route should return the rated user details but it is not working as expected.(future update)
 export const getRateUserListController = async (req, res) => {
   try {
