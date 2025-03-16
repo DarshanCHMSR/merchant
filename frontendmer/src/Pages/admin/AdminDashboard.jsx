@@ -63,45 +63,27 @@ const AdminDashboard = () => {
         return;
       }
     
-      // Convert to ISO format (YYYY-MM-DDTHH:MM:SS.sssZ)
-      const formattedStartDate = new Date(startDate).toISOString();
-      const formattedEndDate = new Date(endDate).toISOString();
-    
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/v2/products/by-date?startDate=${formattedStartDate}&endDate=${formattedEndDate}`
+        const response = await axios.get(
+          `${url}/api/v2/products/by-date?startDate=${startDate}&endDate=${endDate}`,
+          { responseType: "blob" } // Correct usage in Axios
         );
     
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        try {
-     
-          const response = await axios.get(`${url}/api/v2/products/exportuser`, {
-            responseType: "blob", // Ensure we get binary data
-          });
-    
-          // Create a URL for the file
-          const url3 = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url3;
-          link.setAttribute("download", "products.csv"); // File name
-          document.body.appendChild(link);
-          link.click();
-    
-          // Cleanup
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url3);
-        } catch (error) {
-          console.error("Error downloading the file:", error);
-        }
-    
-       
+        const url2 = window.URL.createObjectURL(response.data);
+        const link = document.createElement("a");
+        link.href = url2;
+        link.setAttribute("download", "products.csv");
+        document.body.appendChild(link);
+        link.click();
+        
+        // Cleanup
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url2);
       } catch (error) {
         console.error("Error fetching products:", error);
-        
       }
     };
+    
     
   
   const handleDownload2 = async () => {
@@ -126,14 +108,7 @@ const AdminDashboard = () => {
       console.error("Error downloading the file:", error);
     }
   }
-  // const res = axios.post(`${url}/api/v2/auth/login`, data);
   
-  // localStorage.setItem("auth-Data", JSON.stringify(res.data));
-
-  // console.log(user, token);
-  // await handelOTP();
-  // console.log(res.data);
-  // console.log(auth-Data);
 
   const [vendorName, setVendorName] = useState("");
 
