@@ -4,6 +4,7 @@ import Loader from "../../../Components/Loading/Loader";
 import Admin_Header from "../Components/Admin_Header";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
+import ReactPaginate from 'react-paginate';
 
 
 const MerchantList = () => {
@@ -12,30 +13,38 @@ const [users, setUsers] = useState([]);
 const [filter, setFilter] = useState({
   name: "",
 });
+ const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const usersPerPage = 20; // Number of products per page
   
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-
-      const res = await axios.get(`${url}/api/v2/auth/get-k-users`);
+      const params = {
+        page: currentPage,
+        limit: usersPerPage,
+      };
+      
+      // Add cache-buster only for product filtering
+      
+      
+      const res = await axios.get(`${url}/api/v2/auth/get-k-users`, { params });
       setUsers(res.data.users);
-users=res.data.users;
-
+      setTotalPages(Math.ceil(res.data.totalUsers / usersPerPage));
+      setLoading(false);
     } catch (error) {
+      console.error(error);
       setLoading(false);
     }
   };
-  
-//   const filteredProducts = users.filter((item) => {
-//     const matchesrole = filter.role ? item.role === 1 : true; 
-
-//     return matchesrole; ;
-//   });
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
 
 
@@ -114,7 +123,28 @@ const filteredUsers = users.filter((item) => {
                 </table>
               </div>
             </div>
-
+            <nav aria-label="Page navigation example" className="d-flex justify-content-center mt-3">
+                      <ReactPaginate
+                        previousLabel={"«"}
+                        nextLabel={"»"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={totalPages}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={3}
+                        onPageChange={({ selected }) => handlePageChange(selected + 1)} // Adjust for zero-based index
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                        disabledClassName={"disabled"}
+                        pageClassName={"page-item"} // Add custom class for page items
+                        pageLinkClassName={"page-link"} // Add custom class for page links
+                        previousClassName={"page-item"} // Add custom class for previous button
+                        previousLinkClassName={"page-link"} // Add custom class for previous link
+                        nextClassName={"page-item"} // Add custom class for next button
+                        nextLinkClassName={"page-link"} // Add custom class for next link
+                        forcePage={currentPage - 1} // This ensures the correct page is highlighted
+                      />
+                    </nav>
           </div>
         </div>
       )}
