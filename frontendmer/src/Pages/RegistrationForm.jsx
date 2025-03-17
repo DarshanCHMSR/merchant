@@ -59,7 +59,7 @@ const RegistrationForm = () => {
   const [otp, setOtp] = useState("");
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false); // ✅ New state to track OTP verification
-
+  
   const sendOTP = async () => {
     try {
       const response = await fetch(`${url}/api/v2/otp/send-otp`, {

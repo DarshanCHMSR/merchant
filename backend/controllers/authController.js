@@ -141,9 +141,9 @@ export const loginController = async (req, res) => {
         altPhone: user.altPhone,
         location: user.location,
         cart: user.cart,
-      },
+      },   
       token,
-    });
+    }); 
   } catch (error) {
     res.status(500).send({
       success: false,
