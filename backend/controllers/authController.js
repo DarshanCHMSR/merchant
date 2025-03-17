@@ -152,6 +152,35 @@ export const loginController = async (req, res) => {
     });
   }
 };
+// * Forgot password controller
+export const resetPasswordController = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    // Find the user by email or phone
+    let user;
+    if (email) {
+      user = await userModel.findOne({ email });
+    } 
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+
+    // Hash the new password before saving
+    const hashedPassword = await hashPassword(newPassword);
+
+    // Update the password in the database
+    if (email) {
+      user.emailPassword = hashedPassword;
+    } 
+
+    await user.save();
+
+    res.status(200).json({ success: true, message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 // * OTP sender
 export const otpController = async (req, res) => {

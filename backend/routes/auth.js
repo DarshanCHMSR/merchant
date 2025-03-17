@@ -10,7 +10,8 @@ import {
   resendOtpcontroller,
   getRateUserListController,
   getkUsers,
-  deleteUser
+  deleteUser,
+  resetPasswordController
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleWare.js";
 
@@ -18,6 +19,7 @@ const router = express.Router();
 
 router.post("/register", registerController);
 router.post("/login", loginController);
+router.post('/reset-password',resetPasswordController)
 
 // * this routes is for sending the otp
 router.post("/send-otp",otpController);

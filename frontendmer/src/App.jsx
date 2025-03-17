@@ -9,6 +9,7 @@ import Checkout from "./Pages/Checkout";
 // import Testing from "./Pages/Testing";  
 
 import Login from "./Pages/auth/Login";
+import LoginOtp from "./Pages/auth/LoginOtp";
 import UserPrivate from "./Components/Private_Routes/UserPrivate";
 import Admin_Private from "./Components/Private_Routes/Admin_Private";
 import CreateProduct from "./Pages/admin/Products/CreateProduct";
@@ -225,6 +226,13 @@ function App() {
               path="/"
               element={
                 <Login />
+          
+              }
+            />
+            <Route
+              path="/login-otp"
+              element={
+                <LoginOtp />
           
               }
             />
