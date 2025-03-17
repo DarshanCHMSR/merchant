@@ -202,7 +202,6 @@ const Login = () => {
                             />
                             <label htmlFor="floatingPassword">Password</label>
                           </div>
-                          <Link to="/login-otp">Forgot Password</Link>
                           </div>
                         )}
 
@@ -217,6 +216,8 @@ const Login = () => {
                           )}
                         </div>
                       </form>
+                      <Link to="/login-otp">Forgot Password</Link>
+
                     </div>
                   </div>
                 </div>

@@ -34,7 +34,6 @@ const LoginOtp = () => {
   const navigate = useNavigate();
 
   // ! This is state are for manging of the otp.
-  const [otp, setOtp] = useState(null);
   const [sentOtp, setSendOtp] = useState(false);
   const [verifyotp, setVerifyotp] = useState(false);
   const [resendOTP, setResendOTP] = useState(false);
@@ -49,8 +48,58 @@ const LoginOtp = () => {
     const [resendCount, setResendCount] = useState(0);
     const [email, setEmail] = useState(""); 
 const [newPassword, setNewPassword] = useState("");
+
+
+  const [otp, setOtp] = useState("");
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [isOtpVerified, setIsOtpVerified] = useState(false); // ✅ New state to track OTP verification
+  
+  const sendOTP = async () => {
+
+    try {
+        setEmail(input);
+      const response = await fetch(`${url}/api/v2/otp/send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.text();
+      alert(data);
+      setShowOtpInput(true);
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    }
+  };
+
+  const verifyOTP = async () => {
+    try {
+      const response = await fetch(`${url}/api/v2/otp/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await response.json();
+      if (data.message === "OTP verified successfully") {
+        alert("OTP Verified Successfully");
+        setIsOtpVerified(true); // ✅ Enable form submission after OTP verification
+      } else {
+        alert("Invalid OTP, please try again.");
+        setIsOtpVerified(false);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      setIsOtpVerified(false);
+    }
+  };
+
   // * this function is for handling the form login container input
   const handelsubmit = async (e) => {
+    if (!isOtpVerified) {
+        alert("Please verify OTP before submitting the form.");
+        return;
+      }
     setloading(true);
     e.preventDefault();
     // Placeholder password for phone login
@@ -114,6 +163,7 @@ console.log(data)
                             className="form-control"
                             onChange={(e) => {
                               setinput(e.target.value);
+                              setEmail(e.target.value);
                               if (emailRegex.test(e.target.value)) {
                                 setMail(e.target.value);
                                 setCheckMail(true);
@@ -142,6 +192,22 @@ console.log(data)
 
                         {checkMail && (
                           <div>
+                            <div className="mb-3">
+                         
+                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px",marginLeft:"0"}}>Send OTP</button>
+                          {showOtpInput && (
+                            <>
+                              <input
+                                type="text"
+                                placeholder="Enter OTP"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                className="form-control"
+                              />
+                              <button type="button" onClick={verifyOTP} className="form-control" style={{margin:"7px",marginLeft:"0"}}>Verify OTP</button>
+                            </>
+                          )}
+                        </div>
                           <div className="form-floating mb-3">
                             <input
                               type="password"
@@ -151,7 +217,7 @@ console.log(data)
                               onChange={(e) => setNewPassword(e.target.value)}
                               placeholder="Password"
                             />
-                            <label htmlFor="floatingPassword">Password</label>
+                            <label htmlFor="floatingPassword">Enter new Password</label>
                           </div>
                           </div>
                         )}
@@ -161,8 +227,9 @@ console.log(data)
                             <button
                               className="btn btn-primary mt-3 w-100"
                               type="submit"
+                              disabled={!isOtpVerified} 
                             >
-                              Login
+                              Change Password
                             </button>
                           )}
                         </div>
