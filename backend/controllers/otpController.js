@@ -21,7 +21,6 @@ export const sendotp= async (req, res) => {
     sendSmtpEmail.to = [{ email }];
     sendSmtpEmail.templateId = 2;
     sendSmtpEmail.params = { otp };
-
     await apiInstance.sendTransacEmail(sendSmtpEmail);
     res.status(200).send('OTP sent successfully');
   } catch (error) {
