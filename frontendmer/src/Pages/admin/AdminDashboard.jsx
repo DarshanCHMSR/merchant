@@ -211,19 +211,7 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      {/* Display Products */}
-      {/* {products.length > 0 && (
-        <div className="mt-4">
-          <h4>Products for "{vendorName}"</h4>
-          <ul className="list-group">
-            {products.map((product) => (
-              <li key={product._id} className="list-group-item">
-                <strong>{product.name}</strong> - ${product.price}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )} */}
+    
     </div>
           
         </div>

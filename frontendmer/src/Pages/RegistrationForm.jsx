@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Backbutton from "../Components/Backbutton";
 import Loader from "../Components/Loading/Loader";
 import { url } from "../Components/backend_link/data";
+import { set } from "mongoose";
 
 
 const RegistrationForm = () => {
@@ -105,13 +106,13 @@ const RegistrationForm = () => {
       return;
     }
     setResult("Sending....");
+    setOtp("");
+    setEmail("");
 
     const formData = new FormData(event.target);
     const access_keys= import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
     formData.append("access_key",access_keys );
-
-
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       body: formData,

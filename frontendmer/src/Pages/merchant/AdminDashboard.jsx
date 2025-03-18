@@ -26,105 +26,10 @@ const AdminDashboard = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    // fetchOrders();
-    // fetchUsers();
-    // totalProducts();
+   
   }, []);
 
-  
 
-  
-
-  // useEffect(() => {
-  //   // Process orders to update orderData after orders are fetched
-  //   const updateOrderData = () => {
-  //     let delivered = 0;
-  //     let pending = 0;
-  //     let cancelled = 0;
-  //     let totalAmt = 0;
-
-  //     orders.forEach((order) => {
-  //       if (order.status === "Delivered") {
-  //         delivered += 1;
-  //         order.products.forEach((product) => {
-  //           totalAmt += product.price;
-  //         });
-  //       }
-  //       if (order.status === "Cancelled") {
-  //         cancelled += 1;
-  //       }
-  //       if (order.status === "Not Processed") {
-  //         pending += 1;
-  //       }
-  //     });
-
-  //     setOrderData((prevData) => ({
-  //       ...prevData,
-  //       delivered,
-  //       pending,
-  //       cancelled,
-  //       totalAmt,
-  //       totalOrders: orders.length,
-  //     }));
-  //   };
-
-  //   if (orders.length > 0) {
-  //     updateOrderData();
-  //   }
-  // }, [orders]);
-
-  // const fetchOrders = async () => {
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/order/admin-orders`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: auth.token,
-          
-  //       },
-  //     });
-  //     setOrders(res.data);
-  //   } catch (error) {
-  //     console.error("Error fetching orders:", error);
-  //   }
-  // };
-
-  // const fetchUsers = async () => {
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/auth/get-users`, {
-  //       headers: {
-  //         Authorization: auth.token,
-  //       },
-  //     });
-
-  //     if (res.data.success) {
-  //       setOrderData((prevData) => ({
-  //         ...prevData,
-  //         users: res.data.count,
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching users:", error);
-  //   }
-  // };
-
-  // const totalProducts = async () => {
-
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/products/get-products`, {
-  //       headers: {
-  //         Authorization: auth.token,
-  //       },
-  //     });
-
-  //     setOrderData((prevData) => ({
-  //       ...prevData,
-  //       productsCount: res.data.total_products,
-  //       outofstock: res.data.outofstock,
-  //     }));
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   }
-  // };
   const handleDownload = async () => {
     try {
      
@@ -221,15 +126,7 @@ const AdminDashboard = () => {
       console.error("Error downloading the file:", error);
     }
   }
-  // const res = axios.post(`${url}/api/v2/auth/login`, data);
   
-  // localStorage.setItem("auth-Data", JSON.stringify(res.data));
-
-  // console.log(user, token);
-  // await handelOTP();
-  // console.log(res.data);
-  // console.log(auth-Data);
-
 
 
 
