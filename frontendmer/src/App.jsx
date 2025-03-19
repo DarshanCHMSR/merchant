@@ -218,7 +218,7 @@ function App() {
             </Route>
             <Route path = 'dashboard/merchant/bulk-upload' element = {<BulkCreateProductMerchant/>}/>  
               <Route path="/register-form" element={<RegisterForm />} />
-              /register-form
+              
 
             <Route path="/signup" element={<Signup />} />
             <Route path="/create-merchant" element={<CreateMerchant />} />
