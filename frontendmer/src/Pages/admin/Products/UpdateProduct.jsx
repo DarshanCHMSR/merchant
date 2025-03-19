@@ -77,6 +77,7 @@ const UpdateProduct = () => {
       productData.append("variety", JSON.stringify(variety));
       productData.append("returnDays", returDays);
       productData.append("replacementDays", replacementDays);
+      console.log(product.replacementDays);
 
       const res = await axios.put(
         `${url}/api/v2/products/update-product/${params.id}`,
@@ -158,7 +159,8 @@ const UpdateProduct = () => {
       setdeliveryCharge(product.deliveryCharge || "");
       setReturDays(product.returnDays || "");
       setReplacementDays(product.replacementDays || "");
-
+      console.log(product.replacementDays);
+   
       setPhoto(product.photo || null);
 
       setVariety(

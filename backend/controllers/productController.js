@@ -392,9 +392,41 @@ export const fetchAllProducts = async (req, res) => {
   export const fetchUserProduct = async (req, res) => {
     try {
       const products = await Product.find({ user: req.user._id });
-      res.status(200).send({
-        products,
-      });
+      const fields = products.map((product) => ({
+        id: product.id,
+       name: product.name,
+       description: product.description,
+       price: product.price,
+       category: product.category,
+       stock: product.stock,
+       shipping: product.shipping,
+       imgLink: product.imgLink,
+       variety: product.variety,
+       originalPrice: product.originalPrice,
+       deliveryCharge: product.deliveryCharge,
+       returnDays: product.returnDays,
+       replacementDays: product.replacementDays,
+       serviceDays: product.serviceDays,
+       additionalDiscription: product.additionalDiscription,
+       status:product.status,
+       vendername:product.vendername,
+     }));
+ 
+     // Define CSV column headers
+     const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
+       
+     // Create a new json2csv parser instance
+     const json2csvParser = new Parser({ fields: fieldNames });
+     const csv = json2csvParser.parse(fields); // Convert JSON to CSV format
+ 
+     // Set headers for CSV file download
+     res.setHeader("Content-Type", "text/csv");
+     res.setHeader("Content-Disposition", "attachment; filename=products.csv");
+     
+     // Send CSV file as response
+     res.status(200).end(csv);
+ 
+     console.log("CSV file successfully created.");
     } catch (error) {
       res.status(500).send("Internal server error");
     }

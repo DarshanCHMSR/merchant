@@ -56,6 +56,7 @@ import OutofStockProductsMerchant from "./Pages/merchant/Products/OutofStockProd
 import UserListMerchant from "./Pages/merchant/user-data/UserList";
 import BulkCreateProductMerchant from "./Pages/merchant/Products/BulkCreateProduct";
 import ProductListMerchant from "./Pages/merchant/Products/ProductList";
+import MerchantInfo from "./Pages/merchant/Products/MerchantInfo";
 import RegistrationForm from "./Pages/RegistrationForm";
 import RegisterForm from "./Pages/RegisterForm";
 import Footer from "./Pages/Footer";
@@ -175,6 +176,7 @@ function App() {
 //Merchant Routes
 <Route path="dashboard" >
               <Route path="merchant" element={<ProductListMerchant />} />
+              <Route path="merchant-info" element={<MerchantInfo />} />
               <Route
                 path="merchant/search-products/:searchValue"
                 element={<AdminSearchPageMerchant />}

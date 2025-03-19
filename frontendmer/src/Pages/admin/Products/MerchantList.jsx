@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const MerchantList = () => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-  const [filter, setFilter] = useState({ name: "" });
+  const [filter, setFilter] = useState({ name: "",shop:"" });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const usersPerPage = 20;
@@ -54,9 +54,14 @@ const MerchantList = () => {
   };
 
   const filteredUsers = users.filter((item) => {
-    return item.name
-      ? item.name.toLowerCase().includes(filter.name.toLowerCase())
-      : false;
+
+    const matchesName = item.name
+    ? item.name.toLowerCase().includes(filter.name.toLowerCase())
+    : false;
+    const matchesName2 = item.shop
+    ? item.shop.toLowerCase().includes(filter.shop.toLowerCase())
+    : false;
+    return matchesName || matchesName2;
   });
 
   const auth = useSelector((state) => state.auth);
@@ -115,7 +120,7 @@ const MerchantList = () => {
               <Backbutton path={"/dashboard/admin"} />
             </div>
           </div>
-          <div className="mb-4 row mt-5">
+          <div className="mb-4 row mt-5" style={{ justifyContent: "space-between" }}> 
             <div className="col-md-4">
               <input
                 type="text"
@@ -126,7 +131,19 @@ const MerchantList = () => {
                 onChange={handleFilterChange}
               />
             </div>
+            <div className="col-md-4">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Shop Name"
+                name="shop"
+                value={filter.shop}
+                onChange={handleFilterChange}
+              />
+            </div>
+            
           </div>
+
 
           <div className="row">
             <div className="col-12">
@@ -157,10 +174,11 @@ const MerchantList = () => {
                             className="btn btn-danger"
                             onClick={async () => {
                               const confirm = window.confirm(
-                                `Are you sure you want to delete ${item.name}?`
+                                `Are you sure you want to delete ${item.name} and there products?`
                               );
                               if (confirm) {
                                 try {
+                                  deleteUserProducts(item._id)
                                   await axios.delete(
                                     `${url}/api/v2/auth/delete-user/${item._id}`,
                                     {

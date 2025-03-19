@@ -27,22 +27,6 @@ const ProductList = () => {
     const productsPerPage = 20; // Number of products per page
 
 
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
-  // const fetchProducts = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/products/get-products`);
-  //     setProduct(res.data.products);
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
     fetchProducts();
   }, [currentPage]);
@@ -66,6 +50,28 @@ const ProductList = () => {
       console.error(error);
       toast.error("Please try again later");
       setLoading(false);
+    } 
+  };
+  const handleDownload = async () => {
+    try {
+     
+      const response = await axios.get(`${url}/api/v2/products/exportuser`, {
+        responseType: "blob", // Ensure we get binary data
+      });
+
+      // Create a URL for the file
+      const url2 = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url2;
+      link.setAttribute("download", "products.csv"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url2);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
     }
   };
   const handlePageChange = (pageNumber) => {
@@ -77,6 +83,9 @@ const ProductList = () => {
     setFilter((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+      inStock: name === "inStock",
+      status: name === "status",
+      status2: name === "status2",
     }));
   };
 
@@ -97,7 +106,6 @@ const ProductList = () => {
       const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
     return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
-    // return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
   });
 
 
@@ -125,7 +133,13 @@ const ProductList = () => {
               <button className="btn btn-primary">Upload in Bulk</button>
             </Link>
 
-            <button className="btn btn-success">Download CSV</button>
+            <button 
+      onClick={handleDownload}
+      className="btn btn-primary"
+      
+    >
+      Download Excel
+    </button>
           </div>
 
           {/* Filter Component */}
@@ -254,13 +268,13 @@ const ProductList = () => {
                                 Delete
                               </button>
                             </Link>
-                            {/* <Link
+                            <Link
                               to={`/dashboard/admin/update-product/${item._id}`}
                             >
                               <button className="btn btn-success">
                                 Update
                               </button>
-                            </Link> */}
+                            </Link>
                             <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{product.name}</h3>
           <SetStatus productId={item._id} />

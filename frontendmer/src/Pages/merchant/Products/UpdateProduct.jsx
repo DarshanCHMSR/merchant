@@ -358,16 +358,16 @@ const oldstock = product.stock;
                 <input
                   type="text"
                   className="form-control me-2"
-                  value={item.name} disabled
+                  value={item.name}
                   onChange={(e) =>
-                    handleVarietyChange(index, "name", e.target.value) 
+                    handleVarietyChange(index, "name", e.target.value)
                   }
                   placeholder={`Variety Name ${index + 1}`}
                 />
                 <input
                   type="number"
                   className="form-control me-2"
-                  value={item.price}disabled
+                  value={item.price}
                   onChange={(e) =>
                     handleVarietyChange(index, "price", e.target.value)
                   }
@@ -378,7 +378,6 @@ const oldstock = product.stock;
                     type="button"
                     className="btn btn-danger ms-2"
                     onClick={() => removeVarietyField(index)}
-                    disabled
                   >
                     Remove
                   </button>
@@ -394,6 +393,7 @@ const oldstock = product.stock;
               Add Another Variety
             </button>
           </div>
+
 
           <div>
             <h3>Images</h3>

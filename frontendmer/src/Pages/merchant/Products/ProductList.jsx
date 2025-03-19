@@ -45,6 +45,32 @@ const ProductList = () => {
     return parsedData.token; // Assuming the token is stored under "token"
 };
 
+ const handleDownload = async () => {
+    try {
+      const token = getAuthToken();
+
+      const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`, { 
+        headers: {
+          Authorization: token,
+          // "Content-Type": "application/json",
+        },
+        responseType: "blob", // Ensure we get binary data
+      });
+      // Create a URL for the file
+      const url2 = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url2;
+      link.setAttribute("download", "products.csv"); // File name
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url2);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+    }
+  }
 
 // console.log(auth.token);  
   useEffect(() => {
@@ -134,8 +160,8 @@ const filteredProducts = products.filter((item) => {
               <button className="btn btn-primary">Upload in Bulk</button>
             </Link>
 
-            <button className="btn btn-success">Download CSV</button>
-          </div>
+            <button className="btn btn-primary" onClick={handleDownload} >Download Excel</button>
+                  </div>
 
           {/* Filter Component */}
           <div className="mb-4">

@@ -105,13 +105,13 @@ const RegistrationForm = () => {
       return;
     }
     setResult("Sending....");
+    setOtp("");
+    setEmail("");
 
     const formData = new FormData(event.target);
     const access_keys= import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
     formData.append("access_key",access_keys );
-
-
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       body: formData,
