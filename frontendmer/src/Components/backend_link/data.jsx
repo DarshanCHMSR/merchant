@@ -1,5 +1,5 @@
-export const url  = 'http://localhost:5000'
-// export const url ='https://merchant-2oqn.vercel.app'
+// export const url  = 'http://localhost:5000'
+export const url ='https://merchant-2oqn.vercel.app'
 // ? This is for production
 // export const url = "https://uau3qb2pu6.execute-api.ap-south-1.amazonaws.com/live"
 
