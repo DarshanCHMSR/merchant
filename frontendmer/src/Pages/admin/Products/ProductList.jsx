@@ -27,22 +27,6 @@ const ProductList = () => {
     const productsPerPage = 20; // Number of products per page
 
 
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
-  // const fetchProducts = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await axios.get(`${url}/api/v2/products/get-products`);
-  //     setProduct(res.data.products);
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
     fetchProducts();
   }, [currentPage]);
@@ -122,7 +106,6 @@ const ProductList = () => {
       const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
     return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
-    // return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
   });
 
 
@@ -285,13 +268,13 @@ const ProductList = () => {
                                 Delete
                               </button>
                             </Link>
-                            {/* <Link
+                            <Link
                               to={`/dashboard/admin/update-product/${item._id}`}
                             >
                               <button className="btn btn-success">
                                 Update
                               </button>
-                            </Link> */}
+                            </Link>
                             <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{product.name}</h3>
           <SetStatus productId={item._id} />
