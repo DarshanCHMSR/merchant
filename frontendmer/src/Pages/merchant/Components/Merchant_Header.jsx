@@ -31,7 +31,7 @@ const Merchant_Header = () => {
           className="navbar navbar-expand-lg navbar-light bg-white fixed-top mx-auto"
         >
           <div className="container-fluid">
-            <Link  className="navbar-brand text-primary">
+            <Link  className="navbar-brand text-primary" to={"/dashboard/merchant-info"}>  
               Valuekarts <small className="text-muted ms-2"> Logistics</small>
             </Link>
 
@@ -107,7 +107,7 @@ const Merchant_Header = () => {
               <div className="d-flex align-items-center ms-3">
                 <AdminSearchFrom />
 
-                <div className="dropdown ms-3">
+                <div className="dropdown ms-3" style={{ cursor: "pointer","marginLeft":"3PX" }}>
                   <button
                     className="btn btn-secondary dropdown-toggle"
                     type="button"

@@ -332,7 +332,7 @@ const [Longitude, setLongitude] = useState("");
                             </div>
                             <div className="form-floating mb-3">
                               <input
-                                type="number"
+                                type="text"
                                 className="form-control"
                                 id="floatingInput"
                                 required
