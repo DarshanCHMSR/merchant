@@ -99,6 +99,9 @@ const ProductList = () => {
     setFilter((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+      inStock: name === "inStock",
+      status: name === "status",
+      status2: name === "status2",
     }));
   };
 
