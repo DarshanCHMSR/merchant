@@ -307,6 +307,24 @@ export const createProduct= async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
       }
     };
+    export const searchVendors = async (req, res) => {
+      try {
+        const { query } = req.params;
+    
+        if (!query) {
+          return res.status(400).json({ message: "Search query is required." });
+        }
+    
+        // Find vendors with name matching the query (case insensitive)
+        const vendors = await Product.distinct("vendername", { vendername: { $regex: query, $options: "i" } });
+    
+        res.json(vendors);
+      } catch (error) {
+        console.error("Error fetching vendor suggestions:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    };
+
     
     export const exportUserBylast5 = async (req, res) => {
       try {

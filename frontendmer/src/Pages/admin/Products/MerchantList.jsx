@@ -62,7 +62,7 @@ const MerchantList = () => {
     ? item.shop.toLowerCase().includes(filter.shop.toLowerCase())
     : false;
     return matchesName || matchesName2;
-  });
+  });  
 
   const auth = useSelector((state) => state.auth);
   const getAuthToken = () => {

@@ -15,6 +15,7 @@ import axios from "axios";
 
 const AdminDashboard = () => {
   const [Loading, setLoading] = useState(false);
+  const [vendorName, setVendorName] = useState("");
 
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -22,12 +23,19 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
-
+    if (vendorName.trim().length > 0) {
+      const debounceTimeout = setTimeout(() => {
+        fetchVendorSuggestions(vendorName);
+      }, 300);
+  
+      return () => clearTimeout(debounceTimeout);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [vendorName]);
+  
+  
 
 
   const handleDownload = async () => {
@@ -110,34 +118,70 @@ const AdminDashboard = () => {
   }
   
 
-  const [vendorName, setVendorName] = useState("");
 
   const fetchProductsByVendor = async () => {
-    if (!vendorName.trim()) {
+    if (!vendorName || !vendorName.trim()) { // ✅ Ensures vendorName is defined before calling trim()
       alert("Please enter a vendor name.");
       return;
     }
-
+  
     try {
       const response = await axios.get(
-        `${url}/api/v2/products/get-products-by-vendor/${vendorName}`, {
-          responseType: "blob", // Ensure we get binary data
-        });
-        const url3 = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url3;
-        link.setAttribute("download", "products.csv"); // File name
-        document.body.appendChild(link);
-        link.click();
+        `${url}/api/v2/products/get-products-by-vendor/${vendorName}`, 
+        { responseType: "blob" } // Ensure binary response
+      );
   
-        // Cleanup
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url3);
-      } 
-        catch (error) {
+      if (!response.data) {
+        alert("No products found for this vendor.");
+        return;
+      }
+  
+      // Convert response to CSV file and download
+      const file = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = file;
+      link.setAttribute("download", "vendor_products.csv");
+      document.body.appendChild(link);
+      link.click();
+  
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(file);
+    } catch (error) {
       console.error("Error fetching vendor products:", error);
       alert("Failed to fetch products. Please check the vendor name.");
     }
+  };
+  
+
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+
+  const fetchVendorSuggestions = async (query) => {
+    try {
+      const response = await axios.get(`${url}/api/v2/products/vendors/search/${query}`);
+      console.log("Vendor suggestions:", response.data);
+      if (response.data && response.data.length > 0) {
+        setSuggestions(response.data);
+        setShowSuggestions(true);
+        console.log("Suggestions:", suggestions);
+        console.log("ShowSuggestions:", showSuggestions);
+      } else {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    } catch (error) {
+      console.error("Error fetching vendor suggestions:", error);
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+  
+
+  const handleSelect = (name) => {
+    setVendorName(name);
+    setShowSuggestions(false);
   };
 
 
@@ -150,7 +194,34 @@ const AdminDashboard = () => {
           <Toaster />
 
           <Admin_Header />
-          <div className="dash" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}} >
+          <div className="container mt-5" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}}>
+      <h3>Search Products by VendorName</h3>
+          <div style={{ position: "relative", margin: "50px auto", width: "fit-content" }}>
+          <input
+  type="text"
+  value={vendorName}
+  onChange={(e) => setVendorName(e.target.value)}
+  placeholder="Enter vendor name..."
+  autoComplete="off"
+  onBlur={() => setShowSuggestions(false)} // Hides suggestions when clicking outside
+  onFocus={() => vendorName && setShowSuggestions(true)} // Shows suggestions if input is not empty
+/>
+
+      {showSuggestions && suggestions.length > 0 && (
+        <ul style={{ position: "absolute", top: "100%", left: 0, background: "#fff", border: "1px solid #ccc", listStyle: "none", padding: 0 }}>
+          {suggestions.map((vendor, index) => (
+            <li key={index} onClick={() => handleSelect(vendor)} style={{ padding: "5px", cursor: "pointer" }}>
+              {vendor}
+            </li>
+          ))}
+        </ul>
+      )}
+      <button onClick={fetchProductsByVendor}>Fetch Products</button>
+    </div>
+    </div>
+
+    <div className="dash" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}} >
+
           <h1 style={{textAlign:"center",marginBottom:"50px"}}>Admin Dashboard</h1>
           <div className="container" style={{maxWidth:"500px",margin:"auto",background:"white",marginTop:"50px",padding:"20px",borderRadius:"10px",boxShadow:"0 0 10px rgba(0,0,0,0.1)"}}>
           <h3>Download Excel file of all products by date</h3>
@@ -196,7 +267,7 @@ const AdminDashboard = () => {
 
     </div>
     </div>
-    <div className="container mt-5" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}}>
+    {/* <div className="container mt-5" style={{fontFamily:"sans-serif",marginTop:"50px",backgroundColor:"#f4f4f4",textAlign:"center",padding:"20px"}}>
       <h3>Search Products by VendorName</h3>
       <div className="d-flex mb-3">
         <input
@@ -212,8 +283,8 @@ const AdminDashboard = () => {
       </div>
 
     
-    </div>
-          
+    </div> */}
+   
         </div>
         
       )}
