@@ -61,6 +61,7 @@ const productSchema = mongoose.Schema(
       {
         name: { type: String },
         price: { type: Number },
+        mrp: { type: Number },
       },
     ],
 

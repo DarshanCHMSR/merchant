@@ -639,7 +639,9 @@ export const fetchAllProducts = async (req, res) => {
       const {
         price,
         stock,
+        variety,
         originalPrice 
+
       } = req.body;
   
       // Find the product by ID
@@ -658,6 +660,17 @@ export const fetchAllProducts = async (req, res) => {
       }
       if (originalPrice) {
         newProduct.originalPrice = originalPrice;
+      }
+      if (variety) {
+        try {
+          const parsedVariety = JSON.parse(variety);
+  
+          newProduct.variety = parsedVariety;
+  
+          // Replace existing varieties
+        } catch (error) {
+          return res.status(400).send({ message: "Invalid variety format" });
+        }
       }
       // Check for required fields
       // Update product fields
