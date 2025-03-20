@@ -48,8 +48,13 @@ const UpdateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!categoryValue) {
+      alert("Please select a category before submitting.");
+      return;
+    }
     setLoading(true);
     try {
+      
       const productData = new FormData();
 
       productData.append("name", name);
@@ -77,10 +82,9 @@ const UpdateProduct = () => {
       productData.append("variety", JSON.stringify(variety));
       productData.append("returnDays", returDays);
       productData.append("replacementDays", replacementDays);
-      console.log(product.replacementDays);
 
       const res = await axios.put(
-        `${url}/api/v2/products/update-product/${params.id}`,
+        `${url}/api/v2/products/update-product-admin/${params.id}`,
         productData,
         {
           headers: {
@@ -159,8 +163,6 @@ const UpdateProduct = () => {
       setdeliveryCharge(product.deliveryCharge || "");
       setReturDays(product.returnDays || "");
       setReplacementDays(product.replacementDays || "");
-      console.log(product.replacementDays);
-   
       setPhoto(product.photo || null);
 
       setVariety(
@@ -225,6 +227,7 @@ const UpdateProduct = () => {
               className="form-select"
               value={categoryValue}
               onChange={(e) => setCategoryValue(e.target.value)}
+              required
             >
               <option>Select Category</option>
               {category.map((c) => (

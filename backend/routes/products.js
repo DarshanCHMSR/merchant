@@ -7,7 +7,7 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,searchVendors,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,searchVendors,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -35,6 +35,8 @@ router.get("/get-status", getStatus);
 router.get('/get-product-photo/:pid',getProductPhoto);
 // * for updating the product
 router.put('/update-product/:id',requireSignin  ,updateProduct);
+router.put('/update-product-admin/:id',requireSignin  ,updateProductAdmin);
+
 
 router.delete('/delete-product/:id',requireSignin , deleteProduct);
 

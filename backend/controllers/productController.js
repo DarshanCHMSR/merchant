@@ -676,6 +676,85 @@ export const fetchAllProducts = async (req, res) => {
         .send({ message: "Something went wrong while updating the product", error:error.message });
     }
   };
+  export const updateProductAdmin = async (req, res) => {
+    try {
+      const  id  = req.params.id;
+      const {
+        pid,
+        name,
+        description,
+        price,
+        category,
+        stock,
+        shipping,
+        imgLink,
+        variety,
+        originalPrice,
+        deliveryCharge,
+        returnDays,
+        replacementDays,
+        serviceDays,
+        
+      } = req.body;
+  
+      // Find the product by ID
+  
+      const product = await Product.findById(id);
+  
+      if (!product) {
+        return res.status(404).send({ error: "Product not found" });
+      }
+  
+      // Check for required fields
+      
+      // Update product fields
+      product.name = name;
+      product.slug = slugify(name); // Ensure slugify is correctly imported
+      product.description = description;
+      product.price = price;
+      product.category = category;
+      product.stock = stock;
+      product.shipping = shipping;
+      product.id = pid; // * Custom ID for Product
+      product.originalPrice = originalPrice;
+      product.deliveryCharge = deliveryCharge;
+      product.returnDays = returnDays;
+      product.replacementDays = replacementDays;
+      product.serviceDays = serviceDays;
+  
+      // Handle multiple image links
+      if (imgLink) {
+        product.imgLink = JSON.parse(imgLink); // Replace existing links
+      }
+  
+      // Handle variety
+      if (variety) {
+        try {
+          const parsedVariety = JSON.parse(variety);
+  
+          product.variety = parsedVariety;
+  
+          // Replace existing varieties
+        } catch (error) {
+          return res.status(400).send({ message: "Invalid variety format" });
+        }
+      }
+  
+      // Save updated product
+      await product.save();
+  
+      res.status(200).send({
+        success: true,
+        message: "Product updated successfully",
+        product,
+      });
+    } catch (error) {
+      // Log the error for debugging
+      res
+        .status(400)
+        .send({ message: "Something went wrong while updating the product" });
+    }
+  };
   
   export const deleteProduct = async (req, res) => {
     try {
