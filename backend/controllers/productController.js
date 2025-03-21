@@ -640,7 +640,8 @@ export const fetchAllProducts = async (req, res) => {
         price,
         stock,
         variety,
-        originalPrice 
+        originalPrice,
+        status
 
       } = req.body;
   
@@ -660,6 +661,9 @@ export const fetchAllProducts = async (req, res) => {
       }
       if (originalPrice) {
         newProduct.originalPrice = originalPrice;
+      }
+      if (status) {
+        newProduct.status = status;
       }
       if (variety) {
         try {

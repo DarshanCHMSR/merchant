@@ -28,7 +28,8 @@ const UpdateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [imageLinks, setImageLinks] = useState([""]);
   const [variety, setVariety] = useState([{ name: "", price: "",mrp:"" }]);
-
+  const [vendername,setVendername] = useState("");
+  const status = "0";
   var productImages = [];
 
   const auth = useSelector((state) => state.auth);
@@ -60,6 +61,7 @@ const UpdateProduct = () => {
       // productData.append("shipping", shipping);
       // productData.append("pid", id);
       productData.append("originalPrice", originalPrice);
+      productData.append("status", status);
       // productData.append("deliveryCharge", deliveryCharge);
 
       // Check if new images are uploaded
@@ -131,6 +133,7 @@ const UpdateProduct = () => {
           },
         }
       );
+      console.log(res.data.pd);
       setProduct(res.data.pd);
       setVariety(
         Array.isArray(res.data.pd.variety)
@@ -163,6 +166,7 @@ const oldstock = product.stock;
       setdeliveryCharge(product.deliveryCharge || "");
       setReturDays(product.returnDays || "");
       setReplacementDays(product.replacementDays || "");
+      setVendername(product.vendername || "");
 
       setPhoto(product.photo || null);
 
@@ -211,6 +215,25 @@ const oldstock = product.stock;
               value={id}
               onChange={(e) => setId(e.target.value)}
               disabled
+              name="product id"
+
+            />
+            <input
+              type="text"
+              className="form-control"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              name="product id"
+              style={{display:"none"}}
+            />
+             <input
+              type="text"
+              className="form-control"
+              value={vendername}
+              onChange={(e) => setVendername(e.target.value)}
+              name="VenderName"
+              style={{display:"none"}}
+
             />
           </div>
 
