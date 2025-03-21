@@ -119,6 +119,10 @@ const productSchema = mongoose.Schema(
       type:Number,
       default:0
     },
+    updated:{
+      type:Number,
+      default:0
+    },
 
     // * This is for storing the user ratings abour admin products.
 

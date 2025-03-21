@@ -16,6 +16,7 @@ const ProductList = () => {
     name: "",
     minPrice: "",
     maxPrice: "",
+    updated: false ,
     inStock: false,
     vendername:"",
     status:false,
@@ -86,9 +87,10 @@ const ProductList = () => {
       inStock: name === "inStock",
       status: name === "status",
       status2: name === "status2",
+      updated: name === "updated",
     }));
   };
-
+console.log(products)
   const filteredProducts = products.filter((item) => {
     const matchesName = item.name
     ? item.name.toLowerCase().includes(filter.name.toLowerCase())
@@ -99,13 +101,15 @@ const ProductList = () => {
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
       : true;
+      
     const matchesMaxPrice = filter.maxPrice
       ? item.price <= filter.maxPrice
       : true;
       const matchesStatus = filter.status ? item.status === 1 : true; 
       const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
+    const matchesUpdated = filter.updated ? item.updated === 1 : true; 
+    return matchesUpdated && matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
   });
 
 
@@ -166,6 +170,7 @@ const ProductList = () => {
                   onChange={handleFilterChange}
                 />
               </div>
+             
 
               <div className="col-md-4">
                 <input
@@ -227,6 +232,19 @@ const ProductList = () => {
                 Waiting
               </label>
             </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="updated"
+                name="updated"
+                checked={filter.updated}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status2">
+                updated
+              </label>
+            </div>
           </div>
 
           <div className="row">
@@ -276,7 +294,7 @@ const ProductList = () => {
                               </button>
                             </Link>
                             <div key={item._id}>
-          <h3 className="text-lg font-bold text-center">{product.name}</h3>
+          <h3 className="text-lg font-bold text-center">{products.name}</h3>
           <SetStatus productId={item._id} />
         </div>
                             

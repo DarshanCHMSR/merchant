@@ -25,7 +25,8 @@ export const createProduct= async (req, res) => {
           serviceDays,
           additionalDiscription,
           status,
-          vendername
+          vendername,
+          updated
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
           return res.status(401).send({
@@ -54,7 +55,8 @@ export const createProduct= async (req, res) => {
           serviceDays,
           user: req.user._id,
           status,
-          vendername,        
+          vendername, 
+          updated       
         });
     //      if (photo) {
     //   if (photo.size > 4000000) {
@@ -641,7 +643,8 @@ export const fetchAllProducts = async (req, res) => {
         stock,
         variety,
         originalPrice,
-        status
+        status,
+        updated
 
       } = req.body;
   
@@ -664,6 +667,9 @@ export const fetchAllProducts = async (req, res) => {
       }
       if (status) {
         newProduct.status = status;
+      }
+      if (updated) {
+        newProduct.updated = updated;
       }
       if (variety) {
         try {

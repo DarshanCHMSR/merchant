@@ -30,6 +30,7 @@ const UpdateProduct = () => {
   const [variety, setVariety] = useState([{ name: "", price: "",mrp:"" }]);
   const [vendername,setVendername] = useState("");
   const status = "0";
+  const updated=1;
   var productImages = [];
 
   const auth = useSelector((state) => state.auth);
@@ -58,10 +59,14 @@ const UpdateProduct = () => {
       productData.append("price", price);
       // productData.append("description", description);
       productData.append("stock", stock);
+
+
       // productData.append("shipping", shipping);
       // productData.append("pid", id);
       productData.append("originalPrice", originalPrice);
       productData.append("status", status);
+      productData.append("updated", updated);
+
       // productData.append("deliveryCharge", deliveryCharge);
 
       // Check if new images are uploaded
