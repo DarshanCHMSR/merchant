@@ -90,7 +90,6 @@ const ProductList = () => {
       updated: name === "updated",
     }));
   };
-console.log(products)
   const filteredProducts = products.filter((item) => {
     const matchesName = item.name
     ? item.name.toLowerCase().includes(filter.name.toLowerCase())
