@@ -31,7 +31,7 @@ const Merchant_Header = () => {
           className="navbar navbar-expand-lg navbar-light bg-white fixed-top mx-auto"
         >
           <div className="container-fluid">
-            <Link  className="navbar-brand text-primary" to={"/dashboard/merchant-info"}>  
+            <Link  className="navbar-brand text-primary" to={"/dashboard/merchant/product-list"}>  
               Valuekarts <small className="text-muted ms-2"> Logistics</small>
             </Link>
 
@@ -59,14 +59,14 @@ const Merchant_Header = () => {
                     Products
                   </Link>
                 </li>
-                {/* <li className="nav-item">
+                <li className="nav-item">
                   <Link
-                    to={"/dashboard/admin/category-list"}
+                    to={"/dashboard/merchant-info"}
                     className="nav-link text-black"
                   >
-                    Categories
+                    Contact-Info
                   </Link>
-                </li> */}
+                </li>
                 
                 
                 {/* <li className="nav-item">

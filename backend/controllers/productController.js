@@ -472,6 +472,29 @@ export const fetchAllProducts = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+  export const getUsersProduct = async (req, res) => {  
+    try {
+      const { user_id } = req.params; // Get user ID from URL
+  
+      // Validate if user_id is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+      const products = await Product.find({user:user_id});
+     
+      // Count total products where the user field matches the given user_id
+      const totalProducts = await Product.countDocuments({ user: user_id });
+  
+      res.status(200).json({
+        success: true,
+        totalProducts,
+        products
+      });
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
   
   export const getUserProducts = async (req, res) => {  
     try {

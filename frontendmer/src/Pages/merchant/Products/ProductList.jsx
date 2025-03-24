@@ -47,7 +47,7 @@ const ProductList = () => {
 
  const handleDownload = async () => {
     try {
-      const token = getAuthToken();
+      const token = getAuthToken();  
 
       const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`, { 
         headers: {

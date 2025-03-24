@@ -6,6 +6,8 @@ import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 
 const MerchantList = () => {
   const [loading, setLoading] = useState(false);
@@ -159,6 +161,7 @@ const MerchantList = () => {
                       <th>Delete Merchant</th>
                       <th>Merchant Products Number</th>
                       <th>Delete All Products</th>
+                      <th>Merchant Products view</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -209,6 +212,16 @@ const MerchantList = () => {
                           >
                             Delete All Products
                           </button>
+                        </td>
+                        <td>
+                                        <Link
+                                          to={`/dashboard/admin/product-list/${item._id}`}
+                          >
+                                          <button className="btn btn-success">
+                                            View Products
+                                          </button>
+                                         </Link>
+                                                        
                         </td>
                       </tr>
                     ))}
