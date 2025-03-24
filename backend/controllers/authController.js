@@ -457,3 +457,12 @@ export const getRateUserListController = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+export const getCustomUserId = async (req, res) => {
+    try {
+      const users = await userModel.find({}, "id").lean();
+      const ids = users.map((user) => user.id);
+      res.json({ success: true, data: ids });
+    } catch (error) {
+      res.status(500).send("Internal Server Error");
+    }
+  };

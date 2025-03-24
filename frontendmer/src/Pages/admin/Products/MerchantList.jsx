@@ -153,6 +153,7 @@ const MerchantList = () => {
                 <table className="table table-striped table-bordered">
                   <thead>
                     <tr>
+                      <th>Merchant ID</th>
                       <th>Merchant Name</th>
                       <th>Merchant Email</th>
                       <th>Merchant Phone</th>
@@ -162,11 +163,14 @@ const MerchantList = () => {
                       <th>Merchant Products Number</th>
                       <th>Delete All Products</th>
                       <th>Merchant Products view</th>
+                      <th>Waiting</th>
+                      <th>Approved</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredUsers.map((item) => (
                       <tr key={item._id}>
+                        <td>{item._id}</td>
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
@@ -223,6 +227,9 @@ const MerchantList = () => {
                                          </Link>
                                                         
                         </td>
+                        <td>
+                        </td>
+                        <td></td>
                       </tr>
                     ))}
                   </tbody>

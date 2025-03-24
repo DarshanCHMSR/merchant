@@ -11,7 +11,8 @@ import {
   getRateUserListController,
   getkUsers,
   deleteUser,
-  resetPasswordController
+  resetPasswordController,
+  getCustomUserId
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleWare.js";
 
@@ -52,5 +53,6 @@ router.get('/adminAuth' , requireSignin, isAdmin,(req,res) =>{
   res.status(200).send({ok:true})
 })
 
+router.get('/get-custom-user-id',getCustomUserId) 
 
 export default router;

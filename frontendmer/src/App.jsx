@@ -61,6 +61,7 @@ import RegistrationForm from "./Pages/RegistrationForm";
 import RegisterForm from "./Pages/RegisterForm";
 import Footer from "./Pages/Footer";
 import CreateMerchant from "./Pages/auth/CreateMerchant";
+import TermsAndConditions from "./Pages/TermsAndConditions";
 
 function App() {
   const dispatch = useDispatch();
@@ -228,6 +229,13 @@ function App() {
               path="/"
               element={
                 <Login />
+          
+              }
+            />
+            <Route
+              path="/terms-and-conditions"
+              element={
+                <TermsAndConditions />
           
               }
             />

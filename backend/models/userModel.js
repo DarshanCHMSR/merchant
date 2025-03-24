@@ -10,6 +10,10 @@ const userModel = new mongoose.Schema(
     email: {
       type: String,
     },
+    id:{
+      type: String,
+      unique:true
+    },
 
     emailPassword:{
       type: String,
