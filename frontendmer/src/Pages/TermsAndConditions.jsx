@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Container, Card, Form, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 
 const TermsAndConditions = () => {
   const [agreed, setAgreed] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (agreed) {
       alert("You have agreed to the Terms and Conditions.");
+      navigate("/dashboard/merchant");
     } else {
       alert("Please agree to the Terms and Conditions before submitting.");
     }
