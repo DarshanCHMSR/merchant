@@ -42,7 +42,7 @@ export default function SetStatus({ productId }) {
         { status ===0? (
           <p className="btn btn-danger">Waiting...</p>
         ) : (
-          <p className="btn btn-primary">Approved ✅</p>
+          <p className="btn btn-primary">Approved </p>
         )}
         
       </div>

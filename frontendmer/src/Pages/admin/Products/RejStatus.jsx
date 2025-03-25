@@ -36,7 +36,7 @@ export default function RejStatus({ productId }) {
       });
   };
   const OnClick = () => {
-    axios.put(`${url}/api/v2/products/set-product-rej-status/${productId}`, { status: 4 })
+    axios.put(`${url}/api/v2/products/set-product-rej-status/${productId}`, { rejReason: rejReason,status: 4 })
       .then(() => {
         setStatu(4); // Update UI after successful API call
       })
@@ -56,13 +56,14 @@ export default function RejStatus({ productId }) {
                               type="text"
                               className="form-control"
                               id="rejReason"
+                              aria-rowspan={2}
                               value={rejReason}
                               placeholder="Enter the reason for rejection"
                               onChange={(e) => setRejReason(e.target.value)}
                               disabled={status === 4}
                               required
                             />
-                            <label htmlFor="rejReason">Enter the reason for the rejection</label>
+                            <label htmlFor="rejReason">Reason</label>
                             <button
                             className="btn btn-primary"
                             onClick={OnClick}

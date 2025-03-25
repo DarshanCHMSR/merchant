@@ -259,6 +259,8 @@ const ProductList = () => {
                       <th>Price</th>
                       <th>Stock</th>
                       <th>Actions</th>
+                      <th>Approve</th>
+                      <th>Reject</th>
                       <th>Image</th>
                     </tr>
                   </thead>
@@ -293,16 +295,21 @@ const ProductList = () => {
                                 Update
                               </button>
                             </Link>
+                            
+              </div>
+                          
+                        </td>
+                        <td>
                             <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{products.name}</h3>
           <SetStatus productId={item._id} />
-        </div>               
+        </div></td> 
+        <td>             
                  <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{products.name}</h3>
           <RejStatus productId={item._id} />
-        </div>         </div>
-                          
-                        </td>
+        </div> 
+        </td>  
                         <td>
                         <div className="my-card-img-container">
             {item.imgLink && (
