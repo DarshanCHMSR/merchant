@@ -170,7 +170,7 @@ const MerchantList = () => {
                   <tbody>
                     {filteredUsers.map((item) => (
                       <tr key={item._id}>
-                        <td>{item._id}</td>
+                        <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>

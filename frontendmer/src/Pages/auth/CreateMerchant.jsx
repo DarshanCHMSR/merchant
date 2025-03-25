@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../Components/Loading/Loader";
@@ -64,6 +64,7 @@ const [Longitude, setLongitude] = useState("");
 
     try {
       const res = await axios.post(`${url}/api/v2/auth/register`, {
+        id,
         name: Name,
         email: mail,
         emailPassword,
@@ -94,6 +95,7 @@ const [Longitude, setLongitude] = useState("");
         setShop("");
         setOtp("");
         setAddress("");
+        setId("");
         toast.success(res.data.message);
         dispatch(
           setAuth({   
@@ -207,10 +209,12 @@ const [Longitude, setLongitude] = useState("");
           error: null,
         });
       }};
-
+ useEffect(() => {
+    getcustomIDs();
+  }, []);
       const getcustomIDs = async () => {
         try {
-          const res = await axios.get(`${url}/api/v2/products/get-customid`, {
+          const res = await axios.get(`${url}/api/v2/auth/get-custom-user-id`, {
             headers: {
               Authorization: auth.token,
             },
@@ -315,8 +319,7 @@ const [Longitude, setLongitude] = useState("");
               value={id}
               onChange={(e) => setId(e.target.value)}
             />
-
-            <button className={`btn btn-primary mt-3 text-white ${isidgenerated ? "disabled" : ""}`} onClick={generateId}>{loading ? "Loading..." : "Generate ID"}</button>
+            <button type="button"  className={`btn btn-primary mt-3 text-white ${isidgenerated ? "disabled" : ""}`} onClick={generateId}>{loading ? "Loading..." : "Generate ID"}</button>
           </div>
                         <div className="form-floating mb-3">
                           <input
