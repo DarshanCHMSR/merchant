@@ -7,6 +7,7 @@ import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
 import ReactPaginate from 'react-paginate';
+import RejStatus from "../../admin/Products/RejStatus";
 
 
 const ProductList = () => {
@@ -99,7 +100,7 @@ const ProductList = () => {
     : false;
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
-      : true;
+      : true;  
       
     const matchesMaxPrice = filter.maxPrice
       ? item.price <= filter.maxPrice
@@ -295,9 +296,11 @@ const ProductList = () => {
                             <div key={item._id}>
           <h3 className="text-lg font-bold text-center">{products.name}</h3>
           <SetStatus productId={item._id} />
-        </div>
-                            
-                          </div>
+        </div>               
+                 <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{products.name}</h3>
+          <RejStatus productId={item._id} />
+        </div>         </div>
                           
                         </td>
                         <td>

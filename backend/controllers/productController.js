@@ -26,7 +26,8 @@ export const createProduct= async (req, res) => {
           additionalDiscription,
           status,
           vendername,
-          updated
+          updated,
+
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
           return res.status(401).send({
@@ -56,7 +57,8 @@ export const createProduct= async (req, res) => {
           user: req.user._id,
           status,
           vendername, 
-          updated       
+          updated,
+          rejReason: "",       
         });
     //      if (photo) {
     //   if (photo.size > 4000000) {
@@ -127,6 +129,7 @@ export const createProduct= async (req, res) => {
         const savedNote = await product.save();
         res.json(savedNote);
       } catch (error) {
+        
         res.status(500).send("Internal server error");
         
       }
@@ -619,8 +622,32 @@ export const fetchAllProducts = async (req, res) => {
   
       // Find and update the product status
       const updatedProduct = await Product.findByIdAndUpdate(
-        id,
+        id, 
         { status },
+        { new: true } // Returns the updated product
+      );
+  
+      if (!updatedProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+  
+      res.json(updatedProduct);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+  
+  export const setProductRejStatus=async (req, res) => {
+    try {
+      const { id } = req.params; // Get product ID from URL
+      const { rejReason ,status} = req.body; // Get status from request body
+  
+      // Find and update the product status
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id, 
+        { rejReason },
+        {status},
         { new: true } // Returns the updated product
       );
   

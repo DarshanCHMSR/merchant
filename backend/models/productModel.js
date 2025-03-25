@@ -105,6 +105,7 @@ const productSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    //vender name
     vendername:{
       type: String,
      },
@@ -118,6 +119,10 @@ const productSchema = mongoose.Schema(
     status:{
       type:Number,
       default:0
+    },
+    rejReason:{
+      type:String,
+      default:""
     },
     updated:{
       type:Number,
