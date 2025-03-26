@@ -311,61 +311,21 @@ export const getUserController = async (req, res) => {
 // * This function will update the user data
 export const updateProfileController = async (req, res) => {
   try {
-    const { name, email, password, emailPassword, phone, address, altPhone , cordinates } =
-      req.body;
-
+    const { accountNumber,ifscCode,bankName } =
+      req.body
       
-    const user = await userModel.findById(req.user._id).lean();
+    const user = await userModel.findById(req.user._id);
 
-    if (name) {
-      user.name = name;
-    }
-    if (email) {
-      let existingUser = await userModel.findOne({ email }).lean();
+    
 
-      if (
-        existingUser &&
-        existingUser._id.toString() !== req.user._id.toString()
-      ) {
-        return res.status(400).send({
-          success: false,
-          message: "This email is already registered",
-        });
-      } else {
-        user.email = email;
-      }
+    if (accountNumber) { 
+      user.accountNumber = accountNumber;
     }
-
-    if (emailPassword) {
-      const hashedEmailPass = await hashPassword(emailPassword);
-      user.emailPassword = hashedEmailPass;
+    if (ifscCode) { 
+      user.ifscCode = ifscCode;
     }
-    if (address) {
-      user.address = address;
-    }
-    if (phone) {
-      const existingUser = await userModel.findOne({ phone }).lean();
-      if (
-        existingUser &&
-        existingUser._id.toString() !== req.user._id.toString()
-      ) {
-        return res.status(400).send({
-          success: false,
-          message: "This phone number is already registered",
-        });
-      } else {
-        user.phone = phone;
-      }
-    }
-
-
-    if(cordinates){
-      user.location.latitude = cordinates.latitude;
-      user.location.longitude = cordinates.longitude;
-    }
-
-    if (altPhone) {
-      user.altPhone = altPhone;
+    if (bankName) { 
+      user.bankName = bankName;
     }
 
     await user.save();
@@ -376,6 +336,7 @@ export const updateProfileController = async (req, res) => {
       user,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       success: false,
       message: "internal server error",

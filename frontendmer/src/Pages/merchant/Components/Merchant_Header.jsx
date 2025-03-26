@@ -67,6 +67,15 @@ const Merchant_Header = () => {
                     Contact-Info
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link
+                    to={"/dashboard/merchant-bank-info"}
+                    className="nav-link text-black"
+                  >
+                    Bank-Details
+                  </Link>
+                </li>
+                
                 
                 
                 {/* <li className="nav-item">
