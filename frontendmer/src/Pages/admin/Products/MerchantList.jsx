@@ -17,6 +17,8 @@ const MerchantList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const usersPerPage = 20;
   const [productCounts, setProductCounts] = useState({}); // Store total products for each user
+  const [waitingCounts, setWaitingCounts] = useState({}); // Store total products for each user
+  const [approvedCounts, setApprovedCounts] = useState({}); // Store total products for each user
 
   useEffect(() => {
     fetchUsers();
@@ -35,6 +37,8 @@ const MerchantList = () => {
 
       // Fetch total products for each user after getting users
       res.data.users.forEach((user) => fetchTotalProducts(user._id));
+      res.data.users.forEach((user) => fetchTotalWaitingProducts(user._id));
+      res.data.users.forEach((user) => fetchTotalApprovedProducts(user._id));
       
       setLoading(false);
     } catch (error) {
@@ -85,6 +89,28 @@ const MerchantList = () => {
       }));
     } catch (error) {
       console.error("Error fetching total products:", error);
+    }
+  };
+  const fetchTotalWaitingProducts = async (userId) => {
+    try {
+      const res = await axios.get(`${url}/api/v2/products/get-products-waiting/${userId}`);
+      setWaitingCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProducts, // Store count per user ID
+      }));
+    } catch (error) {
+      console.error("Error fetching total waiting products:", error);
+    }
+  };
+  const fetchTotalApprovedProducts = async (userId) => {
+    try {
+      const res = await axios.get(`${url}/api/v2/products/get-products-approved/${userId}`);
+      setApprovedCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProducts, // Store count per user ID
+      }));
+    } catch (error) {
+      console.error("Error fetching total approved products:", error);
     }
   };
 
@@ -228,12 +254,17 @@ const MerchantList = () => {
                                             View Products
                                           </button>
                                          </Link>
-                                                        
                         </td>
                         <td>
+                          {waitingCounts[item._id] !== undefined
+                            ? waitingCounts[item._id]
+                            : "Loading..."}
                         </td>
-                        <td></td>
-                        <td>{item.bankName}</td>
+                        <td>
+                          {approvedCounts[item._id] !== undefined
+                            ? approvedCounts[item._id]
+                            : "Loading..."}
+                        </td>                        <td>{item.bankName}</td>
                         <td>{item.accountNumber}</td> 
                         <td>{item.ifscCode}</td>
                       </tr>

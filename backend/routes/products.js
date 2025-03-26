@@ -7,7 +7,7 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,getProductsWaiting,getProductsApproved,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -22,6 +22,8 @@ router.get("/vendors/search/:query", searchVendors);
 // * for fetching the user products
 router.get("/fetch", requireSignin, getUserProducts);
 router.get("/fetchtotal/:user_id", getUserTotalProducts);
+router.get("/get-products-waiting/:user_id", getProductsWaiting);
+router.get("/get-products-approved/:user_id", getProductsApproved);
 router.delete("/delete-user-products/:user_id", deleteUserProducts);
 router.get("/get-users-product/:user_id", getUsersProduct); 
 
