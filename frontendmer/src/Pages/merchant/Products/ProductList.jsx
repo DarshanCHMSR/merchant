@@ -19,6 +19,7 @@ const ProductList = () => {
     minPrice: "",
     maxPrice: "",
     inStock: false,
+    none: false,
     status: false,
     status2: false,
   });
@@ -113,6 +114,10 @@ const ProductList = () => {
     setFilter((prev) => ({
       ...prev,  
       [name]: type === "checkbox" ? checked : value,
+      inStock: name === "inStock",
+      status: name === "status",
+      status2: name === "status2",
+      none: name === "none",
     }));
 };
 
@@ -211,6 +216,7 @@ const filteredProducts = products.filter((item) => {
                 In Stock Only
               </label>
             </div>
+           
             <div className="form-check mt-3">
               <input
                 type="checkbox"
@@ -235,6 +241,19 @@ const filteredProducts = products.filter((item) => {
               />
               <label className="form-check-label" htmlFor="status2">
                 Waiting
+              </label>
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="none"
+                name="none"
+                checked={filter.none}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="inStock">
+                None
               </label>
             </div>
           </div>

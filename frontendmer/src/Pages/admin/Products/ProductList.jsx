@@ -18,6 +18,7 @@ const ProductList = () => {
     minPrice: "",
     maxPrice: "",
     updated: false ,
+    none:false,
     inStock: false,
     vendername:"",
     status:false,
@@ -89,6 +90,7 @@ const ProductList = () => {
       status: name === "status",
       status2: name === "status2",
       updated: name === "updated",
+      none: name === "none",
     }));
   };
   const filteredProducts = products.filter((item) => {
@@ -244,6 +246,22 @@ const ProductList = () => {
               <label className="form-check-label" htmlFor="status2">
                 updated
               </label>
+              
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="none"
+                name="none"
+                checked={filter.none}
+                onChange={handleFilterChange}
+               
+              />
+              <label className="form-check-label" htmlFor="status2">
+                NONE
+              </label>
+              
             </div>
           </div>
 
