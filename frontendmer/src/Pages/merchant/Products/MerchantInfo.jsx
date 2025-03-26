@@ -20,6 +20,7 @@ const MerchantInfo = () => {
         const parsedData = JSON.parse(authData); // Convert JSON string back to object
     const [totalProducts, setTotalProducts] = useState(0);
     
+    console.log(parsedData.user);
     useEffect(() => {
         const fetchTotalProducts = async () => {
           try {
@@ -64,9 +65,9 @@ const MerchantInfo = () => {
             <p>Total products : {totalProducts }</p>
             <br></br>
             <h2>Bank Details</h2>
-            <p>Bank Name:</p>
-            <p>Bank Account Number:</p>
-            <p>IFSC Code:</p>
+            <p>Bank Name:  {parsedData.user.bankName }</p>
+            <p>Bank Account Number:  {parsedData.user.accountNumber }</p>
+            <p>IFSC Code:  {parsedData.user.ifscCode }</p>
 
 
         </div>

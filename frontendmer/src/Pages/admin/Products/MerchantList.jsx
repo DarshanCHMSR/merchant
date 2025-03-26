@@ -165,6 +165,9 @@ const MerchantList = () => {
                       <th>Merchant Products view</th>
                       <th>Waiting</th>
                       <th>Approved</th>
+                      <th>Bank Name</th>
+                      <th>Account Number</th>
+                      <th>Ifsc Code</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -230,6 +233,9 @@ const MerchantList = () => {
                         <td>
                         </td>
                         <td></td>
+                        <td>{item.bankName}</td>
+                        <td>{item.accountNumber}</td> 
+                        <td>{item.ifscCode}</td>
                       </tr>
                     ))}
                   </tbody>

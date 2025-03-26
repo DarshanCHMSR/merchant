@@ -149,6 +149,15 @@ export const loginController = async (req, res) => {
         altPhone: user.altPhone,
         location: user.location,
         cart: user.cart,
+        gst: user.gst,
+        shop: user.shop,
+        Latitude: user.Latitude,
+        Longitude: user.Longitude,
+        address: user.address,
+        id:user.id,
+        accountNumber:user.accountNumber,
+        ifscCode:user.ifscCode,
+        bankName:user.bankName
       },   
       token,
     }); 

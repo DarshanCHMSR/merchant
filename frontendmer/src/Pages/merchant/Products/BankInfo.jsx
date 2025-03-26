@@ -21,10 +21,8 @@ const BankInfo = () => {
       const authData = localStorage.getItem("auth-Data");
         if (!authData) return null; // Return null if no data is found
         const parsedData = JSON.parse(authData); // Convert JSON string back to object
-    console.log(parsedData.user._id);
     const id = parsedData.user._id;
     const token = parsedData.token;
-    console.log(token);
       const bankOptions = [
         "Select Bank",
         "HDFC Bank",
@@ -55,7 +53,6 @@ const BankInfo = () => {
                 },
             }
         );
-            // console.log(res.data);
       
             if (res.data.success) {
              setFormData({
@@ -64,7 +61,8 @@ const BankInfo = () => {
                 bankName: "",
                 });
               toast.success(res.data.message);
-              
+              localStorage.setItem("auth-Data", JSON.stringify(res.data));
+
       
             } else {
               // alert(res.data.message);
@@ -73,7 +71,6 @@ const BankInfo = () => {
           } catch (error) {
 
           }
-        console.log("Form Data:", formData);
         alert("Bank Details Submitted!");
       };
     
