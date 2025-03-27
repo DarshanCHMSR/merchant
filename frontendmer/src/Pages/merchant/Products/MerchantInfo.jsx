@@ -65,9 +65,11 @@ const MerchantInfo = () => {
             <p>Total products : {totalProducts }</p>
             <br></br>
             <h2>Bank Details</h2>
-            <p>Bank Name:  {parsedData.user.bankName }</p>
+            <p>Account Holder Name:  {parsedData.user.userName }</p>
             <p>Bank Account Number:  {parsedData.user.accountNumber }</p>
             <p>IFSC Code:  {parsedData.user.ifscCode }</p>
+            <p>Bank Name:  {parsedData.user.bankName }</p>
+
 
 
         </div>

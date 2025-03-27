@@ -56,6 +56,10 @@ const userModel = new mongoose.Schema(
     },
 
     // * this is for the user bank details
+    userName:{
+      type: String,
+
+    },
     accountNumber:{ 
       type: Number,
     },
@@ -65,6 +69,10 @@ const userModel = new mongoose.Schema(
     bankName:{
       type: String,
     },
+    coifscCode:{
+      type: String,
+    },
+
 
   },
   { timestamps: true }

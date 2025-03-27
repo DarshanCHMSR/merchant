@@ -17,6 +17,8 @@ const BankInfo = () => {
         accountNumber: "",
         ifscCode: "",
         bankName: "",
+        userName: "",
+        coifscCode: "",
       });
       const authData = localStorage.getItem("auth-Data");
         if (!authData) return null; // Return null if no data is found
@@ -25,12 +27,39 @@ const BankInfo = () => {
     const token = parsedData.token;
       const bankOptions = [
         "Select Bank",
+        //"Public Sector Banks",
+        "State Bank of India",
+        "Punjab National Bank",
+        "Bank of Baroda",
+        "Canara Bank",
+        "Union Bank of India",
+        "Bank of India",
+        "Indian Bank",
+        "Central Bank of India",
+        "UCO Bank",
+        "Bank of Maharashtra",
+        "Indian Overseas Bank",
+        "Punjab & Sind Bank",
+        //"Private Sector Banks",
         "HDFC Bank",
         "ICICI Bank",
-        "State Bank of India",
         "Axis Bank",
-        "Punjab National Bank",
         "Kotak Mahindra Bank",
+        "IndusInd Bank",
+        "Yes Bank",
+        "Federal Bank",
+        "South Indian Bank",
+        "IDFC FIRST Bank",
+        "RBL Bank",
+        "Bandhan Bank",
+        "Tamilnad Mercantile Bank",
+        "Karnataka Bank",
+        "DCB Bank",
+        "City Union Bank",
+        "Karur Vysya Bank",
+        "Nainital Bank",
+        
+
       ];
     
       const handleChange = (e) => {
@@ -39,12 +68,18 @@ const BankInfo = () => {
     
       const handleSubmit = async (e) => {
         e.preventDefault();
+        if(formData.ifscCode !== formData.coifscCode){
+            alert("IFSC Code does not match");
+            return;
+        }
         try {
             const res = await axios.put(`${url}/api/v2/auth/update-user/${id}`, {
                 
                 accountNumber: formData.accountNumber,
                 ifscCode: formData.ifscCode,
                 bankName: formData.bankName,
+                userName: formData.userName,
+                coifscCode: formData.coifscCode,
             },
             {
                 headers: {
@@ -59,6 +94,8 @@ const BankInfo = () => {
                 accountNumber: "",
                 ifscCode: "",
                 bankName: "",
+                userName: "",
+                coifscCode: "",
                 });
               toast.success(res.data.message);
               localStorage.setItem("auth-Data", JSON.stringify(res.data));
@@ -87,6 +124,18 @@ const BankInfo = () => {
       <div className="card shadow p-4">
         <h2 className="text-center mb-4">Enter Bank Details</h2>
         <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+            <label className="form-label">User Name as in account</label>
+            <input
+              type="text"
+              name="userName"
+              value={formData.userName}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Enter user name"
+              required
+            />
+          </div>
           <div className="mb-3">
             <label className="form-label">Account Number</label>
             <input
@@ -109,6 +158,18 @@ const BankInfo = () => {
               onChange={handleChange}
               className="form-control"
               placeholder="Enter IFSC Code"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Confirm IFSC Code</label>
+            <input
+              type="text"
+              name="coifscCode"
+              value={formData.coifscCode}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Renter IFSC Code"
               required
             />
           </div>
