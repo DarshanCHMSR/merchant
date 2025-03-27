@@ -18,7 +18,7 @@ const BankInfo = () => {
         ifscCode: "",
         bankName: "",
         userName: "",
-        coifscCode: "",
+        coAccountNumber: "",
       });
       const authData = localStorage.getItem("auth-Data");
         if (!authData) return null; // Return null if no data is found
@@ -68,8 +68,8 @@ const BankInfo = () => {
     
       const handleSubmit = async (e) => {
         e.preventDefault();
-        if(formData.ifscCode !== formData.coifscCode){
-            alert("IFSC Code does not match");
+        if(formData.accountNumber !== formData.coAccountNumber){
+            alert("Account Number does not match");
             return;
         }
         try {
@@ -79,7 +79,7 @@ const BankInfo = () => {
                 ifscCode: formData.ifscCode,
                 bankName: formData.bankName,
                 userName: formData.userName,
-                coifscCode: formData.coifscCode,
+                coAccountNumber: formData.coAccountNumber,
             },
             {
                 headers: {
@@ -95,7 +95,7 @@ const BankInfo = () => {
                 ifscCode: "",
                 bankName: "",
                 userName: "",
-                coifscCode: "",
+                coAccountNumber: "",
                 });
               toast.success(res.data.message);
               localStorage.setItem("auth-Data", JSON.stringify(res.data));
@@ -148,6 +148,18 @@ const BankInfo = () => {
               required
             />
           </div>
+          <div className="mb-3">
+            <label className="form-label">Confirm Account Number</label>
+            <input
+              type="text"
+              name="coAccountNumber"
+              value={formData.coAccountNumber}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="Renter Account Number"
+              required
+            />
+          </div>
 
           <div className="mb-3">
             <label className="form-label">IFSC Code</label>
@@ -161,18 +173,7 @@ const BankInfo = () => {
               required
             />
           </div>
-          <div className="mb-3">
-            <label className="form-label">Confirm IFSC Code</label>
-            <input
-              type="text"
-              name="coifscCode"
-              value={formData.coifscCode}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Renter IFSC Code"
-              required
-            />
-          </div>
+          
 
           <div className="mb-3">
             <label className="form-label">Bank Name</label>

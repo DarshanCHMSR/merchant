@@ -7,7 +7,7 @@ import axios from "axios";
 const JWT_SECRET = "asdfghjkl12345678";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName,userName,coifscCode } = req.body;
+    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName,userName,coAccountNumber } = req.body;
 
     // if ((!phone || !email) && !name) {
     //   return res.send({ message: "All fields are required" });
@@ -49,7 +49,7 @@ export const registerController = async (req, res) => {
     ifscCode,
     bankName,
     userName,
-    coifscCode
+    coAccountNumber
     });
     // * Registering the user
 // console.log("user ",user.Latitude)
@@ -94,7 +94,7 @@ export const registerController = async (req, res) => {
         ifscCode:user.ifscCode,
         bankName:user.bankName,
         userName:user.userName,
-        coifscCode:user.coifscCode
+        coAccountNumber:user.coAccountNumber
       },
 
       token,
@@ -163,7 +163,7 @@ export const loginController = async (req, res) => {
         ifscCode:user.ifscCode,
         bankName:user.bankName,
         userName:user.userName,
-        coifscCode:user.coifscCode
+        coAccountNumber:user.coAccountNumber
       },   
       token,
     }); 
@@ -326,11 +326,11 @@ export const getUserController = async (req, res) => {
 // * This function will update the user data
 export const updateProfileController = async (req, res) => {
   try {
-    const { accountNumber,ifscCode,bankName,userName,coifscCode } =
+    const { accountNumber,ifscCode,bankName,userName,coAccountNumber } =
       req.body
       
     const user = await userModel.findById(req.user._id);
-    if(ifscCode !== coifscCode){
+    if(accountNumber !== coAccountNumber){
       return res.status(400).send({
         success: false,
         message: "IFSC Code does not match",
@@ -350,8 +350,8 @@ export const updateProfileController = async (req, res) => {
     if(userName){
       user.userName = userName;
     }
-    if(coifscCode){
-      user.coifscCode = coifscCode;
+    if(coAccountNumber){
+      user.coAccountNumber = coAccountNumber;
     }
 
     await user.save();

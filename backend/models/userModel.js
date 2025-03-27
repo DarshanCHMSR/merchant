@@ -65,12 +65,14 @@ const userModel = new mongoose.Schema(
     },
     ifscCode:{
       type: String,
+
     },
     bankName:{
       type: String,
     },
-    coifscCode:{
+    coAccountNumber:{
       type: String,
+      required: true
     },
 
 
