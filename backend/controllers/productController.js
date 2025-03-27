@@ -404,9 +404,9 @@ export const createProduct= async (req, res) => {
     };
 export const fetchAllProducts = async (req, res) => {
     try {
-      const notes = await Product.find();
+      const products = await Product.find();
    
-      res.json(notes);
+      res.json(products);
     } catch (error) {
       res.status(500).send("Internal server error");
     }
@@ -452,6 +452,27 @@ export const fetchAllProducts = async (req, res) => {
      console.log("CSV file successfully created.");
     } catch (error) {
       res.status(500).send("Internal server error");
+    }
+  };
+  export const viewUserProducts = async (req, res) => {  
+    try {
+      const { user_id } = req.params; // Get user ID from URL
+  
+      // Validate if user_id is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+  const query = { user: user_id };
+      const products = await Product.find(query);
+
+  
+      res.status(200).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
   };
   export const getUserTotalProducts = async (req, res) => {  
@@ -589,22 +610,7 @@ export const fetchAllProducts = async (req, res) => {
   export const getProducts = async (req, res) => {
     try {
       const products = await Product.find({}).sort({ createdAt: -1 }).lean();
-  
-      // Sorting products based on the custom ID (VK-001, VK-002, etc.)
-      // products.sort((a, b) => {
-      //   // Check if productId exists and has the expected format
-      //   if (a.id && b.id) {
-      //     console.log();
-      //     const aId = parseInt(a.id.substring(3), 10); // Extract numeric part from VK-001
-      //     const bId = parseInt(b.id.substring(3), 10);
-  
-      //     // Ensure parseInt successfully converted the string to a number
-      //     if (!isNaN(aId) && !isNaN(bId)) {
-      //       return aId - bId; // Sort in ascending order by numeric part of productId
-      //     }
-      //   }
-      //   return 0; // If productId is missing or not in the correct format, don't change their order
-      // });
+
   
       const outofstock = await Product.find({ stock: { $lt: 15 } }).lean();
   
@@ -1007,6 +1013,31 @@ export const fetchAllProducts = async (req, res) => {
       res.json(products);
     } catch (error) {
       res.status(500).json({ message: "Server Error" });
+    }
+  };
+  export const getkProductsView = async (req, res) => {
+    const { page = 1, limit = 10, category } = req.query;
+  
+    const pageNumber = Math.max(1, Number(page));
+    const limitNumber = Math.min(Math.max(1, Number(limit)), 100);
+    const { user_id } = req.params; // Get user ID from URL
+
+  const query1 = { user: user_id };
+    try {
+      const products = await Product
+        .find(query1)
+        
+      const totalProducts = await Product.countDocuments(query1);
+  
+      res.json({
+        products,
+        totalProducts,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalProducts / limitNumber),
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
     }
   };
   

@@ -14,7 +14,7 @@ const ProductList = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
-    name: "",
+    name: "", 
     minPrice: "",
     maxPrice: "",
     updated: false ,

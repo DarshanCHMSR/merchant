@@ -250,8 +250,8 @@ const MerchantList = () => {
                                         <Link
                                           to={`/dashboard/admin/product-list/${item._id}`}
                           >
-                                          <button className="btn btn-success">
-                                            View Products
+                                            <button className="btn btn-success">
+                                              View Products
                                           </button>
                                          </Link>
                         </td>
