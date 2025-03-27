@@ -27,8 +27,10 @@ const UpdateProduct = () => {
   const [replacementDays, setReplacementDays] = useState("");
   const [shipping, setShipping] = useState("");
   const [imageLinks, setImageLinks] = useState([""]);
-  const [variety, setVariety] = useState([{ name: "", price: "" }]);
-
+  const [variety, setVariety] = useState([{ name: "", price: "",mrp:"" }]);
+  const [vendername,setVendername] = useState("");
+  const status = "0";
+  const updated=1;
   var productImages = [];
 
   const auth = useSelector((state) => state.auth);
@@ -57,9 +59,14 @@ const UpdateProduct = () => {
       productData.append("price", price);
       // productData.append("description", description);
       productData.append("stock", stock);
+
+
       // productData.append("shipping", shipping);
       // productData.append("pid", id);
       productData.append("originalPrice", originalPrice);
+      productData.append("status", status);
+      productData.append("updated", updated);
+
       // productData.append("deliveryCharge", deliveryCharge);
 
       // Check if new images are uploaded
@@ -74,7 +81,7 @@ const UpdateProduct = () => {
       //   productData.append("imgLink", JSON.stringify(existingImageLinks));
       // }
 
-      // productData.append("variety", JSON.stringify(variety));
+      productData.append("variety", JSON.stringify(variety));
       // productData.append("returnDays", returDays);
       // productData.append("replacementDays", replacementDays);
 
@@ -131,11 +138,12 @@ const UpdateProduct = () => {
           },
         }
       );
+      console.log(res.data.pd);
       setProduct(res.data.pd);
       setVariety(
         Array.isArray(res.data.pd.variety)
           ? res.data.pd.variety
-          : [{ name: "", price: "" }]
+          : [{ name: "", price: "",mrp:"" }]
       );
     } catch (error) {
       console.log(error);
@@ -163,13 +171,14 @@ const oldstock = product.stock;
       setdeliveryCharge(product.deliveryCharge || "");
       setReturDays(product.returnDays || "");
       setReplacementDays(product.replacementDays || "");
+      setVendername(product.vendername || "");
 
       setPhoto(product.photo || null);
 
       setVariety(
         Array.isArray(product.variety)
           ? product.variety
-          : [{ name: "", price: "" }]
+          : [{ name: "", price: "",mrp:"" }]
       );
     }
   }, [product]);
@@ -181,7 +190,7 @@ const oldstock = product.stock;
   };
 
   const addVarietyField = () => {
-    setVariety([...variety, { name: "", price: "" }]);
+    setVariety([...variety, { name: "", price: "",mrp:"" }]);
   };
 
   const removeVarietyField = (index) => {
@@ -211,6 +220,25 @@ const oldstock = product.stock;
               value={id}
               onChange={(e) => setId(e.target.value)}
               disabled
+              name="product id"
+
+            />
+            <input
+              type="text"
+              className="form-control"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              name="product id"
+              style={{display:"none"}}
+            />
+             <input
+              type="text"
+              className="form-control"
+              value={vendername}
+              onChange={(e) => setVendername(e.target.value)}
+              name="VenderName"
+              style={{display:"none"}}
+
             />
           </div>
 
@@ -359,15 +387,60 @@ const oldstock = product.stock;
                   type="text"
                   className="form-control me-2"
                   value={item.name}
+                  style={{display:"none"}}
+                  name="old variety name"
                   onChange={(e) =>
                     handleVarietyChange(index, "name", e.target.value)
                   }
                   placeholder={`Variety Name ${index + 1}`}
                 />
                 <input
+                  type="text"
+                  className="form-control me-2"
+                  value={item.name}
+                  name="new variety name"
+                  onChange={(e) =>
+                    handleVarietyChange(index, "name", e.target.value)
+                  }
+                  placeholder={`Variety Name ${index + 1}`}
+                />
+                 <input
+                  type="text"
+                  className="form-control me-2"
+                  value={item.mrp}
+                  style={{display:"none"}}
+                  name="old variety mrp"
+                  onChange={(e) =>
+                    handleVarietyChange(index, "mrp", e.target.value)
+                  }
+                  placeholder={`Variety MRP ${index + 1}`}
+                />
+                <input
+                  type="text"
+                  className="form-control me-2"
+                  value={item.mrp}
+                  name="new variety mrp"
+                  onChange={(e) =>
+                    handleVarietyChange(index, "mrp", e.target.value)
+                  }
+                  placeholder={`Variety Mrp ${index + 1}`}
+                />
+                <input
                   type="number"
                   className="form-control me-2"
                   value={item.price}
+                  style={{display:"none"}}
+                  name="old variety price"
+                  onChange={(e) =>
+                    handleVarietyChange(index, "price", e.target.value)
+                  }
+                  placeholder={`Variety Price ${index + 1}`}
+                />
+                <input
+                  type="number"
+                  className="form-control me-2"
+                  value={item.price}
+                  name="new variety price"
                   onChange={(e) =>
                     handleVarietyChange(index, "price", e.target.value)
                   }

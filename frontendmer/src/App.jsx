@@ -61,6 +61,8 @@ import RegistrationForm from "./Pages/RegistrationForm";
 import RegisterForm from "./Pages/RegisterForm";
 import Footer from "./Pages/Footer";
 import CreateMerchant from "./Pages/auth/CreateMerchant";
+import TermsAndConditions from "./Pages/TermsAndConditions";
+import BankInfo from "./Pages/merchant/Products/BankInfo";
 
 function App() {
   const dispatch = useDispatch();
@@ -177,6 +179,8 @@ function App() {
 <Route path="dashboard" >
               <Route path="merchant" element={<ProductListMerchant />} />
               <Route path="merchant-info" element={<MerchantInfo />} />
+              <Route path="merchant-bank-info" element={<BankInfo />} />
+
               <Route
                 path="merchant/search-products/:searchValue"
                 element={<AdminSearchPageMerchant />}
@@ -228,6 +232,13 @@ function App() {
               path="/"
               element={
                 <Login />
+          
+              }
+            />
+            <Route
+              path="/terms-and-conditions"
+              element={
+                <TermsAndConditions />
           
               }
             />

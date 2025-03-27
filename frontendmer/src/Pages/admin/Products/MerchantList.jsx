@@ -6,6 +6,8 @@ import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 
 const MerchantList = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +17,8 @@ const MerchantList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const usersPerPage = 20;
   const [productCounts, setProductCounts] = useState({}); // Store total products for each user
+  const [waitingCounts, setWaitingCounts] = useState({}); // Store total products for each user
+  const [approvedCounts, setApprovedCounts] = useState({}); // Store total products for each user
 
   useEffect(() => {
     fetchUsers();
@@ -33,6 +37,8 @@ const MerchantList = () => {
 
       // Fetch total products for each user after getting users
       res.data.users.forEach((user) => fetchTotalProducts(user._id));
+      res.data.users.forEach((user) => fetchTotalWaitingProducts(user._id));
+      res.data.users.forEach((user) => fetchTotalApprovedProducts(user._id));
       
       setLoading(false);
     } catch (error) {
@@ -62,7 +68,7 @@ const MerchantList = () => {
     ? item.shop.toLowerCase().includes(filter.shop.toLowerCase())
     : false;
     return matchesName || matchesName2;
-  });
+  });  
 
   const auth = useSelector((state) => state.auth);
   const getAuthToken = () => {
@@ -83,6 +89,28 @@ const MerchantList = () => {
       }));
     } catch (error) {
       console.error("Error fetching total products:", error);
+    }
+  };
+  const fetchTotalWaitingProducts = async (userId) => {
+    try {
+      const res = await axios.get(`${url}/api/v2/products/get-products-waiting/${userId}`);
+      setWaitingCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProducts, // Store count per user ID
+      }));
+    } catch (error) {
+      console.error("Error fetching total waiting products:", error);
+    }
+  };
+  const fetchTotalApprovedProducts = async (userId) => {
+    try {
+      const res = await axios.get(`${url}/api/v2/products/get-products-approved/${userId}`);
+      setApprovedCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProducts, // Store count per user ID
+      }));
+    } catch (error) {
+      console.error("Error fetching total approved products:", error);
     }
   };
 
@@ -151,6 +179,7 @@ const MerchantList = () => {
                 <table className="table table-striped table-bordered">
                   <thead>
                     <tr>
+                      <th>Merchant ID</th>
                       <th>Merchant Name</th>
                       <th>Merchant Email</th>
                       <th>Merchant Phone</th>
@@ -159,11 +188,18 @@ const MerchantList = () => {
                       <th>Delete Merchant</th>
                       <th>Merchant Products Number</th>
                       <th>Delete All Products</th>
+                      <th>Merchant Products view</th>
+                      <th>Waiting</th>
+                      <th>Approved</th>
+                      <th>Bank Name</th>
+                      <th>Account Number</th>
+                      <th>Ifsc Code</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredUsers.map((item) => (
                       <tr key={item._id}>
+                        <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
@@ -210,6 +246,27 @@ const MerchantList = () => {
                             Delete All Products
                           </button>
                         </td>
+                        <td>
+                                        <Link
+                                          to={`/dashboard/admin/product-list/${item._id}`}
+                          >
+                                          <button className="btn btn-success">
+                                            View Products
+                                          </button>
+                                         </Link>
+                        </td>
+                        <td>
+                          {waitingCounts[item._id] !== undefined
+                            ? waitingCounts[item._id]
+                            : "Loading..."}
+                        </td>
+                        <td>
+                          {approvedCounts[item._id] !== undefined
+                            ? approvedCounts[item._id]
+                            : "Loading..."}
+                        </td>                        <td>{item.bankName}</td>
+                        <td>{item.accountNumber}</td> 
+                        <td>{item.ifscCode}</td>
                       </tr>
                     ))}
                   </tbody>

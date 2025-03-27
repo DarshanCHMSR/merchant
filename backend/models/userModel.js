@@ -10,6 +10,10 @@ const userModel = new mongoose.Schema(
     email: {
       type: String,
     },
+    id:{
+      type: String,
+      unique:true
+    },
 
     emailPassword:{
       type: String,
@@ -50,6 +54,18 @@ const userModel = new mongoose.Schema(
     Longitude:{
       type: Number,
     },
+
+    // * this is for the user bank details
+    accountNumber:{ 
+      type: Number,
+    },
+    ifscCode:{
+      type: String,
+    },
+    bankName:{
+      type: String,
+    },
+
   },
   { timestamps: true }
 );

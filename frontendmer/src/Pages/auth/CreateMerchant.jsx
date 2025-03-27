@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../Components/Loading/Loader";
@@ -44,6 +44,8 @@ const [Longitude, setLongitude] = useState("");
   const [loading, setloading] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+    const [isidgenerated, setIsidgenerated] = useState(false);
+  
   const [min, setmin] = useState(1);
   // ? this state is used to handel the resend OTP time recount.
   const handelsubmit = async (e) => {
@@ -62,6 +64,7 @@ const [Longitude, setLongitude] = useState("");
 
     try {
       const res = await axios.post(`${url}/api/v2/auth/register`, {
+        id,
         name: Name,
         email: mail,
         emailPassword,
@@ -92,6 +95,7 @@ const [Longitude, setLongitude] = useState("");
         setShop("");
         setOtp("");
         setAddress("");
+        setId("");
         toast.success(res.data.message);
         dispatch(
           setAuth({   
@@ -119,7 +123,9 @@ const [Longitude, setLongitude] = useState("");
     const [otp, setOtp] = useState("");
     const [showOtpInput, setShowOtpInput] = useState(false);
     const [isOtpVerified, setIsOtpVerified] = useState(false); // ✅ New state to track OTP verification
-  
+  const [customid, setCustomid] = useState([]);
+    const [id, setId] = useState("");
+    
     const sendOTP = async () => {
       try {
         const response = await fetch(`${url}/api/v2/otp/send-otp`, {
@@ -203,6 +209,64 @@ const [Longitude, setLongitude] = useState("");
           error: null,
         });
       }};
+ useEffect(() => {
+    getcustomIDs();
+  }, []);
+      const getcustomIDs = async () => {
+        try {
+          const res = await axios.get(`${url}/api/v2/auth/get-custom-user-id`, {
+            headers: {
+              Authorization: auth.token,
+            },
+          });
+    
+          setCustomid(res.data.data);
+        } catch (error) {
+          toast.error("something went while fetching id");
+        }
+      };
+    
+      const generateId = () => {
+        setloading(true);
+        if (customid.length === 0) {
+          setIsidgenerated(true);
+          setId("VK-001");
+          setloading(false);
+          return;
+        }
+    
+        const validIds = customid.filter((id) => id != null);
+        
+        // console.log("the validids",validIds);
+    
+        if (validIds.length === 0) {
+          setId("VK-001");
+          setIsidgenerated(true);
+          setloading(false);
+          return;
+        }
+    
+        // Sort valid IDs in descending order to get the last one
+        const lastId = validIds[validIds.length-1];
+    
+        // console.log("The lastID is ", lastId);
+    
+        if (!lastId) {
+          setId("VK-001");
+          setIsidgenerated(true);
+          setloading(false);
+          return;
+        }
+    
+        // Safely split and extract the number part, then increment it
+        const lastNumber = parseInt(lastId.split("-")[1]);
+        const newNumber = (lastNumber + 1).toString().padStart(3, "0");
+    
+        setId(`VK-${newNumber}`);
+        setIsidgenerated(true);
+        setloading(false);
+      };
+    
 
   return (
     <>
@@ -247,6 +311,16 @@ const [Longitude, setLongitude] = useState("");
                           />
                           <label htmlFor="floatingInput">Full Name</label>
                         </div>
+                        <div className="mb-3">
+            <label className="form-label">Product Custom ID</label>
+            <input
+              type="text"
+              className="form-control"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
+            <button type="button"  className={`btn btn-primary mt-3 text-white ${isidgenerated ? "disabled" : ""}`} onClick={generateId}>{loading ? "Loading..." : "Generate ID"}</button>
+          </div>
                         <div className="form-floating mb-3">
                           <input
                             type="text"

@@ -7,7 +7,7 @@ import Product from "../models/productModel.js";
 import { requireSignin } from "../middleware/authMiddleWare.js";
 import { isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,getProductsWaiting,getProductsApproved,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -16,17 +16,22 @@ router.get("/exportuser",exportUser);
 router.get("/exportuserbylast5",exportUserBylast5);
 router.get("/by-date", getProductsByDate);
 router.get("/get-products-by-vendor/:vendername", getProductsByVendor);
+router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
+router.get("/vendors/search/:query", searchVendors);
 
 // * for fetching the user products
-router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
 router.get("/fetch", requireSignin, getUserProducts);
 router.get("/fetchtotal/:user_id", getUserTotalProducts);
+router.get("/get-products-waiting/:user_id", getProductsWaiting);
+router.get("/get-products-approved/:user_id", getProductsApproved);
 router.delete("/delete-user-products/:user_id", deleteUserProducts);
+router.get("/get-users-product/:user_id", getUsersProduct); 
 
 // * for fetching all the products  
   router.get("/fetchallproducts", requireSignin, fetchAllProducts);
   router.post('/create-product',requireSignin  ,createProduct);
 router.put("/set-product-status/:id", setProductStatus);
+router.put("/set-product-rej-status/:id", setProductRejStatus);
 router.get("/get-status", getStatus);
   // * for getting the products
   router.get('/get-products',getProducts);
@@ -34,6 +39,8 @@ router.get("/get-status", getStatus);
 router.get('/get-product-photo/:pid',getProductPhoto);
 // * for updating the product
 router.put('/update-product/:id',requireSignin  ,updateProduct);
+router.put('/update-product-admin/:id',requireSignin  ,updateProductAdmin);
+
 
 router.delete('/delete-product/:id',requireSignin , deleteProduct);
 

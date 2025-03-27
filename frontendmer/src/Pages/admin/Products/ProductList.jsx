@@ -7,6 +7,7 @@ import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
 import ReactPaginate from 'react-paginate';
+import RejStatus from "../../admin/Products/RejStatus";
 
 
 const ProductList = () => {
@@ -16,6 +17,8 @@ const ProductList = () => {
     name: "",
     minPrice: "",
     maxPrice: "",
+    updated: false ,
+    none:false,
     inStock: false,
     vendername:"",
     status:false,
@@ -86,9 +89,10 @@ const ProductList = () => {
       inStock: name === "inStock",
       status: name === "status",
       status2: name === "status2",
+      updated: name === "updated",
+      none: name === "none",
     }));
   };
-
   const filteredProducts = products.filter((item) => {
     const matchesName = item.name
     ? item.name.toLowerCase().includes(filter.name.toLowerCase())
@@ -98,14 +102,16 @@ const ProductList = () => {
     : false;
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
-      : true;
+      : true;  
+      
     const matchesMaxPrice = filter.maxPrice
       ? item.price <= filter.maxPrice
       : true;
       const matchesStatus = filter.status ? item.status === 1 : true; 
       const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
+    const matchesUpdated = filter.updated ? item.updated === 1 : true; 
+    return matchesUpdated && matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
   });
 
 
@@ -166,6 +172,7 @@ const ProductList = () => {
                   onChange={handleFilterChange}
                 />
               </div>
+             
 
               <div className="col-md-4">
                 <input
@@ -227,6 +234,35 @@ const ProductList = () => {
                 Waiting
               </label>
             </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="updated"
+                name="updated"
+                checked={filter.updated}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status2">
+                updated
+              </label>
+              
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="none"
+                name="none"
+                checked={filter.none}
+                onChange={handleFilterChange}
+               
+              />
+              <label className="form-check-label" htmlFor="status2">
+                NONE
+              </label>
+              
+            </div>
           </div>
 
           <div className="row">
@@ -241,6 +277,8 @@ const ProductList = () => {
                       <th>Price</th>
                       <th>Stock</th>
                       <th>Actions</th>
+                      <th>Approve</th>
+                      <th>Reject</th>
                       <th>Image</th>
                     </tr>
                   </thead>
@@ -275,14 +313,21 @@ const ProductList = () => {
                                 Update
                               </button>
                             </Link>
-                            <div key={item._id}>
-          <h3 className="text-lg font-bold text-center">{product.name}</h3>
-          <SetStatus productId={item._id} />
-        </div>
                             
-                          </div>
+              </div>
                           
                         </td>
+                        <td>
+                            <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{products.name}</h3>
+          <SetStatus productId={item._id} />
+        </div></td> 
+        <td>             
+                 <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{products.name}</h3>
+          <RejStatus productId={item._id} />
+        </div> 
+        </td>  
                         <td>
                         <div className="my-card-img-container">
             {item.imgLink && (

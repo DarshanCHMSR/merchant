@@ -25,7 +25,9 @@ export const createProduct= async (req, res) => {
           serviceDays,
           additionalDiscription,
           status,
-          vendername
+          vendername,
+          updated,
+
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
           return res.status(401).send({
@@ -54,7 +56,9 @@ export const createProduct= async (req, res) => {
           serviceDays,
           user: req.user._id,
           status,
-          vendername,        
+          vendername, 
+          updated,
+          rejReason: "",       
         });
     //      if (photo) {
     //   if (photo.size > 4000000) {
@@ -125,6 +129,7 @@ export const createProduct= async (req, res) => {
         const savedNote = await product.save();
         res.json(savedNote);
       } catch (error) {
+        
         res.status(500).send("Internal server error");
         
       }
@@ -307,6 +312,24 @@ export const createProduct= async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
       }
     };
+    export const searchVendors = async (req, res) => {
+      try {
+        const { query } = req.params;
+    
+        if (!query) {
+          return res.status(400).json({ message: "Search query is required." });
+        }
+    
+        // Find vendors with name matching the query (case insensitive)
+        const vendors = await Product.distinct("vendername", { vendername: { $regex: query, $options: "i" } });
+    
+        res.json(vendors);
+      } catch (error) {
+        console.error("Error fetching vendor suggestions:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    };
+
     
     export const exportUserBylast5 = async (req, res) => {
       try {
@@ -452,6 +475,71 @@ export const fetchAllProducts = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+  export const getProductsWaiting = async (req, res) => {  
+    try {
+      const { user_id } = req.params; // Get user ID from URL
+  
+      // Validate if user_id is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      // Count total products where the status field is 0 (waiting for approval)
+      const totalProducts = await Product.find({user: user_id }).countDocuments({ status:0 });
+  
+      res.status(200).json({
+        success: true,
+        totalProducts,
+      });
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  export const getProductsApproved = async (req, res) => {  
+    try {
+      const { user_id } = req.params; // Get user ID from URL
+  
+      // Validate if user_id is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      // Count total products where the status field is 0 (waiting for approval)
+      const totalProducts = await Product.find({user: user_id }).countDocuments({ status:1 });
+  
+      res.status(200).json({
+        success: true,
+        totalProducts,
+      });
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  export const getUsersProduct = async (req, res) => {  
+    try {
+      const { user_id } = req.params; // Get user ID from URL
+  
+      // Validate if user_id is a valid MongoDB ObjectId
+      if (!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+      const products = await Product.find({user:user_id});
+     
+      // Count total products where the user field matches the given user_id
+      const totalProducts = await Product.countDocuments({ user: user_id });
+  
+      res.status(200).json({
+        success: true,
+        totalProducts,
+        products
+      });
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
   
   export const getUserProducts = async (req, res) => {  
     try {
@@ -576,8 +664,32 @@ export const fetchAllProducts = async (req, res) => {
   
       // Find and update the product status
       const updatedProduct = await Product.findByIdAndUpdate(
-        id,
+        id, 
         { status },
+        { new: true } // Returns the updated product
+      );
+  
+      if (!updatedProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+  
+      res.json(updatedProduct);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+  
+  export const setProductRejStatus=async (req, res) => {
+    try {
+      const { id } = req.params; // Get product ID from URL
+      const { rejReason ,status} = req.body; // Get status from request body
+  
+      // Find and update the product status
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id, 
+        { rejReason },
+        {status},
         { new: true } // Returns the updated product
       );
   
@@ -621,7 +733,11 @@ export const fetchAllProducts = async (req, res) => {
       const {
         price,
         stock,
-        originalPrice 
+        variety,
+        originalPrice,
+        status,
+        updated
+
       } = req.body;
   
       // Find the product by ID
@@ -641,6 +757,23 @@ export const fetchAllProducts = async (req, res) => {
       if (originalPrice) {
         newProduct.originalPrice = originalPrice;
       }
+      if (status) {
+        newProduct.status = status;
+      }
+      if (updated) {
+        newProduct.updated = updated;
+      }
+      if (variety) {
+        try {
+          const parsedVariety = JSON.parse(variety);
+  
+          newProduct.variety = parsedVariety;
+  
+          // Replace existing varieties
+        } catch (error) {
+          return res.status(400).send({ message: "Invalid variety format" });
+        }
+      }
       // Check for required fields
       // Update product fields
 
@@ -656,6 +789,85 @@ export const fetchAllProducts = async (req, res) => {
       res
         .status(400)
         .send({ message: "Something went wrong while updating the product", error:error.message });
+    }
+  };
+  export const updateProductAdmin = async (req, res) => {
+    try {
+      const  id  = req.params.id;
+      const {
+        pid,
+        name,
+        description,
+        price,
+        category,
+        stock,
+        shipping,
+        imgLink,
+        variety,
+        originalPrice,
+        deliveryCharge,
+        returnDays,
+        replacementDays,
+        serviceDays,
+        
+      } = req.body;
+  
+      // Find the product by ID
+  
+      const product = await Product.findById(id);
+  
+      if (!product) {
+        return res.status(404).send({ error: "Product not found" });
+      }
+  
+      // Check for required fields
+      
+      // Update product fields
+      product.name = name;
+      product.slug = slugify(name); // Ensure slugify is correctly imported
+      product.description = description;
+      product.price = price;
+      product.category = category;
+      product.stock = stock;
+      product.shipping = shipping;
+      product.id = pid; // * Custom ID for Product
+      product.originalPrice = originalPrice;
+      product.deliveryCharge = deliveryCharge;
+      product.returnDays = returnDays;
+      product.replacementDays = replacementDays;
+      product.serviceDays = serviceDays;
+  
+      // Handle multiple image links
+      if (imgLink) {
+        product.imgLink = JSON.parse(imgLink); // Replace existing links
+      }
+  
+      // Handle variety
+      if (variety) {
+        try {
+          const parsedVariety = JSON.parse(variety);
+  
+          product.variety = parsedVariety;
+  
+          // Replace existing varieties
+        } catch (error) {
+          return res.status(400).send({ message: "Invalid variety format" });
+        }
+      }
+  
+      // Save updated product
+      await product.save();
+  
+      res.status(200).send({
+        success: true,
+        message: "Product updated successfully",
+        product,
+      });
+    } catch (error) {
+      // Log the error for debugging
+      res
+        .status(400)
+        .send({ message: "Something went wrong while updating the product" });
     }
   };
   

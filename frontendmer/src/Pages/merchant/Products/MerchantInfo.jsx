@@ -18,9 +18,9 @@ const MerchantInfo = () => {
         const authData = localStorage.getItem("auth-Data");
         if (!authData) return null; // Return null if no data is found
         const parsedData = JSON.parse(authData); // Convert JSON string back to object
-    console.log(parsedData)
     const [totalProducts, setTotalProducts] = useState(0);
     
+    console.log(parsedData.user);
     useEffect(() => {
         const fetchTotalProducts = async () => {
           try {
@@ -63,6 +63,12 @@ const MerchantInfo = () => {
             <p className="text-muted">Address: {parsedData.user.address }</p>
             <br></br>
             <p>Total products : {totalProducts }</p>
+            <br></br>
+            <h2>Bank Details</h2>
+            <p>Bank Name:  {parsedData.user.bankName }</p>
+            <p>Bank Account Number:  {parsedData.user.accountNumber }</p>
+            <p>IFSC Code:  {parsedData.user.ifscCode }</p>
+
 
         </div>
       </div>

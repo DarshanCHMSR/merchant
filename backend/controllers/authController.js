@@ -7,7 +7,7 @@ import axios from "axios";
 const JWT_SECRET = "asdfghjkl12345678";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address } = req.body;
+    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName } = req.body;
 
     // if ((!phone || !email) && !name) {
     //   return res.send({ message: "All fields are required" });
@@ -35,6 +35,7 @@ export const registerController = async (req, res) => {
     }
 
     const user = new userModel({
+      id,
       name,
       email,
       phone,
@@ -44,6 +45,9 @@ export const registerController = async (req, res) => {
       address,
     Latitude,
     Longitude,
+    accountNumber,
+    ifscCode,
+    bankName
     });
     // * Registering the user
 // console.log("user ",user.Latitude)
@@ -83,6 +87,10 @@ export const registerController = async (req, res) => {
         Latitude: user.Latitude,
         Longitude: user.Longitude,
         address: user.address,
+        id:user.id,
+        accountNumber:user.accountNumber,
+        ifscCode:user.ifscCode,
+        bankName:user.bankName
       },
 
       token,
@@ -141,6 +149,15 @@ export const loginController = async (req, res) => {
         altPhone: user.altPhone,
         location: user.location,
         cart: user.cart,
+        gst: user.gst,
+        shop: user.shop,
+        Latitude: user.Latitude,
+        Longitude: user.Longitude,
+        address: user.address,
+        id:user.id,
+        accountNumber:user.accountNumber,
+        ifscCode:user.ifscCode,
+        bankName:user.bankName
       },   
       token,
     }); 
@@ -303,61 +320,21 @@ export const getUserController = async (req, res) => {
 // * This function will update the user data
 export const updateProfileController = async (req, res) => {
   try {
-    const { name, email, password, emailPassword, phone, address, altPhone , cordinates } =
-      req.body;
-
+    const { accountNumber,ifscCode,bankName } =
+      req.body
       
-    const user = await userModel.findById(req.user._id).lean();
+    const user = await userModel.findById(req.user._id);
 
-    if (name) {
-      user.name = name;
-    }
-    if (email) {
-      let existingUser = await userModel.findOne({ email }).lean();
+    
 
-      if (
-        existingUser &&
-        existingUser._id.toString() !== req.user._id.toString()
-      ) {
-        return res.status(400).send({
-          success: false,
-          message: "This email is already registered",
-        });
-      } else {
-        user.email = email;
-      }
+    if (accountNumber) { 
+      user.accountNumber = accountNumber;
     }
-
-    if (emailPassword) {
-      const hashedEmailPass = await hashPassword(emailPassword);
-      user.emailPassword = hashedEmailPass;
+    if (ifscCode) { 
+      user.ifscCode = ifscCode;
     }
-    if (address) {
-      user.address = address;
-    }
-    if (phone) {
-      const existingUser = await userModel.findOne({ phone }).lean();
-      if (
-        existingUser &&
-        existingUser._id.toString() !== req.user._id.toString()
-      ) {
-        return res.status(400).send({
-          success: false,
-          message: "This phone number is already registered",
-        });
-      } else {
-        user.phone = phone;
-      }
-    }
-
-
-    if(cordinates){
-      user.location.latitude = cordinates.latitude;
-      user.location.longitude = cordinates.longitude;
-    }
-
-    if (altPhone) {
-      user.altPhone = altPhone;
+    if (bankName) { 
+      user.bankName = bankName;
     }
 
     await user.save();
@@ -368,6 +345,7 @@ export const updateProfileController = async (req, res) => {
       user,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       success: false,
       message: "internal server error",
@@ -457,3 +435,12 @@ export const getRateUserListController = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+export const getCustomUserId = async (req, res) => {
+    try {
+      const users = await userModel.find({}, "id").lean();
+      const ids = users.map((user) => user.id);
+      res.json({ success: true, data: ids });
+    } catch (error) {
+      res.status(500).send("Internal Server Error");
+    }
+  };

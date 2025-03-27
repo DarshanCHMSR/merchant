@@ -76,7 +76,7 @@ const Login = () => {
         if (res.data.user.role === 1) {
           navigate("/dashboard/admin");
         } else {
-          navigate("/dashboard/merchant");
+          navigate("/terms-and-conditions");
         }
         toast.success(res.data.message);
         setloading(false);
