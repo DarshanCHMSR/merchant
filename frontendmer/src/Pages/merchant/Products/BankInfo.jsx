@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../../../Components/Loading/Loader";
 import Merchant_Header from "../Components/Merchant_Header";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
@@ -13,6 +13,8 @@ import ReactPaginate from 'react-paginate';
 
 const BankInfo = () => {
     const [loading, setLoading] = useState(false);
+      const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         accountNumber: "",
         ifscCode: "",
@@ -65,7 +67,10 @@ const BankInfo = () => {
       const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };
-    
+    const olduserName = parsedData.user.userName;
+    const oldaccountNumber = parsedData.user.accountNumber;
+    const oldifscCode = parsedData.user.ifscCode;
+    const oldbankName = parsedData.user.bankName;
       const handleSubmit = async (e) => {
         e.preventDefault();
         if(formData.accountNumber !== formData.coAccountNumber){
@@ -88,8 +93,18 @@ const BankInfo = () => {
                 },
             }
         );
-      
+        const access_keys= import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      const formDatas = new FormData(e.target);
+      formDatas.append("access_key", access_keys);
+  
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDatas,
+      });
+      const data = await response.json();
+
             if (res.data.success) {
+              navigate("/");
              setFormData({
                 accountNumber: "",
                 ifscCode: "",
@@ -128,6 +143,15 @@ const BankInfo = () => {
             <label className="form-label">User Name as in account</label>
             <input
               type="text"
+              name="olduserName"
+              value={olduserName}
+             style={{display: "none"}}
+              className="form-control"
+              placeholder="Enter user name"
+              required
+            />
+            <input
+              type="text"
               name="userName"
               value={formData.userName}
               onChange={handleChange}
@@ -138,6 +162,15 @@ const BankInfo = () => {
           </div>
           <div className="mb-3">
             <label className="form-label">Account Number</label>
+            <input
+              type="text"
+              name="oldaccountNumber"
+              value={oldaccountNumber}
+              style={{display: "none"}}
+              className="form-control"
+              placeholder="Enter account number"
+              required
+            />
             <input
               type="text"
               name="accountNumber"
@@ -165,6 +198,15 @@ const BankInfo = () => {
             <label className="form-label">IFSC Code</label>
             <input
               type="text"
+              name="oldifscCode"
+              value={oldifscCode}
+              style={{display: "none"}} 
+              className="form-control"
+              placeholder="Enter IFSC Code"
+              required
+            />
+            <input
+              type="text"
               name="ifscCode"
               value={formData.ifscCode}
               onChange={handleChange}
@@ -177,6 +219,15 @@ const BankInfo = () => {
 
           <div className="mb-3">
             <label className="form-label">Bank Name</label>
+            <input
+              type="text"
+              name="oldbankName"
+              value={oldbankName}
+              style={{display: "none"}}
+              className="form-control"
+              placeholder="Enter Bank Name"
+              required
+            />
             <select
               name="bankName"
               value={formData.bankName}
