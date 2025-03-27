@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../../../Components/Loading/Loader";
 import Admin_Header from "../Components/Admin_Header";
-import { Link } from "react-router-dom";
+import { Link,useParams} from "react-router-dom";
+import { useSelector } from "react-redux";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
@@ -11,6 +12,9 @@ import RejStatus from "../../admin/Products/RejStatus";
 
 
 const MerchantProductView = () => {
+      const params = useParams();
+        const auth = useSelector((state) => state.auth);
+
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
@@ -37,15 +41,19 @@ const MerchantProductView = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const params = {
+      const param = {
         page: currentPage,
         limit: productsPerPage,
       };
       
       // Add cache-buster only for product filtering
       
-      
-      const res = await axios.get(`${url}/api/v2/products/get-k-products`, { params });
+      const res = await axios.get(`${url}/api/v2/products/viewkproducts/${params.user_id}`,
+        {headers: {
+            "Content-Type": "application/json",
+            Authorization: auth.token,
+          },},
+        { param });
       setProducts(res.data.products);
       setTotalPages(Math.ceil(res.data.totalProducts / productsPerPage));
       setLoading(false);
@@ -122,11 +130,11 @@ const MerchantProductView = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="container mt-5">
-          <div className="row mb-0">
-            <div className="col-12">
-              <Backbutton path={"/dashboard/admin"} />
-            </div>
+        <div className="container mt-6">
+          <div className="row mb-0 mt-5">
+             <Link to="/dashboard/admin/merchant-list">
+                        <button className="btn btn-primary mb-3 mt-4">Back</button>
+            </Link>
           </div>
 
           <h1 className="text-center mb-5">Product List</h1>
