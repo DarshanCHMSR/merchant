@@ -1,64 +1,77 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../../../Components/Loading/Loader";
-import Merchant_Header from "../Components/Merchant_Header";
-import { Link } from "react-router-dom";
+import Admin_Header from "../Components/Admin_Header";
+import { Link,useParams} from "react-router-dom";
+import { useSelector } from "react-redux";
 import Backbutton from "../../../Components/Backbutton";
 import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
-import { useSelector } from "react-redux";
-import Footer from "../../Footer";
 import ReactPaginate from 'react-paginate';
+import RejStatus from "../../admin/Products/RejStatus";
 
 
-const ProductList = () => {
+const MerchantProductView = () => {
+      const params = useParams();
+        const auth = useSelector((state) => state.auth);
+
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
-    name: "",
+    name: "", 
     minPrice: "",
     maxPrice: "",
+    updated: false ,
+    none:false,
     inStock: false,
-    none: false,
-    status: false,
-    status2: false,
+    vendername:"",
+    status:false,
+    status2:false,
   });
-
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const productsPerPage = 9; // Number of products per page
-  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const productsPerPage = 20; // Number of products per page
 
 
+  useEffect(() => {
+    fetchProducts();
+  }, [currentPage]);
 
-
-  const auth = useSelector((state) => state.auth);
-  const getAuthToken = () => {
-    const authData = localStorage.getItem("auth-Data");
-
-    if (!authData) return null; // Return null if no data is found
-
-    const parsedData = JSON.parse(authData); // Convert JSON string back to object
-
-    return parsedData.token; // Assuming the token is stored under "token"
-};
-
- const handleDownload = async () => {
+  const fetchProducts = async () => {
+    setLoading(true);
     try {
-      const token = getAuthToken();  
-
-      const res = await axios.get(`${url}/api/v2/products/fetchuserproducts`, { 
-        headers: {
-          Authorization: token,
-          // "Content-Type": "application/json",
-        },
+      const param = {
+        page: currentPage,
+        limit: productsPerPage,
+      };
+      
+      // Add cache-buster only for product filtering
+      
+      const res = await axios.get(`${url}/api/v2/products/viewkproducts/${params.user_id}`,
+        {headers: {
+            "Content-Type": "application/json",
+            Authorization: auth.token,
+          },},
+        { param });
+      setProducts(res.data.products);
+      setTotalPages(Math.ceil(res.data.totalProducts / productsPerPage));
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Please try again later");
+      setLoading(false);
+    } 
+  };
+  const handleDownload = async () => {
+    try {
+     
+      const response = await axios.get(`${url}/api/v2/products/exportuser`, {
         responseType: "blob", // Ensure we get binary data
       });
+
       // Create a URL for the file
-      const url2 = window.URL.createObjectURL(new Blob([res.data]));
+      const url2 = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url2;
       link.setAttribute("download", "products.csv"); // File name
@@ -71,102 +84,77 @@ const ProductList = () => {
     } catch (error) {
       console.error("Error downloading the file:", error);
     }
-  }
-
-// console.log(auth.token);  
-  useEffect(() => {
-    fetchProducts();   
-  }, [currentPage]);
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    const token = getAuthToken();
-    try {
-      const params = {
-        page: currentPage,
-        limit: productsPerPage,
-      };
-
-      // Add cache-buster only for product filtering
-       
-      
-      const res = await axios.get(`${url}/api/v2/products/fetch`, { params ,
-          headers: {
-            Authorization: token,
-            // "Content-Type": "application/json",
-          },
-          
-        }
-      );
-      setProducts(res.data.products);
-      setTotalPages(Math.ceil(res.data.totalProducts / productsPerPage));
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
   };
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFilter((prev) => ({
-      ...prev,  
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
       inStock: name === "inStock",
       status: name === "status",
       status2: name === "status2",
+      updated: name === "updated",
       none: name === "none",
     }));
-};
-
-const filteredProducts = products.filter((item) => {
+  };
+  const filteredProducts = products.filter((item) => {
     const matchesName = item.name
-      ? item.name.toLowerCase().includes(filter.name.toLowerCase())
-      : false;
-
+    ? item.name.toLowerCase().includes(filter.name.toLowerCase())
+    : false;
+    const matchesName2 = item.vendername
+    ? item.vendername.toLowerCase().includes(filter.vendername.toLowerCase())
+    : false;
     const matchesMinPrice = filter.minPrice
       ? item.price >= filter.minPrice
-      : true;
-    
+      : true;  
+      
     const matchesMaxPrice = filter.maxPrice
       ? item.price <= filter.maxPrice
       : true;
-
+      const matchesStatus = filter.status ? item.status === 1 : true; 
+      const matchesStatus2 = filter.status2 ? item.status === 0 : true;  
     const matchesStock = filter.inStock ? item.stock > 0 : true;
-    const matchesStatus = filter.status ? item.status === 1 : true; 
-    const matchesStatus2 = filter.status2 ? item.status === 0 : true; 
+    const matchesUpdated = filter.updated ? item.updated === 1 : true; 
+    return matchesUpdated && matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2 && matchesName2;
+  });
 
-    // Assuming `item.status` is either "active" or "inactive"
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesStock && matchesStatus && matchesStatus2;
-});
+
 
   return (
     <>
-      <Merchant_Header />
+      <Admin_Header />
       {loading ? (
         <Loader />
       ) : (
-        <div className="container mt-5">
-          <div className="row mb-0">
-            <div className="col-12" style={{marginTop: "50px" }}>
-              {/* <Backbutton path={"/dashboard/merchant"} /> */}
-            </div>
+        <div className="container mt-6">
+          <div className="row mb-0 mt-5">
+             <Link to="/dashboard/admin/merchant-list">
+                        <button className="btn btn-primary mb-3 mt-4">Back</button>
+            </Link>
           </div>
 
-          <h1 className="text-center mb-5 ">Product List</h1>
+          <h1 className="text-center mb-5">Product List</h1>
           <div className="d-flex justify-content-between mb-4">
-            <Link to={"/dashboard/merchant/create-product"}>
+            <Link to={"/dashboard/admin/create-product"}>
               <button className="btn btn-primary">Add a Product</button>
             </Link>
 
-            <Link to={"/dashboard/merchant/bulk-upload"}>
+            <Link to={"/dashboard/admin/bulk-upload"}>
               <button className="btn btn-primary">Upload in Bulk</button>
             </Link>
 
-            <button className="btn btn-primary" onClick={handleDownload} >Download Excel</button>
-                  </div>
+            <button 
+      onClick={handleDownload}
+      className="btn btn-primary"
+      
+    >
+      Download Excel
+    </button>
+          </div>
 
           {/* Filter Component */}
           <div className="mb-4">
@@ -182,6 +170,18 @@ const filteredProducts = products.filter((item) => {
                   onChange={handleFilterChange}
                 />
               </div>
+              <div className="col-md-4">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Vender Name"
+                  name="vendername"
+                  value={filter.vendername}
+                  onChange={handleFilterChange}
+                />
+              </div>
+             
+
               <div className="col-md-4">
                 <input
                   type="number"
@@ -216,7 +216,6 @@ const filteredProducts = products.filter((item) => {
                 In Stock Only
               </label>
             </div>
-           
             <div className="form-check mt-3">
               <input
                 type="checkbox"
@@ -247,14 +246,30 @@ const filteredProducts = products.filter((item) => {
               <input
                 type="checkbox"
                 className="form-check-input"
+                id="updated"
+                name="updated"
+                checked={filter.updated}
+                onChange={handleFilterChange}
+              />
+              <label className="form-check-label" htmlFor="status2">
+                updated
+              </label>
+              
+            </div>
+            <div className="form-check mt-3">
+              <input
+                type="checkbox"
+                className="form-check-input"
                 id="none"
                 name="none"
                 checked={filter.none}
                 onChange={handleFilterChange}
+               
               />
-              <label className="form-check-label" htmlFor="inStock">
-                None
+              <label className="form-check-label" htmlFor="status2">
+                NONE
               </label>
+              
             </div>
           </div>
 
@@ -270,7 +285,8 @@ const filteredProducts = products.filter((item) => {
                       <th>Price</th>
                       <th>Stock</th>
                       <th>Actions</th>
-                      <th>Update</th>
+                      <th>Approve</th>
+                      <th>Reject</th>
                       <th>Image</th>
                     </tr>
                   </thead>
@@ -291,30 +307,35 @@ const filteredProducts = products.filter((item) => {
                         <td>{item.stock}</td>
                         <td>
                           <div className="d-flex justify-content-start align-items-center">
-                            {/* <Link
+                            <Link
                               to={`/dashboard/admin/delete-product/${item._id}`}
                             >
                               <button className="btn btn-danger me-2">
                                 Delete
                               </button>
-                            </Link> */}
-                            
-                            <div key={item._id}>
-          <h3 className="text-lg font-bold text-center">{product.name}</h3>
-          <SetStatus productId={item._id} />
-        </div>
-                            
-                          </div>
-                        </td>
-                        <td>
-                        <Link
-                              to={`/dashboard/merchant/update-product/${item._id}`}
+                            </Link>
+                            <Link
+                              to={`/dashboard/admin/update-product/${item._id}`}
                             >
                               <button className="btn btn-success">
                                 Update
                               </button>
                             </Link>
+                            
+              </div>
+                          
                         </td>
+                        <td>
+                            <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{products.name}</h3>
+          <SetStatus productId={item._id} />
+        </div></td> 
+        <td>             
+                 <div key={item._id}>
+          <h3 className="text-lg font-bold text-center">{products.name}</h3>
+          <RejStatus productId={item._id} />
+        </div> 
+        </td>  
                         <td>
                         <div className="my-card-img-container">
             {item.imgLink && (
@@ -363,9 +384,8 @@ const filteredProducts = products.filter((item) => {
           </div>
         </div>
       )}
-              <Footer />
     </>
   );
 };
 
-export default ProductList;
+export default MerchantProductView;

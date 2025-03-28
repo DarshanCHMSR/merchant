@@ -41,44 +41,85 @@ const MerchantInfo = () => {
         <Loader />
       ) : (
         <div className="container mt-5">
-          <div className="row mb-0">
-            <div className="col-12" style={{marginTop: "50px" }}>
-              <Backbutton path={"/dashboard/merchant"} />
+        <div className="row mb-0">
+          <div className="col-12" style={{ marginTop: "50px" }}>
+            <Backbutton path={"/dashboard/merchant"} />
+          </div>
+        </div>
+      
+        <h1 className="text-center mb-5 display-4">Hello {parsedData.user.name}</h1>
+        
+        <div className="row justify-content-center">
+          <div className="col-md-8 col-lg-6">
+            <div className="card shadow-sm" style={{ borderRadius: "15px" }}>
+              <div className="card-body p-4">
+                <div className="merchant-info text-center">
+                  <h4 className="mb-4 text-primary">Merchant Profile</h4>
+                  
+                  <div className="row mb-3">
+                    <div className="col-md-6">
+                      <p className="mb-2"><strong>Name:</strong></p>
+                      <p className="text-muted">{parsedData.user.name}</p>
+                    </div>
+                    <div className="col-md-6">
+                      <p className="mb-2"><strong>Phone Number:</strong></p>
+                      <p className="text-muted">{parsedData.user.phone}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="row mb-3">
+                    <div className="col-md-6">
+                      <p className="mb-2"><strong>Email:</strong></p>
+                      <p className="text-muted">{parsedData.user.email}</p>
+                    </div>
+                    <div className="col-md-6">
+                      <p className="mb-2"><strong>Shop Name:</strong></p>
+                      <p className="text-muted">{parsedData.user.shop}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="row mb-3">
+                    <div className="col-12">
+                      <p className="mb-2"><strong>Address:</strong></p>
+                      <p className="text-muted">{parsedData.user.address}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="row mb-4">
+                    <div className="col-12">
+                      <p className="mb-2"><strong>Total Products:</strong></p>
+                      <p className="text-muted h5">{totalProducts}</p>
+                    </div>
+                  </div>
+                  
+                  <hr className="my-4" />
+                  
+                  <h5 className="mb-4 text-primary">Bank Details</h5>
+                  
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <p className="mb-2"><strong>Account Holder:</strong></p>
+                      <p className="text-muted">{parsedData.user.userName}</p>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <p className="mb-2"><strong>Account Number:</strong></p>
+                      <p className="text-muted">{parsedData.user.accountNumber}</p>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <p className="mb-2"><strong>IFSC Code:</strong></p>
+                      <p className="text-muted">{parsedData.user.ifscCode}</p>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <p className="mb-2"><strong>Bank Name:</strong></p>
+                      <p className="text-muted">{parsedData.user.bankName}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-        <h1 className="text-center mb-5 ">Hello {parsedData.user.name}</h1>
-         
-        <div className="container mt-5 d-flex justify-content-center">
-      <div className="" style={{width:"400px" ,borderRadius: "15px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", overflow: "hidden", transition: "transform 0.3s",textAlign:"center" }}>
-        <div className="merchant-info" style={{ padding: "20px" }}>
-          <h4 className="mb-2">Name : {parsedData.user.name }</h4>
-          <br></br>
-          <p className="text-muted mb-1">Phone Number: {parsedData.user.phone }</p>
-          <br></br>
-          <p className="text-muted">Email: {parsedData.user.email }</p>
-          <br></br>
-          <p className="text-muted">Shopname: {parsedData.user.shop }</p>
-          <br></br>
-            <p className="text-muted">Address: {parsedData.user.address }</p>
-            <br></br>
-            <p>Total products : {totalProducts }</p>
-            <br></br>
-            <h2>Bank Details</h2>
-            <p>Bank Name:  {parsedData.user.bankName }</p>
-            <p>Bank Account Number:  {parsedData.user.accountNumber }</p>
-            <p>IFSC Code:  {parsedData.user.ifscCode }</p>
-
-
         </div>
       </div>
-    </div>
-      
-          <div className="row">
-           
-
-          </div>
-        </div>
       )}
               <Footer />
     </>

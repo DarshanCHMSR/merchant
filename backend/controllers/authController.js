@@ -7,7 +7,7 @@ import axios from "axios";
 const JWT_SECRET = "asdfghjkl12345678";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName } = req.body;
+    const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName,userName,coAccountNumber } = req.body;
 
     // if ((!phone || !email) && !name) {
     //   return res.send({ message: "All fields are required" });
@@ -47,7 +47,9 @@ export const registerController = async (req, res) => {
     Longitude,
     accountNumber,
     ifscCode,
-    bankName
+    bankName,
+    userName,
+    coAccountNumber
     });
     // * Registering the user
 // console.log("user ",user.Latitude)
@@ -90,7 +92,9 @@ export const registerController = async (req, res) => {
         id:user.id,
         accountNumber:user.accountNumber,
         ifscCode:user.ifscCode,
-        bankName:user.bankName
+        bankName:user.bankName,
+        userName:user.userName,
+        coAccountNumber:user.coAccountNumber
       },
 
       token,
@@ -157,7 +161,9 @@ export const loginController = async (req, res) => {
         id:user.id,
         accountNumber:user.accountNumber,
         ifscCode:user.ifscCode,
-        bankName:user.bankName
+        bankName:user.bankName,
+        userName:user.userName,
+        coAccountNumber:user.coAccountNumber
       },   
       token,
     }); 
@@ -320,11 +326,16 @@ export const getUserController = async (req, res) => {
 // * This function will update the user data
 export const updateProfileController = async (req, res) => {
   try {
-    const { accountNumber,ifscCode,bankName } =
+    const { accountNumber,ifscCode,bankName,userName,coAccountNumber } =
       req.body
       
     const user = await userModel.findById(req.user._id);
-
+    if(accountNumber !== coAccountNumber){
+      return res.status(400).send({
+        success: false,
+        message: "IFSC Code does not match",
+      });
+    }
     
 
     if (accountNumber) { 
@@ -335,6 +346,12 @@ export const updateProfileController = async (req, res) => {
     }
     if (bankName) { 
       user.bankName = bankName;
+    }
+    if(userName){
+      user.userName = userName;
+    }
+    if(coAccountNumber){
+      user.coAccountNumber = coAccountNumber;
     }
 
     await user.save();

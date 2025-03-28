@@ -355,7 +355,7 @@ const oldstock = product.stock;
             <input
               type="number"
               className="form-control"
-              value={stock || ""}
+              value={oldstock}
               style={{display:"none"}}
               name="old stock"
             

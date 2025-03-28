@@ -14,6 +14,7 @@ import UserPrivate from "./Components/Private_Routes/UserPrivate";
 import Admin_Private from "./Components/Private_Routes/Admin_Private";
 import CreateProduct from "./Pages/admin/Products/CreateProduct";
 import ProductList from "./Pages/admin/Products/ProductList";
+import MerchantProductView from "./Pages/admin/Products/MerchantProductView";
 import MerchantList from "./Pages/admin/Products/MerchantList";
 import AdminDashboard from "./Pages/admin/AdminDashboard";
 import Loader from "./Components/Loading/Loader";
@@ -143,6 +144,7 @@ function App() {
 
               // ! Product routes
               <Route path="admin/product-list" element={<ProductList />} />
+              <Route path="admin/merchant-product-view/:user_id" element={<MerchantProductView />} />
               <Route path="admin/merchant-list" element={<MerchantList />} />
               <Route path="admin/create-product" element={<CreateProduct />} />
               <Route

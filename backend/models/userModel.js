@@ -56,15 +56,25 @@ const userModel = new mongoose.Schema(
     },
 
     // * this is for the user bank details
+    userName:{
+      type: String,
+
+    },
     accountNumber:{ 
       type: Number,
     },
     ifscCode:{
       type: String,
+
     },
     bankName:{
       type: String,
     },
+    coAccountNumber:{
+      type: String,
+      required: true
+    },
+
 
   },
   { timestamps: true }
