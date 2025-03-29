@@ -27,6 +27,8 @@ export const createProduct= async (req, res) => {
           status,
           vendername,
           updated,
+          venderAddress,
+          venderId,
 
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
@@ -58,7 +60,9 @@ export const createProduct= async (req, res) => {
           status,
           vendername, 
           updated,
-          rejReason: "",       
+          rejReason: "",  
+          venderAddress,
+          venderId,     
         });
     //      if (photo) {
     //   if (photo.size > 4000000) {
@@ -222,7 +226,7 @@ export const createProduct= async (req, res) => {
           category: product.category,
           stock: product.stock,
           shipping: product.shipping,
-          imgLink: product.imgLink,
+          imgLink: product.imgLink,  
           variety: product.variety,
           originalPrice: product.originalPrice,
           deliveryCharge: product.deliveryCharge,

@@ -112,6 +112,10 @@ const productSchema = mongoose.Schema(
      venderAddress:{
       type: String,
      },
+     venderId:{
+      type: String,
+     },
+
     replacementDays: {
       type: Number, 
       default: 0,

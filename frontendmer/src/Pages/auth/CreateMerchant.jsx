@@ -321,43 +321,56 @@ const [Longitude, setLongitude] = useState("");
             />
             <button type="button"  className={`btn btn-primary mt-3 text-white ${isidgenerated ? "disabled" : ""}`} onClick={generateId}>{loading ? "Loading..." : "Generate ID"}</button>
           </div>
-                        <div className="form-floating mb-3">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="floatingInput"
-                            value={email}
-                            disabled={isOtpVerified} 
-                              onChange={(e) => {
-                              setinput(e.target.value);
-                              if (emailRegex.test(e.target.value)) {
-                                setEmail(e.target.value);
-                                setMail(e.target.value)
-                                setCheckMail(true);
-                              }
-                              
-                              
-                            }}
-                            placeholder="Email"
-                          />
-                          <label htmlFor="floatingInput">
-                            Email 
-                          </label>
-                          <button type="button" onClick={sendOTP} className="form-control mb-3" style={{margin:"7px",marginLeft:"0"}} >Send OTP</button>
-                          {showOtpInput && (
-                            <>
-                              <input
-                                type="text"
-                                placeholder="Enter OTP"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                className="form-control"
-                              />
-                              <button type="button" onClick={verifyOTP} className="form-control" style={{margin:"7px",marginLeft:"0"}}>Verify OTP</button>
-                            </>
-                          )}
+          <div className="form-floating mb-3">
+  <input
+    type="text"
+    className="form-control"
+    id="floatingInput"
+    value={email}
+    disabled={isOtpVerified} 
+    onChange={(e) => {
+      const inputValue = e.target.value;
+      setEmail(inputValue); // Update email state
+      if (emailRegex.test(inputValue)) {
+        setMail(inputValue);
+        setinput(inputValue);
+        setCheckMail(true);
+      }
+    }}
+    placeholder="Email"
+  />
+  <label htmlFor="floatingInput">Email</label>
 
-                        </div>
+  <button
+    type="button"
+    onClick={sendOTP}
+    className="form-control mb-3"
+    style={{ margin: "7px", marginLeft: "0" }}
+  >
+    Send OTP
+  </button>
+
+  {showOtpInput && (
+    <>
+      <input
+        type="text"
+        placeholder="Enter OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+        className="form-control"
+      />
+      <button
+        type="button"
+        onClick={verifyOTP}
+        className="form-control"
+        style={{ margin: "7px", marginLeft: "0" }}
+      >
+        Verify OTP
+      </button>
+    </>
+  )}
+</div>
+
 
 
                         {/* If the user is entering the email address */}

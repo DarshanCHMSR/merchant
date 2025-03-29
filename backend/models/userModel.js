@@ -72,7 +72,7 @@ const userModel = new mongoose.Schema(
     },
     coAccountNumber:{
       type: String,
-      required: true
+   
     },
 
 

@@ -87,6 +87,9 @@ const CreateProduct = () => {
       productData.append("imgLink", JSON.stringify(productImgURL));
       productData.append("seriviceDays", seriviceDays);
       productData.append("vendername",auth.user.name)
+      productData.append("venderAddress",auth.user.address)
+      productData.append("venderId",auth.user.id)
+
 
       // Check if variety is needed and append accordingly
       if (hasVarieties && variety.length > 0) {

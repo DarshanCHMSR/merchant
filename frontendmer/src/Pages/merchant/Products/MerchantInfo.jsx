@@ -20,7 +20,6 @@ const MerchantInfo = () => {
         const parsedData = JSON.parse(authData); // Convert JSON string back to object
     const [totalProducts, setTotalProducts] = useState(0);
     
-    console.log(parsedData.user);
     useEffect(() => {
         const fetchTotalProducts = async () => {
           try {
