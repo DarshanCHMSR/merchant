@@ -161,12 +161,9 @@ const AdminDashboard = () => {
   const fetchVendorSuggestions = async (query) => {
     try {
       const response = await axios.get(`${url}/api/v2/products/vendors/search/${query}`);
-      console.log("Vendor suggestions:", response.data);
       if (response.data && response.data.length > 0) {
         setSuggestions(response.data);
         setShowSuggestions(true);
-        console.log("Suggestions:", suggestions);
-        console.log("ShowSuggestions:", showSuggestions);
       } else {
         setSuggestions([]);
         setShowSuggestions(false);

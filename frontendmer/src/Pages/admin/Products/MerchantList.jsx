@@ -19,7 +19,6 @@ const MerchantList = () => {
   const [productCounts, setProductCounts] = useState({}); // Store total products for each user
   const [waitingCounts, setWaitingCounts] = useState({}); // Store total products for each user
   const [approvedCounts, setApprovedCounts] = useState({}); // Store total products for each user
-
   useEffect(() => {
     fetchUsers();
   }, [currentPage]);
@@ -33,6 +32,7 @@ const MerchantList = () => {
       };
       const res = await axios.get(`${url}/api/v2/auth/get-k-users`, { params });
       setUsers(res.data.users);
+      
       setTotalPages(Math.ceil(res.data.totalUsers / usersPerPage));
 
       // Fetch total products for each user after getting users
@@ -46,29 +46,9 @@ const MerchantList = () => {
       setLoading(false);
     }
   };
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilter((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const filteredUsers = users.filter((item) => {
-
-    const matchesName = item.name
-    ? item.name.toLowerCase().includes(filter.name.toLowerCase())
-    : false;
-    const matchesName2 = item.shop
-    ? item.shop.toLowerCase().includes(filter.shop.toLowerCase())
-    : false;
-    return matchesName || matchesName2;
-  });  
 
   const auth = useSelector((state) => state.auth);
   const getAuthToken = () => {
@@ -134,7 +114,26 @@ const MerchantList = () => {
       alert("An error occurred while deleting products");
     }
   };
-  
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilter((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const filteredUsers = users.filter((item) => {
+    const matchesName = item.name
+    ? item.name.toLowerCase().includes(filter.name.toLowerCase())
+    : false;
+    const matchesName2 = item.shop
+    ? item.shop.toLowerCase().includes(filter.shop.toLowerCase())
+    : false;
+    const matchesId = item.id
+    ? item.id.toString().toLowerCase().includes(filter.id?.toLowerCase()||"")
+    : false;
+    return matchesName && matchesName2 && matchesId;
+  }); 
 
   return (
     <> 
@@ -166,6 +165,16 @@ const MerchantList = () => {
                 placeholder="Shop Name"
                 name="shop"
                 value={filter.shop}
+                onChange={handleFilterChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Vendor ID"
+                name="id"
+                value={filter.id}
                 onChange={handleFilterChange}
               />
             </div>
