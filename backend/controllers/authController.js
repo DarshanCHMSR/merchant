@@ -310,7 +310,7 @@ export const resendOtpcontroller = async (req, res) => {
 export const getUserController = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await userModel.findById(id).lean();
+    const user = await userModel.findById(id);
 
     res.status(200).send({
       success: true,

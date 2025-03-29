@@ -32,12 +32,35 @@ const MerchantProductView = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const productsPerPage = 20; // Number of products per page
-
+const [name, setName] = useState("");
+const [shopName, setShopName] = useState("");
+const [address, setAddress] = useState("");
+const [phone,setPhone] = useState("");
 
   useEffect(() => {
     fetchProducts();
+    getUserById();
   }, [currentPage]);
-
+  const getUserById = async () => { 
+    setLoading(true);
+    try {
+      const res = await axios.get(`${url}/api/v2/auth/get-user/${params.user_id}`, {  
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth.token,
+        },
+      })
+      setName(res.data.user.name);
+      setShopName(res.data.user.shopName);
+      setAddress(res.data.user.address);
+      setPhone(res.data.user.phone);
+      setLoading(false);
+    }
+      catch (error) {
+        console.error(error);
+        
+        setLoading(false);
+      } }
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -156,6 +179,19 @@ const MerchantProductView = () => {
     </button>
           </div>
 
+          <div className="d-flex justify-content-between mb-4">
+            <div className="d-flex align-items-center">
+              <h5 className="me-3">Merchant Name:</h5>
+             <b> <h5 className="me-3">{name}</h5></b>
+              <h5 className="me-3">Shop Name:</h5>
+              <h5 className="me-3">{shopName}</h5>
+              <h5 className="me-3">Address:</h5>
+              <h5 className="me-3">{address}</h5>
+              <h5 className="me-3">Phone:</h5>
+              <h5 className="me-3">{phone}</h5>
+            </div>
+          </div>
+
           {/* Filter Component */}
           <div className="mb-4">
             <h5>Filter Products</h5>
@@ -167,16 +203,6 @@ const MerchantProductView = () => {
                   placeholder="Product Name"
                   name="name"
                   value={filter.name}
-                  onChange={handleFilterChange}
-                />
-              </div>
-              <div className="col-md-4">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Vender Name"
-                  name="vendername"
-                  value={filter.vendername}
                   onChange={handleFilterChange}
                 />
               </div>
