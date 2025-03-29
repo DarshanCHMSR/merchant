@@ -236,10 +236,12 @@ export const createProduct= async (req, res) => {
           additionalDiscription: product.additionalDiscription,
           status:product.status,
           vendername:product.vendername,
+          venderAddress: product.venderAddress,
+          venderId: product.venderId,
         }));
     
         // Define CSV column headers
-        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername","venderAddress","venderId"];
           
         // Create a new json2csv parser instance
         const json2csvParser = new Parser({ fields: fieldNames });
@@ -296,10 +298,12 @@ export const createProduct= async (req, res) => {
          additionalDiscription: product.additionalDiscription,
          status:product.status,
          vendername:product.vendername,
+          venderAddress: product.venderAddress,
+          venderId: product.venderId,
        }));
    
        // Define CSV column headers
-       const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
+       const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername","venderAddress","venderId"];
          
        // Create a new json2csv parser instance
        const json2csvParser = new Parser({ fields: fieldNames });
@@ -366,10 +370,12 @@ export const createProduct= async (req, res) => {
           additionalDiscription: product.additionalDiscription,
           status:product.status,
           vendername:product.vendername,
+          venderAddress: product.venderAddress,
+          venderId: product.venderId,
         }));
     
         // Define CSV column headers
-        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
+        const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername","venderAddress","venderId"];
           
         // Create a new json2csv parser instance
         const json2csvParser = new Parser({ fields: fieldNames });
@@ -440,10 +446,12 @@ export const fetchAllProducts = async (req, res) => {
        additionalDiscription: product.additionalDiscription,
        status:product.status,
        vendername:product.vendername,
+        venderAddress: product.venderAddress,
+        venderId: product.venderId,
      }));
  
      // Define CSV column headers
-     const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername"];
+     const fieldNames = ["id", "name", "description", "price", "category", "stock", "shipping", "imgLink", "variety", "originalPrice", "deliveryCharge", "returnDays", "replacementDays", "serviceDays", "additionalDiscription","status","vendername","venderAddress","venderId"];
        
      // Create a new json2csv parser instance
      const json2csvParser = new Parser({ fields: fieldNames });
