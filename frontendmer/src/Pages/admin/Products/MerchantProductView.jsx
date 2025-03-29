@@ -89,7 +89,7 @@ const [phone,setPhone] = useState("");
   const handleDownload = async () => {
     try {
      
-      const response = await axios.get(`${url}/api/v2/products/exportuser`, {
+      const response = await axios.get(`${url}/api/v2/products/get-products-by-vendor/${name}`, {
         responseType: "blob", // Ensure we get binary data
       });
 

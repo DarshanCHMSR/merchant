@@ -265,7 +265,10 @@ export const createProduct= async (req, res) => {
         }
     
         // Fetch products where vendername matches the provided parameter
-        const products = await Product.find({ vendername });
+        const products = await Product
+        .find({ vendername })
+        .find({ status: 1 }) //  1 means approved
+        ;
     
         if (!products || products.length === 0) {
           return res.status(404).json({ message: "No products found for this vendor." });
