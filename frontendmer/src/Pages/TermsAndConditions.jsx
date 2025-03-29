@@ -1,16 +1,77 @@
 import React, { useState } from "react";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { url } from "../Components/backend_link/data";
+import axios from "axios";
 
 const TermsAndConditions = () => {
   const [agreed, setAgreed] = useState(false);
   const navigate = useNavigate();
+  const authData = localStorage.getItem("auth-Data");
+  if (!authData) return null; // Return null if no data is found
+  const parsedData = JSON.parse(authData); // Convert JSON string back to object
+const id = parsedData.user._id;
+const token = parsedData.token;
+const [termsAccepted, setTermsAccepted] = useState(false);
+const[termsAcceptedDate, setTermsAcceptedDate] = useState(null);
+const [termsAndConditions, setTermsAndConditions] = useState(null);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (agreed) {
       alert("You have agreed to the Terms and Conditions.");
+       try {
+                  const res = await axios.put(`${url}/api/v2/auth/update-terms-and-conditions/${id}`, {
+                      
+                      termsAccepted: true,
+                      termsAcceptedDate: new Date(),
+                      termsAndConditions: `Terms and Conditions for Vendors on ValueKart
+
+Last updated: March 25, 2025
+
+1. Introduction
+Welcome to ValueKart, a delivery-based platform. These Terms and Conditions outline the rules and responsibilities of vendors who list their products on our platform. By registering and uploading products on ValueKart, you agree to comply with these terms.
+
+2. Product Quality and Returns
+Vendors must ensure that all products listed are genuine, original, and not counterfeit or copied. If a product is found to be damaged before reaching the customer, the vendor must accept the return and replace the product or issue a refund as per our return policy. Vendors must comply with all types of return policies set by ValueKart, including customer-initiated returns due to defects, damages, or dissatisfaction.
+
+3. Payment Terms
+Payments for products sold through ValueKart will be processed within 7 days after successful delivery to the customer. Payments will be made via cash or credited directly to the vendor's registered account.
+
+4. Pricing and Stock Updates
+Vendors must update product prices and stock availability immediately if there are any changes. If a vendor fails to update a product's price and a customer orders it at the previously listed price, the vendor is obligated to fulfill the order at that price, regardless of whether the new price is higher or lower.
+
+5. Product Authenticity and Compliance
+Vendors must ensure that all products comply with local laws, regulations, and quality standards. Any duplicate or copied products will lead to immediate removal from the platform and possible termination of the vendor's account.
+
+6. Amendments and Updates
+ValueKart reserves the right to modify these terms at any time. Vendors will be notified of any changes, and continued use of the platform constitutes acceptance of the updated terms.
+
+7. Vendor Responsibilities
+Vendors must provide accurate and updated product descriptions, pricing, and stock details. Vendors should maintain clear communication with ValueKart regarding order processing, delivery, and returns.
+
+8. Termination and Penalties
+Non-compliance with these terms may result in penalties, product removal, or termination of the vendor's account.
+
+By uploading products on ValueKart, vendors acknowledge that they have read, understood, and agreed to these Terms and Conditions.
+
+9. Contact Information
+For any queries, contact our Vendor Support Team at support@valuekart.com.`,
+                  },
+                  {
+                      headers: {
+                          Authorization: token,
+                          "Content-Type": "application/json",
+                      },
+                  }
+              );
       navigate("/dashboard/merchant");
+    } catch (error) {
+      console.error("Error updating terms and conditions:", error);
+      alert("Error updating terms and conditions. Please try again.");
+    }
+    
     } else {
       alert("Please agree to the Terms and Conditions before submitting.");
     }
@@ -222,7 +283,7 @@ const styles = `
     }
   }
 `;
-
+  
 // Add styles to the document
 const styleElement = document.createElement("style");
 styleElement.innerHTML = styles;

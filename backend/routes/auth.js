@@ -12,7 +12,8 @@ import {
   getkUsers,
   deleteUser,
   resetPasswordController,
-  getCustomUserId
+  getCustomUserId,
+  updateTermsAndConditions
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleWare.js";
 
@@ -39,6 +40,9 @@ router.delete('/delete-user/:id',requireSignin,deleteUser)
 // * this route is getting all users
 router.get('/get-users',getUsersListController);
 router.get('/get-k-users',getkUsers)
+
+// * this route is for updating the terms and conditions
+router.put('/update-terms-and-conditions/:id',requireSignin,updateTermsAndConditions)
 
 // * this route is finding those who are rated the product
 router.get('/get-rated-user/:id',getRateUserListController)

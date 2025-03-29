@@ -76,7 +76,12 @@ const Login = () => {
         if (res.data.user.role === 1) {
           navigate("/dashboard/admin");
         } else {
+          if(res.data.user.termsAccepted === false){
           navigate("/terms-and-conditions");
+          }
+          else{
+            navigate("/dashboard/merchant");
+          }
         }
         toast.success(res.data.message);
         setloading(false);

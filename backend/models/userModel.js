@@ -74,6 +74,16 @@ const userModel = new mongoose.Schema(
       type: String,
    
     },
+    termsAccepted:{
+      type: Boolean,
+      default: false,
+    },
+    termsAcceptedDate:{
+      type: Date,
+    },
+    termsAndConditions:{
+      type: String,
+    },
 
 
   },

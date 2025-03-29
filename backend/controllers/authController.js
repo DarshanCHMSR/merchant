@@ -163,7 +163,10 @@ export const loginController = async (req, res) => {
         ifscCode:user.ifscCode,
         bankName:user.bankName,
         userName:user.userName,
-        coAccountNumber:user.coAccountNumber
+        coAccountNumber:user.coAccountNumber,
+        termsAccepted:user.termsAccepted,
+        termsAcceptedDate:user.termsAcceptedDate,
+        termsAndConditions:user.termsAndConditions
       },   
       token,
     }); 
@@ -352,6 +355,41 @@ export const updateProfileController = async (req, res) => {
     }
     if(coAccountNumber){
       user.coAccountNumber = coAccountNumber;
+    }
+
+    await user.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Profile Updated Successfully",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "internal server error",
+    });
+  }
+};
+
+export const updateTermsAndConditions = async (req, res) => {
+  try {
+    const { termsAccepted,termsAcceptedDate,termsAndConditions } =
+      req.body
+      
+    const user = await userModel.findById(req.user._id);
+  
+    
+
+    if (termsAccepted) {
+      user.termsAccepted = termsAccepted;
+    }
+    if (termsAcceptedDate) {
+      user.termsAcceptedDate = termsAcceptedDate;
+    }
+    if (termsAndConditions) {
+      user.termsAndConditions = termsAndConditions;
     }
 
     await user.save();

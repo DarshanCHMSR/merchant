@@ -164,14 +164,13 @@ const BankInfo = () => {
               toast.error(res.data.message);
             }
           } catch (error) {
-
-          }
+            console.error("Error updating user:", error);}
         alert("Bank Details Submitted!");
       };
     
     
       
-    
+      
   return (
     <>
       <Merchant_Header />
