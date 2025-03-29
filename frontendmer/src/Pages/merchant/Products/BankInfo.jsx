@@ -8,6 +8,7 @@ import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
 import { useSelector } from "react-redux";
 import Footer from "../../Footer";
+import Select from "react-select";
 import ReactPaginate from 'react-paginate';
 
 
@@ -27,81 +28,88 @@ const BankInfo = () => {
         const parsedData = JSON.parse(authData); // Convert JSON string back to object
     const id = parsedData.user._id;
     const token = parsedData.token;
-    const bankOptions = [
-        "Select Bank",
-        "Allahabad Bank",
-        "Andhra Bank",
-        "Axis Bank",
-        "Bandan Bank",
-        "Bank of Bahrain and Kuwait",
-        "Bank of Baroda",
-        "Bank of India",
-        "Bank of Maharashtra",
-        "Bassein Catholic Co-operative Bank",
-        "Bhartiya Mahila Bank",
-        "BNP Paribas",
-        "Canara Bank",
-        "Catholic Syrian Bank",
-        "Central Bank of India",
-        "City Union Bank",
-        "Corporation Bank",
-        "Cosmos Bank",
-        "DCB BANK Personal",
-        "Dena Bank",
-        "Deustche Bank",
-        "Development Credit Bank",
-        "Dhanlaxmi Bank",
-        "Federal Bank",
-        "HDFC Bank",
-        "ICICI Bank",
-        "IDBI Bank",
-        "Indian Bank",
-        "Indian Overseas NetBanking",
-        "Indusind Bank",
-        "ING Vysya Bank",
-        "J and K Bank",
-        "Janta Sahakari Bank",
-        "Karnataka Bank",
-        "Karur Vysya Bank",
-        "Kotak Mahindra Bank",
-        "Lakshmi Vilas Bank",
-        "Mehsana Urban Co-op Bank",
-        "NKGSB Co-operative Bank",
-        "Oriental Bank Of Commerce",
-        "Punjab & Sind Bank",
-        "Punjab and Maharashtra Cooperative Bank",
-        "Punjab National Bank",
-        "Ratnakar Bank Limited",
-        "RBL Bank",
-        "Saraswat Cooperative Bank",
-        "Shamrao Vithal Cooperative Bank",
-        "South Indian Bank",
-        "Standard Chartered Bank",
-        "State Bank Of Bikaner and Jaipur",
-        "State Bank of Hyderabad",
-        "State Bank of India",
-        "State Bank of Mysore",
-        "State Bank of Patiala",
-        "State Bank of Travancore",
-        "SVC Bank",
-        "Syndicate Bank",
-        "Tamilnad Mercantile Bank",
-        "Tamilnadu Cooperative Bank",
-        "The Kalyan Janata Sahakari Bank",
-        "The Royal Bank of Scotland",
-        "TJSB Bank (Erstwhile Thane Janata Sahakari Bank)",
-        "UCO Bank",
-        "Union Bank of India",
-        "United Bank Of India",
-        "Vijaya Bank",
-        "Yes Bank"
-      ];
     
+    const bankOptions = [
+      { label: "Select Bank", value: "Select Bank" },
+      { label: "Allahabad Bank", value: "Allahabad Bank" },
+      { label: "Andhra Bank", value: "Andhra Bank" },
+      { label: "Axis Bank", value: "Axis Bank" },
+      { label: "Bandan Bank", value: "Bandan Bank" },
+      { label: "Bank of Bahrain and Kuwait", value: "Bank of Bahrain and Kuwait" },
+      { label: "Bank of Baroda", value: "Bank of Baroda" },
+      { label: "Bank of India", value: "Bank of India" },
+      { label: "Bank of Maharashtra", value: "Bank of Maharashtra" },
+      { label: "Bassein Catholic Co-operative Bank", value: "Bassein Catholic Co-operative Bank" },
+      { label: "Bhartiya Mahila Bank", value: "Bhartiya Mahila Bank" },
+      { label: "BNP Paribas", value: "BNP Paribas" },
+      { label: "Canara Bank", value: "Canara Bank" },
+      { label: "Catholic Syrian Bank", value: "Catholic Syrian Bank" },
+      { label: "Central Bank of India", value: "Central Bank of India" },
+      { label: "City Union Bank", value: "City Union Bank" },
+      { label: "Corporation Bank", value: "Corporation Bank" },
+      { label: "Cosmos Bank", value: "Cosmos Bank" },
+      { label: "DCB BANK Personal", value: "DCB BANK Personal" },
+      { label: "Dena Bank", value: "Dena Bank" },
+      { label: "Deustche Bank", value: "Deustche Bank" },
+      { label: "Development Credit Bank", value: "Development Credit Bank" },
+      { label: "Dhanlaxmi Bank", value: "Dhanlaxmi Bank" },
+      { label: "Federal Bank", value: "Federal Bank" },
+      { label: "HDFC Bank", value: "HDFC Bank" },
+      { label: "ICICI Bank", value: "ICICI Bank" },
+      { label: "IDBI Bank", value: "IDBI Bank" },
+      { label: "Indian Bank", value: "Indian Bank" },
+      { label: "Indian Overseas NetBanking", value: "Indian Overseas NetBanking" },
+      { label: "Indusind Bank", value: "Indusind Bank" },
+      { label: "ING Vysya Bank", value: "ING Vysya Bank" },
+      { label: "J and K Bank", value: "J and K Bank" },
+      { label: "Janta Sahakari Bank", value: "Janta Sahakari Bank" },
+      { label: "Karnataka Bank", value: "Karnataka Bank" },
+      { label: "Karur Vysya Bank", value: "Karur Vysya Bank" },
+      { label: "Kotak Mahindra Bank", value: "Kotak Mahindra Bank" },
+      { label: "Lakshmi Vilas Bank", value: "Lakshmi Vilas Bank" },
+      { label: "Mehsana Urban Co-op Bank", value: "Mehsana Urban Co-op Bank" },
+      { label: "NKGSB Co-operative Bank", value: "NKGSB Co-operative Bank" },
+      { label: "Oriental Bank Of Commerce", value: "Oriental Bank Of Commerce" },
+      { label: "Punjab & Sind Bank", value: "Punjab & Sind Bank" },
+      { label: "Punjab and Maharashtra Cooperative Bank", value: "Punjab and Maharashtra Cooperative Bank" },
+      { label: "Punjab National Bank", value: "Punjab National Bank" },
+      { label: "Ratnakar Bank Limited", value: "Ratnakar Bank Limited" },
+      { label: "RBL Bank", value: "RBL Bank" },
+      { label: "Saraswat Cooperative Bank", value: "Saraswat Cooperative Bank" },
+      { label: "Shamrao Vithal Cooperative Bank", value: "Shamrao Vithal Cooperative Bank" },
+      { label: "South Indian Bank", value: "South Indian Bank" },
+      { label: "Standard Chartered Bank", value: "Standard Chartered Bank" },
+      { label: "State Bank Of Bikaner and Jaipur", value: "State Bank Of Bikaner and Jaipur" },
+      { label: "State Bank of Hyderabad", value: "State Bank of Hyderabad" },
+      { label: "State Bank of India", value: "State Bank of India" },
+      { label: "State Bank of Mysore", value: "State Bank of Mysore" },
+      { label: "State Bank of Patiala", value: "State Bank of Patiala" },
+      { label: "State Bank of Travancore", value: "State Bank of Travancore" },
+      { label: "SVC Bank", value: "SVC Bank" },
+      { label: "Syndicate Bank", value: "Syndicate Bank" },
+      { label: "Tamilnad Mercantile Bank", value: "Tamilnad Mercantile Bank" },
+      { label: "Tamilnadu Cooperative Bank", value: "Tamilnadu Cooperative Bank" },
+      { label: "The Kalyan Janata Sahakari Bank", value: "The Kalyan Janata Sahakari Bank" },
+      { label: "The Royal Bank of Scotland", value: "The Royal Bank of Scotland" },
+      { label: "TJSB Bank (Erstwhile Thane Janata Sahakari Bank)", value: "TJSB Bank (Erstwhile Thane Janata Sahakari Bank)" },
+      { label: "UCO Bank", value: "UCO Bank" },
+      { label: "Union Bank of India", value: "Union Bank of India" },
+      { label: "United Bank Of India", value: "United Bank Of India" },
+      { label: "Vijaya Bank", value: "Vijaya Bank" },
+      { label: "Yes Bank", value: "Yes Bank" }
+  ];
+  
+
+
+      
+      const handleBankChange = (selectedOption) => {
+        setFormData({ ...formData, bankName: selectedOption ? selectedOption.value : "" });
+      };
     
     
       const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+        setFormData({ ...formData, [e.target.name]: e.target.value.toUpperCase() });
+    };
     const olduserName = parsedData.user.userName;
     const oldaccountNumber = parsedData.user.accountNumber;
     const oldifscCode = parsedData.user.ifscCode;
@@ -174,6 +182,27 @@ const BankInfo = () => {
       <div className="card shadow p-4">
         <h2 className="text-center mb-4">Enter Bank Details</h2>
         <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Select Your bank name</label>
+            <input
+              type="text"
+              name="oldbankName"
+              value={oldbankName}
+              style={{display: "none"}}
+              className="form-control"
+              placeholder="Enter Bank Name"
+              required
+            />
+        <Select
+  options={bankOptions2}
+  name="bankName"
+  value={bankOptions2.find((option) => option.value === formData.bankName)}
+  onChange={handleBankChange}
+  placeholder="Search and select your bank"
+  isSearchable
+  // className="form-control"
+/>
+          </div>
         <div className="mb-3">
             <label className="form-label">User Name as in account</label>
             <input
@@ -251,7 +280,7 @@ const BankInfo = () => {
             />
           </div>
           
-
+{/* 
           <div className="mb-3">
             <label className="form-label">Bank Name</label>
             <input
@@ -276,7 +305,7 @@ const BankInfo = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           <button type="submit" className="btn btn-primary w-100">
             Submit
