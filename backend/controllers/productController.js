@@ -158,7 +158,8 @@ export const createProduct= async (req, res) => {
       // Fetch products within the date range
       const products = await Product.find({
         createdAt: { $gte: start, $lte: end }
-      }).sort({ createdAt: -1 });
+      }).find({status:1})
+      .sort({ createdAt: -1 });
       if (!products || products.length === 0) {
         return res.status(404).json({ message: "No products found to export." });
       }
@@ -211,7 +212,9 @@ export const createProduct= async (req, res) => {
     export const exportUser = async (req, res) => {
       try {
         // Fetch all products with populated user details
-        const products = await Product.find({}).populate("user");
+        const products = await Product.find({})
+        .find({ status: 1 }) //  1 means approved
+        .populate("user");
     
         if (!products || products.length === 0) {
           return res.status(404).json({ message: "No products found to export." });
@@ -345,7 +348,9 @@ export const createProduct= async (req, res) => {
     export const exportUserBylast5 = async (req, res) => {
       try {
         // Fetch all products with populated user details
-        const products = await Product.find({}).sort({ createdAt: -1 }).lean().limit(5);
+        const products = await Product.find({})
+        .find({status:1}) //  1 means approved
+        .sort({ createdAt: -1 }).lean().limit(5);
     
         if (!products || products.length === 0) {
           return res.status(404).json({ message: "No products found to export." });

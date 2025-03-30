@@ -39,20 +39,25 @@ export default function SetStatus({ productId }) {
     <div className="p-4 text-center border rounded-lg shadow-md w-64">
       {/* Show different status messages */}
       <div className="mb-4">
-        { status ===0? (
-          <p className="btn btn-danger">Waiting...</p>
+        { status ===0||status ===1? (
+          status === 0 ? (
+            <p className="btn btn-warning">Pending</p>
+          ) : (
+            <p className="btn btn-success">Approved</p>
+          )
         ) : (
-          <p className="btn btn-primary">Approved </p>
+          <p className="btn btn-primary">Rejected </p>
         )}
         
       </div>
+      
 
       {/* Update Button (Disabled if status is already approved) */}
       <button
         className="px-4 py-2 btn btn-success"
         onClick={updateStatus}
-        disabled={status === 1}
-      >
+        disabled={status === 1||status === 2}
+      > 
         {status === 1 ? "Approved" : "Update Status"}
       </button>
     </div>
