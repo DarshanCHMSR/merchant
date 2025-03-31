@@ -8,11 +8,22 @@ import { url } from "../../../Components/backend_link/data";
 import SetStatus from "./SetStatus";
 import ReactPaginate from 'react-paginate';
 import RejStatus from "../../admin/Products/RejStatus";
+import Modal from "react-bootstrap/Modal";
 
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageClick = (imgUrl) => {
+    setSelectedImage(imgUrl);
+  };
+
+  const handleClose = () => {
+    setSelectedImage(null);
+  };
+
   const [filter, setFilter] = useState({
     name: "", 
     minPrice: "",
@@ -328,26 +339,40 @@ const ProductList = () => {
           <RejStatus productId={item._id} />
         </div> 
         </td>  
-                        <td>
-                        <div className="my-card-img-container">
-            {item.imgLink && (
-              <img
-                src={item.imgLink[0]}
-                alt={item.name}
-                className="card-img-top rounded-2 p-1 w-100"
-                loading="lazy"
-                style={{
-                  width: "90%",
-                  height: "90%",
-                  objectFit: "contain",
-                }}
-              />
-            )}
-          </div>
-                        </td>
+        <td>
+              <div className="my-card-img-container">
+                {item.imgLink && (
+                  <img
+                    src={item.imgLink[0]}
+                    alt={item.name}
+                    className="card-img-top rounded-2 p-1 w-100"
+                    loading="lazy"
+                    style={{
+                      width: "90%",
+                      height: "90%",
+                      objectFit: "contain",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleImageClick(item.imgLink[0])} // Open modal on click
+                  />
+                )}
+              </div>
+            </td>
                       </tr>
                     ))}
                   </tbody>
+                  <Modal show={!!selectedImage} onHide={handleClose} centered>
+        <Modal.Body className="text-center">
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Full-size preview"
+              style={{ width: "100%", height: "auto" }}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
+
                 </table>
               </div>
             </div>
