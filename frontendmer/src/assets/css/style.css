@@ -1,0 +1,83 @@
+.service-image{
+    background-image: url("https://plus.unsplash.com/premium_photo-1664300253134-4c251064c962?q=80&w=1463&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: cover; /* This ensures the entire container is covered by the background image */
+    background-position: center;
+    height: 100%;
+}
+
+.card-action{
+    /* border: 1px solid whitesmoke; */
+    overflow: hidden;
+    /* height: 100%; */
+}
+
+/* .add-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+.card-action img:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+    /* overflow: hidden; */
+}
+
+
+@media(max-width:600px){
+    .service-res{
+        margin-top: 10px;
+    }
+
+    #logoimg{
+        /* min-width: 100; */
+        /* width: 10vw; */
+        /* height: 4vw; */
+        width: 75px;
+    }
+
+    .my-card-2{
+        width: 50vw;
+        height:fit-content;
+    }
+
+    .custom-button{
+        /* background-color: red; */
+        width: 90%;
+        margin:auto;
+        /* padding: 0; */
+    }
+}
+
+#logoimg{
+    /* min-width: 100; */
+    width: 10vw;
+    mix-blend-mode: multiply;
+}
+
+footer .logoimg{
+    width: 200px;
+    mix-blend-mode: multiply;
+    /* background-color: red; */
+}
+
+.tool-bar-hover:hover { 
+    background-color:#3b71ca;
+    color: white;
+}
+
+.form-container{
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    
+}
+
+
