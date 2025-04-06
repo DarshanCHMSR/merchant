@@ -241,7 +241,7 @@ const CreateProduct = () => {
   return (
     <>
       <Admin_Header />
-
+   
       <div className="w-75 mx-auto mt-5 p-1">
         <h1 className="text-center mb-4 mt-5">Create Product</h1>
         <span>

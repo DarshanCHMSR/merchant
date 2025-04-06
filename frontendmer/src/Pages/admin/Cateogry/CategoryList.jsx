@@ -66,9 +66,10 @@ const CategoryList = () => {
                           </div>
                         </div>
                       ) : (
-                        <table className="table table-hover table-responsive-md">
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered ">
                           <thead className="table-light">
-                            <tr>
+                            <tr>  
                               <th>ID</th>
                               <th>Name</th>
                               <th>Slug</th>
@@ -107,6 +108,7 @@ const CategoryList = () => {
                             )}
                           </tbody>
                         </table>
+                      </div>
                       )}
                     </div>
                   </div>
