@@ -154,7 +154,9 @@ const [Longitude, setLongitude] = useState("");
         const data = await response.json();
         if (data.message === "OTP verified successfully") {
           alert("OTP Verified Successfully");
-          setIsOtpVerified(true); // ✅ Enable form submission after OTP verification
+          setIsOtpVerified(true);
+          setCheckMail(true); // ✅ Enable email/password fields after OTP verification
+           // ✅ Enable form submission after OTP verification
         } else {
           alert("Invalid OTP, please try again.");
           setIsOtpVerified(false);
@@ -311,14 +313,17 @@ const [Longitude, setLongitude] = useState("");
                           />
                           <label htmlFor="floatingInput">Full Name</label>
                         </div>
-                        <div className="mb-3">
-            <label className="form-label">Product Custom ID</label>
-            <input
+                        <div className="form-floating mb-3">
+                        <input
               type="text"
               className="form-control"
+              id="floatingInput"
+              placeholder="Enter Your ID"
               value={id}
               onChange={(e) => setId(e.target.value)}
             />
+                                      <label htmlFor="floatingInput">Custom Id</label>
+
             <button type="button"  className={`btn btn-primary mt-3 text-white ${isidgenerated ? "disabled" : ""}`} onClick={generateId}>{loading ? "Loading..." : "Generate ID"}</button>
           </div>
           <div className="form-floating mb-3">
@@ -334,7 +339,6 @@ const [Longitude, setLongitude] = useState("");
       if (emailRegex.test(inputValue)) {
         setMail(inputValue);
         setinput(inputValue);
-        setCheckMail(true);
       }
     }}
     placeholder="Email"
