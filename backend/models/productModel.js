@@ -27,6 +27,9 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    keywords:{
+      type: String,
+    },
 
     // * this array is used for additional info like if they have to store the structured description
     additionalDiscription:{

@@ -336,7 +336,7 @@ export const updateProfileController = async (req, res) => {
     if(accountNumber !== coAccountNumber){
       return res.status(400).send({
         success: false,
-        message: "IFSC Code does not match",
+        message: "Account number does not match",
       });
     }
     

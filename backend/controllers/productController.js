@@ -29,6 +29,7 @@ export const createProduct= async (req, res) => {
           updated,
           venderAddress,
           venderId,
+          keywords,
 
         } = req.body;
         if (!name || !description || !price || !category || !stock || !shipping) {
@@ -62,7 +63,8 @@ export const createProduct= async (req, res) => {
           updated,
           rejReason: "",  
           venderAddress,
-          venderId,     
+          venderId, 
+          keywords,    
         });
     //      if (photo) {
     //   if (photo.size > 4000000) {
