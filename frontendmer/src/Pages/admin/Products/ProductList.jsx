@@ -166,42 +166,40 @@ const ProductList = () => {
           <div className="mb-4">
             <h5>Filter Products</h5>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control p-2"
                   placeholder="Product Name"
                   name="name"
                   value={filter.name}
                   onChange={handleFilterChange}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control p-2"
                   placeholder="Vender Name"
                   name="vendername"
                   value={filter.vendername}
                   onChange={handleFilterChange}
                 />
               </div>
-             
-
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="number"
-                  className="form-control"
+                  className="form-control p-2"
                   placeholder="Min Price"
                   name="minPrice"
                   value={filter.minPrice}
                   onChange={handleFilterChange}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="number"
-                  className="form-control"
+                  className="form-control p-2"
                   placeholder="Max Price"
                   name="maxPrice"
                   value={filter.maxPrice}
@@ -257,10 +255,9 @@ const ProductList = () => {
                 checked={filter.updated}
                 onChange={handleFilterChange}
               />
-              <label className="form-check-label" htmlFor="status2">
-                updated
+              <label className="form-check-label" htmlFor="updated">
+                Updated
               </label>
-              
             </div>
             <div className="form-check mt-3">
               <input
@@ -270,12 +267,10 @@ const ProductList = () => {
                 name="none"
                 checked={filter.none}
                 onChange={handleFilterChange}
-               
               />
-              <label className="form-check-label" htmlFor="status2">
+              <label className="form-check-label" htmlFor="none">
                 NONE
               </label>
-              
             </div>
           </div>
 
