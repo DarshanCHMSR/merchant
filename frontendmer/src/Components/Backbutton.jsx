@@ -5,7 +5,7 @@ import { IoMdArrowBack } from "react-icons/io";
 const Backbutton = ({path}) => {
   return (
     <div>
-      <Link to = {`${path}`} className="btn btn-outline-primary m-3 mb-0" href="#"> <IoMdArrowBack className='mb-1' />
+      <Link to = {`${path}`} className="btn btn-outline-primary m-3 mb-0 btn-sm" href="#"> <IoMdArrowBack className='mb-1' />
       Back</Link>
     </div>
   )
