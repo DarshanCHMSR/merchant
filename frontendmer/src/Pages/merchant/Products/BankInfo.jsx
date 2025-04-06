@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Footer from "../../Footer";
 import Select from "react-select";
 import ReactPaginate from 'react-paginate';
-
+  
 
 const BankInfo = () => {
     const [loading, setLoading] = useState(false);
@@ -278,34 +278,7 @@ const BankInfo = () => {
               required
             />
           </div>
-          
-{/* 
-          <div className="mb-3">
-            <label className="form-label">Bank Name</label>
-            <input
-              type="text"
-              name="oldbankName"
-              value={oldbankName}
-              style={{display: "none"}}
-              className="form-control"
-              placeholder="Enter Bank Name"
-              required
-            />
-            <select
-              name="bankName"
-              value={formData.bankName}
-              onChange={handleChange}
-              className="form-select"
-              required
-            >
-              {bankOptions.map((bank, index) => (
-                <option key={index} value={bank === "Select Bank" ? "" : bank}>
-                  {bank}
-                </option>
-              ))}
-            </select>
-          </div> */}
-
+        
           <button type="submit" className="btn btn-primary w-100">
             Submit
           </button>

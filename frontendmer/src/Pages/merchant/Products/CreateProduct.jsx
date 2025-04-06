@@ -12,12 +12,9 @@ const CreateProduct = () => {
 
   const [category, setCategory] = useState([]);
 
-
   // * Id handelers
   const [customid, setCustomid] = useState([]);
   const [id, setId] = useState("");
-
-
 
   const [isidgenerated, setIsidgenerated] = useState(false);
 
@@ -38,9 +35,6 @@ const CreateProduct = () => {
   const [replacementDays, setReplacementDays] = useState("");
   const [seriviceDays, setSeriviceDays] = useState("");
 
-  // * this state is additional information
-  // const [additionalInfo, setAdditionalInfo] = useState({header:"",body:"" });
-
   var productImages = [];
 
   const auth = useSelector((state) => state.auth);
@@ -54,23 +48,18 @@ const CreateProduct = () => {
   const handleProductImagesUpload = (e) => {
     const files = Array.from(e.target.files);
     productImages = [...productImages, ...files];
-    // console.log(productImages);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
     try {
-
-      // * upload product images to s3 
+      // * upload product images to s3
       let productImgURL = [];
-      if(productImages.length > 0){
-        productImgURL = await UploadToS3(
-          productImages,
-          "Products-Images"
-        )
+      if (productImages.length > 0) {
+        productImgURL = await UploadToS3(productImages, "Products-Images");
       }
-      // console.log(productImgURL);
 
       const productData = new FormData();
 
@@ -86,10 +75,9 @@ const CreateProduct = () => {
       productData.append("deliveryCharge", deliveryCharge);
       productData.append("imgLink", JSON.stringify(productImgURL));
       productData.append("seriviceDays", seriviceDays);
-      productData.append("vendername",auth.user.name)
-      productData.append("venderAddress",auth.user.address)
-      productData.append("venderId",auth.user.id)
-
+      productData.append("vendername", auth.user.name);
+      productData.append("venderAddress", auth.user.address);
+      productData.append("venderId", auth.user.id);
 
       // Check if variety is needed and append accordingly
       if (hasVarieties && variety.length > 0) {
@@ -103,10 +91,7 @@ const CreateProduct = () => {
 
       productData.append("returnDays", returDays);
       productData.append("replacementDays", replacementDays);
-      // console.log(auth.token);
-      
 
-      // console.log(variety);
       const res = await axios.post(
         `${url}/api/v2/products/create-product`,
         productData,
@@ -118,14 +103,7 @@ const CreateProduct = () => {
         }
       );
 
-      // if (res.data.success) {
-        navigate("/dashboard/merchant/product-list");
-      //   toast.success(res.data.message);
-      //   setLoading(false);
-      // } else {
-      //   toast.error(res.data.message);
-      //   setLoading(false);
-      // }
+      navigate("/dashboard/merchant/product-list");
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -137,12 +115,9 @@ const CreateProduct = () => {
       const res = await axios.get(`${url}/api/v2/category/get-categories`);
 
       setCategory(res.data.data);
-      //   console.log(res.data.data);
       setLoading(false);
     } catch (error) {
-      // console.log(error);
-     toast.error("Error fetching user details:", error);
-
+      toast.error("Error fetching user details:", error);
     }
   };
 
@@ -190,8 +165,6 @@ const CreateProduct = () => {
     }
 
     const validIds = customid.filter((id) => id != null);
-    
-    // console.log("the validids",validIds);
 
     if (validIds.length === 0) {
       setId("VK-001");
@@ -200,10 +173,7 @@ const CreateProduct = () => {
       return;
     }
 
-    // Sort valid IDs in descending order to get the last one
-    const lastId = validIds[validIds.length-1];
-
-    // console.log("The lastID is ", lastId);
+    const lastId = validIds[validIds.length - 1];
 
     if (!lastId) {
       setId("VK-001");
@@ -212,7 +182,6 @@ const CreateProduct = () => {
       return;
     }
 
-    // Safely split and extract the number part, then increment it
     const lastNumber = parseInt(lastId.split("-")[1]);
     const newNumber = (lastNumber + 1).toString().padStart(3, "0");
 
@@ -240,14 +209,18 @@ const CreateProduct = () => {
     <>
       <Merchant_Header />
 
-      <div className="w-75 mx-auto mt-5 p-1">
-        <h1 className="text-center mb-4 mt-5">Create Product</h1>
-        <span>
+      <div className="container mt-4">
+        <h1 className="text-center mb-4 " style={{ marginTop: "80px" }}>Create Product</h1>
+        <div className="text-center mb-3">
           <Link to="/dashboard/merchant/product-list">
-            <button className="btn btn-primary mb-3 ">See All</button>
+            <button className="btn btn-primary">See All</button>
           </Link>
-        </span>
-        <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
+        </div>
+        <form
+          className="border p-3 p-md-4 rounded shadow mx-auto"
+          style={{ maxWidth: "800px" }}
+          onSubmit={handleSubmit}
+        >
           <div className="mb-3">
             <label className="form-label">Product Custom ID</label>
             <input
@@ -256,8 +229,14 @@ const CreateProduct = () => {
               value={id}
               onChange={(e) => setId(e.target.value)}
             />
-
-            <button className={`btn btn-primary mt-3 text-white ${isidgenerated ? "disabled" : ""}`} onClick={generateId}>{loading ? "Loading..." : "Generate ID"}</button>
+            <button
+              className={`btn btn-primary mt-3 text-white ${
+                isidgenerated ? "disabled" : ""
+              }`}
+              onClick={generateId}
+            >
+              {loading ? "Loading..." : "Generate ID"}
+            </button>
           </div>
 
           <div className="mb-3">
@@ -284,7 +263,6 @@ const CreateProduct = () => {
             </select>
           </div>
 
-
           <div className="mb-3">
             <label className="form-label">Product Description</label>
             <textarea
@@ -294,61 +272,62 @@ const CreateProduct = () => {
             ></textarea>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">MRP Price</label>
-            <input
-              type="number"
-              className="form-control"
-              onChange={(e) => setOriginalPrice(e.target.value)}
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">MRP Price</label>
+              <input
+                type="number"
+                className="form-control"
+                onChange={(e) => setOriginalPrice(e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Discount Price</label>
+              <input
+                type="number"
+                className="form-control"
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Discount Price</label>
-            <input
-              type="number"
-              className="form-control"
-              onChange={(e) => setPrice(e.target.value)}
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Delivery Charge</label>
+              <input
+                type="number"
+                className="form-control"
+                onChange={(e) => setdeliveryCharge(e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Return Days</label>
+              <input
+                type="number"
+                className="form-control"
+                onChange={(e) => setReturDays(e.target.value)}
+              />
+            </div>
           </div>
 
-      
-          <div className="mb-3">
-            <label className="form-label">Delivery Charge</label>
-            <input
-              type="number"
-              className="form-control"
-              onChange={(e) => setdeliveryCharge(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Return days</label>
-            <input
-              type="number"
-              className="form-control"
-              onChange={(e) => setReturDays(e.target.value)}
-            />
-          </div>
-         
-
-          <div className="mb-3">
-            <label className="form-label">Replacement Days</label>
-            <input
-              type="number"
-              className="form-control"
-              value={replacementDays}
-              onChange={(e) => setReplacementDays(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Store Service replacement Days</label>
-            <input
-              type="number"
-              className="form-control"
-              onChange={(e) => setSeriviceDays(e.target.value)}
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Replacement Days</label>
+              <input
+                type="number"
+                className="form-control"
+                value={replacementDays}
+                onChange={(e) => setReplacementDays(e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Service Replacement Days</label>
+              <input
+                type="number"
+                className="form-control"
+                onChange={(e) => setSeriviceDays(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="mb-3">
@@ -370,7 +349,7 @@ const CreateProduct = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Varieties</label>
+          <label className="form-label">Varieties</label>
             <div className="form-check">
               <input
                 type="checkbox"
@@ -468,27 +447,19 @@ const CreateProduct = () => {
             </button>
           </div>
          {/* We are adding product by the direct upload technique and we will upload the images to the s3 */}
-            <div>
-              <label className="form-label">Upload the product Images</label>
-              <input
-                type="file"
-                multiple
-                className="form-control"
-                accept="image/*" // Restrict to image files
-                onChange={handleProductImagesUpload}
-              />
-            </div>
-          <div
-          
-            className=""
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <button className="btn btn-primary w-[30%]" type="submit">
+         <div>
+            <label className="form-label">Upload Product Images</label>
+            <input
+              type="file"
+              multiple
+              className="form-control"
+              accept="image/*"
+              onChange={handleProductImagesUpload}
+            />
+          </div>
+
+          <div className="text-center">
+            <button className="btn btn-primary w-100 mt-2" type="submit">
               {loading ? "Adding..." : "Create Product"}
             </button>
           </div>
@@ -496,6 +467,6 @@ const CreateProduct = () => {
       </div>
     </>
   );
-}
+};
 
 export default CreateProduct;

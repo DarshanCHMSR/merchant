@@ -161,29 +161,35 @@ const filteredProducts = products.filter((item) => {
       ) : (
         <div className="container mt-5">
           <div className="row mb-0">
-            <div className="col-12" style={{marginTop: "50px" }}>
+            <div className="col-12" style={{ marginTop: "50px" }}>
               {/* <Backbutton path={"/dashboard/merchant"} /> */}
             </div>
           </div>
 
-          <h1 className="text-center mb-5 ">Product List</h1>
-          <div className="d-flex justify-content-between mb-4">
-            <Link to={"/dashboard/merchant/create-product"}>
-              <button className="btn btn-primary">Add a Product</button>
-            </Link>
-
-            <Link to={"/dashboard/merchant/bulk-upload"}>
-              <button className="btn btn-primary">Upload in Bulk</button>
-            </Link>
-
-            <button className="btn btn-primary" onClick={handleDownload} >Download Excel</button>
-                  </div>
+          <h1 className="text-center mb-5">Product List</h1>
+          <div className="row mb-4">
+            <div className="col-12 col-md-4 mb-2">
+              <Link to={"/dashboard/merchant/create-product"}>
+                <button className="btn btn-primary w-100">Add a Product</button>
+              </Link>
+            </div>
+            <div className="col-12 col-md-4 mb-2">
+              <Link to={"/dashboard/merchant/bulk-upload"}>
+                <button className="btn btn-primary w-100">Upload in Bulk</button>
+              </Link>
+            </div>
+            <div className="col-12 col-md-4 mb-2">
+              <button className="btn btn-primary w-100" onClick={handleDownload}>
+                Download Excel
+              </button>
+            </div>
+          </div>
 
           {/* Filter Component */}
           <div className="mb-4">
             <h5>Filter Products</h5>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="text"
                   className="form-control"
@@ -193,7 +199,7 @@ const filteredProducts = products.filter((item) => {
                   onChange={handleFilterChange}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="number"
                   className="form-control"
@@ -203,7 +209,7 @@ const filteredProducts = products.filter((item) => {
                   onChange={handleFilterChange}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-12 col-md-4 mb-3">
                 <input
                   type="number"
                   className="form-control"
@@ -227,7 +233,6 @@ const filteredProducts = products.filter((item) => {
                 In Stock Only
               </label>
             </div>
-           
             <div className="form-check mt-3">
               <input
                 type="checkbox"
@@ -263,7 +268,7 @@ const filteredProducts = products.filter((item) => {
                 checked={filter.none}
                 onChange={handleFilterChange}
               />
-              <label className="form-check-label" htmlFor="inStock">
+              <label className="form-check-label" htmlFor="none">
                 None
               </label>
             </div>
@@ -302,92 +307,88 @@ const filteredProducts = products.filter((item) => {
                         <td>{item.stock}</td>
                         <td>
                           <div className="d-flex justify-content-start align-items-center">
-                            {/* <Link
-                              to={`/dashboard/admin/delete-product/${item._id}`}
-                            >
-                              <button className="btn btn-danger me-2">
-                                Delete
-                              </button>
-                            </Link> */}
-                            
                             <div key={item._id}>
-          <h3 className="text-lg font-bold text-center">{product.name}</h3>
-          <SetStatus productId={item._id} />
-        </div>
-                            
+                              <h3 className="text-lg font-bold text-center">
+                                {product.name}
+                              </h3>
+                              <SetStatus productId={item._id} />
+                            </div>
                           </div>
                         </td>
                         <td>
-                        <Link
-                              to={`/dashboard/merchant/update-product/${item._id}`}
-                            >
-                              <button className="btn btn-success">
-                                Update
-                              </button>
-                            </Link>
+                          <Link
+                            to={`/dashboard/merchant/update-product/${item._id}`}
+                          >
+                            <button className="btn btn-success">Update</button>
+                          </Link>
                         </td>
                         <td>
-              <div className="my-card-img-container">
-                {item.imgLink && (
-                  <img
-                    src={item.imgLink[0]}
-                    alt={item.name}
-                    className="card-img-top rounded-2 p-1 w-100"
-                    loading="lazy"
-                    style={{
-                      width: "90%",
-                      height: "90%",
-                      objectFit: "contain",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleImageClick(item.imgLink[0])} // Open modal on click
-                  />
-                )}
-              </div>
-            </td>
+                          <div className="my-card-img-container">
+                            {item.imgLink && (
+                              <img
+                                src={item.imgLink[0]}
+                                alt={item.name}
+                                className="card-img-top rounded-2 p-1 w-100"
+                                loading="lazy"
+                                style={{
+                                  width: "90%",
+                                  height: "90%",
+                                  objectFit: "contain",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() =>
+                                  handleImageClick(item.imgLink[0])
+                                }
+                              />
+                            )}
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                   <Modal show={!!selectedImage} onHide={handleClose} centered>
-        <Modal.Body className="text-center">
-          {selectedImage && (
-            <img
-              src={selectedImage}
-              alt="Full-size preview"
-              style={{ width: "100%", height: "auto" }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+                    <Modal.Body className="text-center">
+                      {selectedImage && (
+                        <img
+                          src={selectedImage}
+                          alt="Full-size preview"
+                          style={{ width: "100%", height: "auto" }}
+                        />
+                      )}
+                    </Modal.Body>
+                  </Modal>
                 </table>
               </div>
             </div>
-            <nav aria-label="Page navigation example" className="d-flex justify-content-center mt-3">
-                      <ReactPaginate
-                        previousLabel={"«"}
-                        nextLabel={"»"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={totalPages}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={3}
-                        onPageChange={({ selected }) => handlePageChange(selected + 1)} // Adjust for zero-based index
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        disabledClassName={"disabled"}
-                        pageClassName={"page-item"} // Add custom class for page items
-                        pageLinkClassName={"page-link"} // Add custom class for page links
-                        previousClassName={"page-item"} // Add custom class for previous button
-                        previousLinkClassName={"page-link"} // Add custom class for previous link
-                        nextClassName={"page-item"} // Add custom class for next button
-                        nextLinkClassName={"page-link"} // Add custom class for next link
-                        forcePage={currentPage - 1} // This ensures the correct page is highlighted
-                      />
-                    </nav>
+            <nav
+              aria-label="Page navigation example"
+              className="d-flex justify-content-center mt-3"
+            >
+              <ReactPaginate
+                previousLabel={"«"}
+                nextLabel={"»"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={totalPages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={3}
+                onPageChange={({ selected }) => handlePageChange(selected + 1)}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                disabledClassName={"disabled"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                forcePage={currentPage - 1}
+              />
+            </nav>
           </div>
         </div>
       )}
-              <Footer />
+      <Footer />
     </>
   );
 };
