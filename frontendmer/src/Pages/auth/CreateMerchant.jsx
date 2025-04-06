@@ -415,11 +415,18 @@ const [Longitude, setLongitude] = useState("");
                                 id="floatingInput"
                                 value={phone}
                                 onChange={(e) => {
-                                  setPhone(e.target.value);
+                                  const inputValue = e.target.value;
+                                  if (inputValue.length <= 10) {
+                                    setPhone(inputValue); // Allow only up to 10 digits
+                                  }
                                 }}
                                 placeholder="Enter phone Number"
+                                required
                               />
                               <label htmlFor="floatingInput mb-3">Phone number</label>
+                              {phone.length > 0 && phone.length < 10 && (
+                                <small className="text-danger">Phone number must be 10 digits</small>
+                              )}
                             </div>
                             <div className="form-floating mb-3">
                               <input
