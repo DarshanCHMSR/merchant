@@ -141,22 +141,25 @@ const ProductList = () => {
           </div>
 
           <h1 className="text-center mb-5">Product List</h1>
-          <div className="d-flex justify-content-between mb-4">
-            <Link to={"/dashboard/admin/create-product"}>
-              <button className="btn btn-primary">Add a Product</button>
-            </Link>
-
-            <Link to={"/dashboard/admin/bulk-upload"}>
-              <button className="btn btn-primary">Upload in Bulk</button>
-            </Link>
-
-            <button 
-      onClick={handleDownload}
-      className="btn btn-primary"
-      
-    >
-      Download Excel
-    </button>
+          <div className="d-flex justify-content-between mb-4 row">
+            <div className="col-12 col-md-4 mb-2">
+              <Link to={"/dashboard/admin/create-product"}>
+                <button className="btn btn-primary w-100">Add a Product</button>
+              </Link>
+            </div>
+            <div className="col-12 col-md-4 mb-2">
+              <Link to={"/dashboard/admin/bulk-upload"}>
+                <button className="btn btn-primary w-100">Upload in Bulk</button>
+              </Link>
+            </div>
+            <div className="col-12 col-md-4 mb-2">
+              <button 
+                onClick={handleDownload}
+                className="btn btn-primary w-100"
+              >
+                Download Excel
+              </button>
+            </div>
           </div>
 
           {/* Filter Component */}
