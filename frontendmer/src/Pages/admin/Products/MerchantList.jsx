@@ -147,38 +147,37 @@ const MerchantList = () => {
               <Backbutton path={"/dashboard/admin"} />
             </div>
           </div>
-          <div className="mb-4 row mt-5" style={{ justifyContent: "space-between" }}> 
-            <div className="col-md-4">
+          <div className="mb-4 row mt-5" style={{ justifyContent: "space-between" }}>
+            <div className="col-12 col-md-4 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control p-2"
                 placeholder="Vendor Name"
                 name="name"
                 value={filter.name}
                 onChange={handleFilterChange}
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-12 col-md-4 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control p-2"
                 placeholder="Shop Name"
                 name="shop"
                 value={filter.shop}
                 onChange={handleFilterChange}
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-12 col-md-4 mb-3">
               <input
                 type="text"
-                className="form-control"
+                className="form-control p-2"
                 placeholder="Vendor ID"
                 name="id"
                 value={filter.id}
                 onChange={handleFilterChange}
               />
             </div>
-            
           </div>
 
 
