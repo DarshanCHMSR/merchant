@@ -26,18 +26,18 @@ const [termsAndConditions, setTermsAndConditions] = useState(null);
                       
                       termsAccepted: true,
                       termsAcceptedDate: new Date(),
-                      termsAndConditions: `Terms and Conditions for Vendors on ValueKart
+                      termsAndConditions: `Terms and Conditions for Vendors on ValueKarts
 
 Last updated: March 25, 2025
 
 1. Introduction
-Welcome to ValueKart, a delivery-based platform. These Terms and Conditions outline the rules and responsibilities of vendors who list their products on our platform. By registering and uploading products on ValueKart, you agree to comply with these terms.
+Welcome to ValueKarts, a delivery-based platform. These Terms and Conditions outline the rules and responsibilities of vendors who list their products on our platform. By registering and uploading products on ValueKarts, you agree to comply with these terms.
 
 2. Product Quality and Returns
-Vendors must ensure that all products listed are genuine, original, and not counterfeit or copied. If a product is found to be damaged before reaching the customer, the vendor must accept the return and replace the product or issue a refund as per our return policy. Vendors must comply with all types of return policies set by ValueKart, including customer-initiated returns due to defects, damages, or dissatisfaction.
+Vendors must ensure that all products listed are genuine, original, and not counterfeit or copied. If a product is found to be damaged before reaching the customer, the vendor must accept the return and replace the product or issue a refund as per our return policy. Vendors must comply with all types of return policies set by ValueKarts, including customer-initiated returns due to defects, damages, or dissatisfaction.
 
 3. Payment Terms
-Payments for products sold through ValueKart will be processed within 7 days after successful delivery to the customer. Payments will be made via cash or credited directly to the vendor's registered account.
+Payments for products sold through ValueKarts will be processed within 7 days after successful delivery to the customer. Payments will be made via cash or credited directly to the vendor's registered account.
 
 4. Pricing and Stock Updates
 Vendors must update product prices and stock availability immediately if there are any changes. If a vendor fails to update a product's price and a customer orders it at the previously listed price, the vendor is obligated to fulfill the order at that price, regardless of whether the new price is higher or lower.
@@ -46,18 +46,18 @@ Vendors must update product prices and stock availability immediately if there a
 Vendors must ensure that all products comply with local laws, regulations, and quality standards. Any duplicate or copied products will lead to immediate removal from the platform and possible termination of the vendor's account.
 
 6. Amendments and Updates
-ValueKart reserves the right to modify these terms at any time. Vendors will be notified of any changes, and continued use of the platform constitutes acceptance of the updated terms.
+ValueKarts reserves the right to modify these terms at any time. Vendors will be notified of any changes, and continued use of the platform constitutes acceptance of the updated terms.
 
 7. Vendor Responsibilities
-Vendors must provide accurate and updated product descriptions, pricing, and stock details. Vendors should maintain clear communication with ValueKart regarding order processing, delivery, and returns.
+Vendors must provide accurate and updated product descriptions, pricing, and stock details. Vendors should maintain clear communication with ValueKarts regarding order processing, delivery, and returns.
 
 8. Termination and Penalties
 Non-compliance with these terms may result in penalties, product removal, or termination of the vendor's account.
 
-By uploading products on ValueKart, vendors acknowledge that they have read, understood, and agreed to these Terms and Conditions.
+By uploading products on ValueKarts, vendors acknowledge that they have read, understood, and agreed to these Terms and Conditions.
 
 9. Contact Information
-For any queries, contact our Vendor Support Team at support@valuekart.com.`,
+For any queries, contact our Vendor Support Team at support@valuekarts.com.`,
                   },
                   {
                       headers: {
@@ -80,15 +80,15 @@ For any queries, contact our Vendor Support Team at support@valuekart.com.`,
   return (
     <Container className="terms-container">
       <Card className="terms-card">
-        <h1 className="terms-title">Terms and Conditions for Vendors on ValueKart</h1>
+        <h1 className="terms-title">Terms and Conditions for Vendors on ValueKarts</h1>
         <p className="terms-update-date">Last updated: March 25, 2025</p>
 
         <div className="terms-content">
           <h2 className="terms-section-title">1. Introduction</h2>
           <p className="terms-text">
-            Welcome to ValueKart, a delivery-based platform. These Terms and Conditions outline the rules and
+            Welcome to ValueKarts, a delivery-based platform. These Terms and Conditions outline the rules and
             responsibilities of vendors who list their products on our platform. By registering and uploading
-            products on ValueKart, you agree to comply with these terms.
+            products on ValueKarts, you agree to comply with these terms.
           </p>
 
           <h2 className="terms-section-title">2. Product Quality and Returns</h2>
@@ -96,13 +96,13 @@ For any queries, contact our Vendor Support Team at support@valuekart.com.`,
             Vendors must ensure that all products listed are genuine, original, and not counterfeit or copied.
             If a product is found to be damaged before reaching the customer, the vendor must accept the return
             and replace the product or issue a refund as per our return policy.
-            Vendors must comply with all types of return policies set by ValueKart, including customer-initiated
+            Vendors must comply with all types of return policies set by ValueKarts, including customer-initiated
             returns due to defects, damages, or dissatisfaction.
           </p>
 
           <h2 className="terms-section-title">3. Payment Terms</h2>
           <p className="terms-text">
-            Payments for products sold through ValueKart will be processed within 7 days after successful delivery
+            Payments for products sold through ValueKarts will be processed within 7 days after successful delivery
             to the customer. Payments will be made via cash or credited directly to the vendor's registered account.
           </p>
 
@@ -123,14 +123,14 @@ For any queries, contact our Vendor Support Team at support@valuekart.com.`,
 
           <h2 className="terms-section-title">6. Amendments and Updates</h2>
           <p className="terms-text">
-            ValueKart reserves the right to modify these terms at any time. Vendors will be notified of any changes,
+            ValueKarts reserves the right to modify these terms at any time. Vendors will be notified of any changes,
             and continued use of the platform constitutes acceptance of the updated terms.
           </p>
 
           <h2 className="terms-section-title">7. Vendor Responsibilities</h2>
           <p className="terms-text">
             Vendors must provide accurate and updated product descriptions, pricing, and stock details.
-            Vendors should maintain clear communication with ValueKart regarding order processing, delivery, and returns.
+            Vendors should maintain clear communication with ValueKarts regarding order processing, delivery, and returns.
           </p>
 
           <h2 className="terms-section-title">8. Termination and Penalties</h2>
@@ -139,13 +139,13 @@ For any queries, contact our Vendor Support Team at support@valuekart.com.`,
           </p>
 
           <p className="terms-text terms-acknowledgement">
-            By uploading products on ValueKart, vendors acknowledge that they have read, understood, and agreed to these
+            By uploading products on ValueKarts, vendors acknowledge that they have read, understood, and agreed to these
             Terms and Conditions.
           </p>
 
           <h2 className="terms-section-title">9. Contact Information</h2>
           <p className="terms-text">
-            For any queries, contact our Vendor Support Team at <a href="mailto:support@valuekart.com" className="terms-link">support@valuekart.com</a>.
+            For any queries, contact our Vendor Support Team at <a href="mailto:support@valueKarts.com" className="terms-link">support@valuekarts.com</a>.
           </p>
         </div>
 
