@@ -110,10 +110,10 @@ const BankInfo = () => {
       const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value.toUpperCase() });
     };
-    const olduserName = parsedData.user.userName;
-    const oldaccountNumber = parsedData.user.accountNumber;
-    const oldifscCode = parsedData.user.ifscCode;
-    const oldbankName = parsedData.user.bankName;
+    const olduserName = parsedData.user.userName || "";
+    const oldaccountNumber = parsedData.user.accountNumber || "";
+    const oldifscCode = parsedData.user.ifscCode || "";
+    const oldbankName = parsedData.user.bankName  || "";
       const handleSubmit = async (e) => {
         e.preventDefault();
         if(formData.accountNumber !== formData.coAccountNumber){
@@ -147,6 +147,7 @@ const BankInfo = () => {
       const data = await response.json();
 
             if (res.data.success) {
+              alert("Bank Details Submitted!");
               navigate("/");
              setFormData({
                 accountNumber: "",
@@ -165,7 +166,6 @@ const BankInfo = () => {
             }
           } catch (error) {
             console.error("Error updating user:", error);}
-        alert("Bank Details Submitted!");
       };
     
     
@@ -260,7 +260,7 @@ const BankInfo = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">IFSC Code</label>
+            <label className="form-label">IFSC Code</label> 
             <input
               type="text"
               name="oldifscCode"
