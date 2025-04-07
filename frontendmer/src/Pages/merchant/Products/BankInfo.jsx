@@ -180,8 +180,38 @@ const handleSubmit = async (e) => {
                     <div className="card shadow p-4">
                         <h2 className="text-center mb-4">Enter Bank Details</h2>
                         <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+    <label className="form-label">Bank Name</label>
+    <input
+      type="text"
+      name="oldbankName"
+      value={oldbankName} 
+      style={{display: "none"}}
+    
+    />
+    <select
+      name="bankName"
+      value={bankName}
+      onChange={(e) => setBankName(e.target.value)}
+      className="form-control"
+      required
+    >
+      <option value="">Select Bank</option>
+      {bankOptions2.map((bank, index) => (
+        <option key={index} value={bank.value}>
+          {bank.label}
+        </option>
+      ))}
+    </select>
+  </div>
   <div className="mb-3">
     <label className="form-label">User Name as in account</label>
+    <input
+      type="text"
+      name="olduserName"
+      value={olduserName}
+      style={{display: "none"}}
+    />
     <input
       type="text"
       name="userName"
@@ -194,6 +224,13 @@ const handleSubmit = async (e) => {
   </div>
   <div className="mb-3">
     <label className="form-label">Account Number</label>
+    <input
+      type="number"
+      name="oldaccountNumber"
+      value={oldaccountNumber}
+      style={{display: "none"}}
+
+    />
     <input
       type="number"
       name="accountNumber"
@@ -220,31 +257,22 @@ const handleSubmit = async (e) => {
     <label className="form-label">IFSC Code</label>
     <input
       type="text"
+      name="oldifscCode"
+      value={oldifscCode}
+      style={{display: "none"}}
+
+    />
+    <input
+      type="text"
       name="ifscCode"
       value={ifscCode}
-      onChange={(e) => setIfscCode(e.target.value)}
+      onChange={(e) => setIfscCode(e.target.value.toUpperCase())}
       className="form-control"
       placeholder="Enter IFSC Code"
       required
     />
   </div>
-  <div className="mb-3">
-    <label className="form-label">Bank Name</label>
-    <select
-      name="bankName"
-      value={bankName}
-      onChange={(e) => setBankName(e.target.value)}
-      className="form-control"
-      required
-    >
-      <option value="">Select Bank</option>
-      {bankOptions2.map((bank, index) => (
-        <option key={index} value={bank.value}>
-          {bank.label}
-        </option>
-      ))}
-    </select>
-  </div>
+ 
   <button type="submit" className="btn btn-primary w-100" disabled={senting}>
     {senting ? "Submitting..." : "Submit"}
   </button>
