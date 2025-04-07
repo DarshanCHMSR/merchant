@@ -81,7 +81,6 @@ const UpdateProduct = () => {
       productData.append("returnDays", returDays);
       productData.append("replacementDays", replacementDays);
 
-      console.log("FormData before sending:", Object.fromEntries(productData.entries()));
 
       const res = await axios.put(
         `${url}/api/v2/products/update-product-admin/${params.id}`,
