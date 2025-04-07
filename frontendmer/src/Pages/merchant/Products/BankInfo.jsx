@@ -15,7 +15,6 @@ import ReactPaginate from 'react-paginate';
 const BankInfo = () => {
     const [loading, setLoading] = useState(false);
       const navigate = useNavigate();
-      const [senting,setSenting] = useState(false)
     
     const [formData, setFormData] = useState({
         accountNumber: "",
@@ -111,7 +110,6 @@ const BankInfo = () => {
       const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value.toUpperCase() });
     };
-    setSenting("true");
     const olduserName = parsedData.user.userName || "";
     const oldaccountNumber = parsedData.user.accountNumber || "";
     const oldifscCode = parsedData.user.ifscCode || "";
@@ -284,8 +282,7 @@ const BankInfo = () => {
           </div>
 
           <button type="submit" className="btn btn-primary w-100">
-          {senting ? "Submitting..." : "Submit"}
-
+            Submit
           </button>
         </form>
       </div>
