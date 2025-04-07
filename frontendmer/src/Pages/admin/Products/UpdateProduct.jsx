@@ -192,15 +192,23 @@ const UpdateProduct = () => {
     <>
       <Admin_Header />
 
-      <div className="w-75 mx-auto mb-5 mt-5">
-        <Backbutton path="/dashboard/admin/product-list" />
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-12">
+            <Backbutton path="/dashboard/admin/product-list" />
+          </div>
+        </div>
+
         <h1 className="text-center mb-4">Update Product</h1>
-        <span>
-          <Link to="/dashboard/admin/product-list">
-            <button className="btn btn-primary mb-3">See All</button>
-          </Link>
-        </span>
-        <form className="border p-4 rounded shadow" onSubmit={handleSubmit}>
+        <div className="row">
+          <div className="col-12 col-md-6 mb-3">
+            <Link to="/dashboard/admin/product-list">
+              <button className="btn btn-primary w-100">See All Products</button>
+            </Link>
+          </div>
+        </div>
+
+        <form className="border p-3 p-md-4 rounded shadow mx-auto" style={{ maxWidth: "800px" }} onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Product Custom ID</label>
             <input
@@ -248,65 +256,68 @@ const UpdateProduct = () => {
             ></textarea>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">MRP Price</label>
-            <input
-              type="number"
-              step="0.01"
-              className="form-control"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">MRP Price</label>
+              <input
+                type="number"
+                step="0.01"
+                className="form-control"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Discount Price</label>
+              <input
+                type="number"
+                className="form-control"
+                value={originalPrice}
+                onChange={(e) => setOriginalPrice(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Discount Price</label>
-            <input
-              type="number"
-              className="form-control"
-              value={originalPrice}
-              onChange={(e) => setOriginalPrice(e.target.value)}
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Delivery Charge</label>
+              <input
+                type="number"
+                className="form-control"
+                value={deliveryCharge}
+                onChange={(e) => setdeliveryCharge(e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Return Days</label>
+              <input
+                type="number"
+                className="form-control"
+                value={returDays}
+                onChange={(e) => setReturDays(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Delivery Charge</label>
-            <input
-              type="number"
-              className="form-control"
-              value={deliveryCharge}
-              onChange={(e) => setdeliveryCharge(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Return Days</label>
-            <input
-              type="number"
-              className="form-control"
-              value={returDays}
-              onChange={(e) => setReturDays(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Replacement Days</label>
-            <input
-              type="number"
-              className="form-control"
-              value={replacementDays}
-              onChange={(e) => setReplacementDays(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Product Stock</label>
-            <input
-              type="number"
-              className="form-control"
-              value={stock || ""}
-              onChange={(e) => setStock(e.target.value)}
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Replacement Days</label>
+              <input
+                type="number"
+                className="form-control"
+                value={replacementDays}
+                onChange={(e) => setReplacementDays(e.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Product Stock</label>
+              <input
+                type="number"
+                className="form-control"
+                value={stock || ""}
+                onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="mb-3">
@@ -361,7 +372,6 @@ const UpdateProduct = () => {
               Add Another Variety
             </button>
           </div>
-
           <div>
             <h3>Images</h3>
             <div
@@ -426,17 +436,9 @@ const UpdateProduct = () => {
               onChange={handleProductImagesUpload}
             />
           </div>
-          <div
-            className=""
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              marginTop: "20px",
-            }}
-          >
-            <button className="btn btn-primary w-[30%]" type="submit">
+
+          <div className="text-center mt-4">
+            <button className="btn btn-primary w-100" type="submit">
               {loading ? "Updating..." : "Update Product"}
             </button>
           </div>

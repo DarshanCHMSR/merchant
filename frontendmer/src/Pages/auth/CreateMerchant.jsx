@@ -79,7 +79,7 @@ const [Longitude, setLongitude] = useState("");
       // console.log(res.data);
 
       if (res.data.success) {
-        navigate("/merchant-list");
+        navigate("/dashboard/admin/merchant-list");
         setName("");
         setMail("");
         setPhone("");

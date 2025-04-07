@@ -27,10 +27,10 @@ const UpdateProduct = () => {
   const [replacementDays, setReplacementDays] = useState("");
   const [shipping, setShipping] = useState("");
   const [imageLinks, setImageLinks] = useState([""]);
-  const [variety, setVariety] = useState([{ name: "", price: "",mrp:"" }]);
-  const [vendername,setVendername] = useState("");
+  const [variety, setVariety] = useState([{ name: "", price: "", mrp: "" }]);
+  const [vendername, setVendername] = useState("");
   const status = "0";
-  const updated=1;
+  const updated = 1;
   var productImages = [];
 
   const auth = useSelector((state) => state.auth);
@@ -70,19 +70,18 @@ const UpdateProduct = () => {
           },
         }
       );
-  const access_keys= import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      const access_keys = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
       const formData = new FormData(e.target);
       formData.append("access_key", access_keys);
-  
+
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
       });
-  
+
       const data = await response.json();
-     
-          navigate("/dashboard/merchant/product-list");
-     
+
+      navigate("/dashboard/merchant/product-list");
     } catch (error) {
       toast.error("Failed to update product");
       console.log(error);
@@ -118,7 +117,7 @@ const UpdateProduct = () => {
       setVariety(
         Array.isArray(res.data.pd.variety)
           ? res.data.pd.variety
-          : [{ name: "", price: "",mrp:"" }]
+          : [{ name: "", price: "", mrp: "" }]
       );
     } catch (error) {
       console.log(error);
@@ -128,9 +127,9 @@ const UpdateProduct = () => {
   useEffect(() => {
     findProduct();
   }, [params.id]);
-const oldprice = product.price;
-const oldoriginalPrice = product.originalPrice;
-const oldstock = product.stock;
+  const oldprice = product.price;
+  const oldoriginalPrice = product.originalPrice;
+  const oldstock = product.stock;
   useEffect(() => {
     if (product) {
       setName(product.name || "");
@@ -153,7 +152,7 @@ const oldstock = product.stock;
       setVariety(
         Array.isArray(product.variety)
           ? product.variety
-          : [{ name: "", price: "",mrp:"" }]
+          : [{ name: "", price: "", mrp: "" }]
       );
     }
   }, [product]);
@@ -165,7 +164,7 @@ const oldstock = product.stock;
   };
 
   const addVarietyField = () => {
-    setVariety([...variety, { name: "", price: "",mrp:"" }]);
+    setVariety([...variety, { name: "", price: "", mrp: "" }]);
   };
 
   const removeVarietyField = (index) => {
@@ -173,21 +172,33 @@ const oldstock = product.stock;
     setVariety(newVariety);
   };
   const sd = "sd";
-  
+
   return (
     <>
       <Admin_Header />
 
-      <div className="w-75 mx-auto mb-5 mt-5">
-        <Backbutton path="/dashboard/merchant/product-list" />
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-12">
+            <Backbutton path="/dashboard/merchant/product-list" />
+          </div>
+        </div>
+
         <h1 className="text-center mb-4">Update Product</h1>
-        <span>
-          <Link to="/dashboard/merchant/product-list">
-            <button className="btn btn-primary mb-3">See All</button>
-          </Link>
-        </span>
-        <form className="border p-4 rounded shadow" onSubmit={handleSubmit} >
-          <div className="mb-3" >
+        <div className="row">
+          <div className="col-12 col-md-6 mb-3">
+            <Link to="/dashboard/merchant/product-list">
+              <button className="btn btn-primary w-100">See All Products</button>
+            </Link>
+          </div>
+        </div>
+
+        <form
+          className="border p-3 p-md-4 rounded shadow mx-auto"
+          style={{ maxWidth: "800px" }}
+          onSubmit={handleSubmit}
+        >
+          <div className="mb-3">
             <label className="form-label">Product Custom ID</label>
             <input
               type="text"
@@ -196,7 +207,6 @@ const oldstock = product.stock;
               onChange={(e) => setId(e.target.value)}
               disabled
               name="product id"
-
             />
             <input
               type="text"
@@ -204,16 +214,15 @@ const oldstock = product.stock;
               value={id}
               onChange={(e) => setId(e.target.value)}
               name="product id"
-              style={{display:"none"}}
+              style={{ display: "none" }}
             />
-             <input
+            <input
               type="text"
               className="form-control"
               value={vendername}
               onChange={(e) => setVendername(e.target.value)}
               name="VenderName"
-              style={{display:"none"}}
-
+              style={{ display: "none" }}
             />
           </div>
 
@@ -233,8 +242,8 @@ const oldstock = product.stock;
             <select
               className="form-select"
               value={categoryValue}
-              onChange={(e) => setCategoryValue(e.target.value)}               disabled
-
+              onChange={(e) => setCategoryValue(e.target.value)}
+              disabled
             >
               <option>Select Category</option>
               {category.map((c) => (
@@ -251,14 +260,15 @@ const oldstock = product.stock;
               className="form-control"
               rows="3"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}               disabled
-
+              onChange={(e) => setDescription(e.target.value)}
+              disabled
             ></textarea>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">MRP Price</label>
-            <input type="hidden" name="subject" value="New Update of the product is here " />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">MRP Price</label>
+              <input type="hidden" name="subject" value="New Update of the product is here " />
             <input
               type="number"
               step="0.01"
@@ -267,81 +277,78 @@ const oldstock = product.stock;
               style={{display:"none"}}
               name="old price"
             />
-            <input
-              type="number"
-              step="0.01"
-              className="form-control"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              name="new price"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Discount Price</label>
-            <input
+              <input
+                type="number"
+                step="0.01"
+                className="form-control"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                name="new price"
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Discount Price</label>
+              <input
               type="number"
               className="form-control"
               value={oldoriginalPrice}
               style={{display:"none"}}
               name="old originalPrice"
             />
-            <input
-              type="number"
-              className="form-control"
-              value={originalPrice}
-              onChange={(e) => setOriginalPrice(e.target.value)} 
-              name="new originalPrice"
-            />
+              <input
+                type="number"
+                className="form-control"
+                value={originalPrice}
+                onChange={(e) => setOriginalPrice(e.target.value)}
+                name="new originalPrice"
+              />
+            </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Delivery Charge</label>
-            <input
-              type="number"
-              className="form-control"
-              value={deliveryCharge}
-              onChange={(e) => setdeliveryCharge(e.target.value)} disabled
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Delivery Charge</label>
+              <input
+                type="number"
+                className="form-control"
+                value={deliveryCharge}
+                onChange={(e) => setdeliveryCharge(e.target.value)}
+                disabled
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Return Days</label>
+              <input
+                type="number"
+                className="form-control"
+                value={returDays}
+                onChange={(e) => setReturDays(e.target.value)}
+                disabled
+              />
+            </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Return Days</label>
-            <input
-              type="number"
-              className="form-control"
-              value={returDays}
-              onChange={(e) => setReturDays(e.target.value)}disabled
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Replacement Days</label>
-            <input
-              type="number"
-              className="form-control"
-              value={replacementDays}
-              onChange={(e) => setReplacementDays(e.target.value)} disabled
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Product Stock</label>
-            <input
-              type="number"
-              className="form-control"
-              value={oldstock}
-              style={{display:"none"}}
-              name="old stock"
-            
-            />
-            <input
-              type="number"
-              className="form-control"
-              value={stock || ""}
-              onChange={(e) => setStock(e.target.value)}
-              name="new stock"
-            />
+          <div className="row">
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Replacement Days</label>
+              <input
+                type="number"
+                className="form-control"
+                value={replacementDays}
+                onChange={(e) => setReplacementDays(e.target.value)}
+                disabled
+              />
+            </div>
+            <div className="col-12 col-md-6 mb-3">
+              <label className="form-label">Product Stock</label>
+              <input
+                type="number"
+                className="form-control"
+                value={stock || ""}
+                onChange={(e) => setStock(e.target.value)}
+                name="new stock"
+              />
+            </div>
           </div>
 
           <div className="mb-3">
@@ -350,7 +357,8 @@ const oldstock = product.stock;
               type="text"
               className="form-control"
               value={shipping || ""}
-              onChange={(e) => setShipping(e.target.value)}disabled
+              onChange={(e) => setShipping(e.target.value)}
+              disabled
             />
           </div>
 
@@ -358,7 +366,7 @@ const oldstock = product.stock;
             <label className="form-label">Varieties</label>
             {variety.map((item, index) => (
               <div key={index} className="mb-3 d-flex align-items-center">
-                <input
+               <input
                   type="text"
                   className="form-control me-2"
                   value={item.name}
@@ -379,7 +387,7 @@ const oldstock = product.stock;
                   }
                   placeholder={`Variety Name ${index + 1}`}
                 />
-                 <input
+                <input
                   type="text"
                   className="form-control me-2"
                   value={item.mrp}
@@ -441,8 +449,6 @@ const oldstock = product.stock;
               Add Another Variety
             </button>
           </div>
-
-
           <div>
             <h3>Images</h3>
             <div
@@ -452,50 +458,8 @@ const oldstock = product.stock;
                 alignItems: "center",
               }}
             >
-              {/* <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                  }}
-                >
-                  {imageLinks.map((img, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginRight: "10px",
-                        width: "100%",
-                      }}
-                    >
-                      <img
-                        src={img}
-                        alt={`Image ${index + 1}`}
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          objectFit: "cover",
-                          objectPosition: "center",
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div> */}
-            </div>
-          </div>
-
-          <div className="mb-3">
+    </div>
+    </div>          <div className="mb-3">
             <label htmlFor="UploadImage" className="form-label">
               If you want to change the image of the product
             </label>
@@ -503,26 +467,18 @@ const oldstock = product.stock;
               type="file"
               multiple
               id="UploadImage"
-              className="form-control"disabled
+              className="form-control"
               onChange={handleProductImagesUpload}
+              disabled
             />
           </div>
-          <div
-            className=""
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              marginTop: "20px",
-            }}
-          >
-            <button className="btn btn-primary w-[30%]" type="submit">
+
+          <div className="text-center mt-4">
+            <button className="btn btn-primary w-100" type="submit">
               {loading ? "Updating..." : "Update Product"}
             </button>
           </div>
         </form>
-        
       </div>
     </>
   );
