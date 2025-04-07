@@ -135,7 +135,6 @@ export const createProduct= async (req, res) => {
         const savedNote = await product.save();
         res.json(savedNote);
       } catch (error) {
-        
         res.status(500).send("Internal server error");
         
       }
@@ -837,6 +836,7 @@ export const fetchAllProducts = async (req, res) => {
         returnDays,
         replacementDays,
         serviceDays,
+        keywords,
         
       } = req.body;
   
@@ -864,7 +864,7 @@ export const fetchAllProducts = async (req, res) => {
       product.returnDays = returnDays;
       product.replacementDays = replacementDays;
       product.serviceDays = serviceDays;
-  
+      product.keywords = keywords;
       // Handle multiple image links
       if (imgLink) {
         product.imgLink = JSON.parse(imgLink); // Replace existing links
@@ -893,6 +893,7 @@ export const fetchAllProducts = async (req, res) => {
       });
     } catch (error) {
       // Log the error for debugging
+      console.error("Error updating product:", error);
       res
         .status(400)
         .send({ message: "Something went wrong while updating the product" });

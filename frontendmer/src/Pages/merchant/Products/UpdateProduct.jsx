@@ -112,7 +112,7 @@ const UpdateProduct = () => {
           },
         }
       );
-      console.log(res.data.pd);
+     
       setProduct(res.data.pd);
       setVariety(
         Array.isArray(res.data.pd.variety)

@@ -18,6 +18,7 @@ const UpdateProduct = () => {
   const [categoryValue, setCategoryValue] = useState("");
   const [photo, setPhoto] = useState(null); // Change to null for better handling
   const [description, setDescription] = useState("");
+  const [keywords, setKeywords] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [id, setId] = useState("");
@@ -54,34 +55,33 @@ const UpdateProduct = () => {
     }
     setLoading(true);
     try {
-      
       const productData = new FormData();
 
       productData.append("name", name);
       productData.append("category", categoryValue);
       productData.append("price", price);
       productData.append("description", description);
+      productData.append("keywords", keywords); // Append keywords
       productData.append("stock", stock);
       productData.append("shipping", shipping);
       productData.append("pid", id);
       productData.append("originalPrice", originalPrice);
       productData.append("deliveryCharge", deliveryCharge);
 
-      // Check if new images are uploaded
       const uploadedImageUrl = await handleImageUpload();
 
       if (uploadedImageUrl && uploadedImageUrl.length > 0) {
-        // If new images are uploaded, append the new image URLs
         productData.append("imgLink", JSON.stringify(uploadedImageUrl));
       } else {
-        // If no new images are uploaded, keep the existing image links
-        const existingImageLinks = product.imgLink || []; // Assuming product.imgLink holds the existing image URLs
+        const existingImageLinks = product.imgLink || [];
         productData.append("imgLink", JSON.stringify(existingImageLinks));
       }
 
       productData.append("variety", JSON.stringify(variety));
       productData.append("returnDays", returDays);
       productData.append("replacementDays", replacementDays);
+
+      console.log("FormData before sending:", Object.fromEntries(productData.entries()));
 
       const res = await axios.put(
         `${url}/api/v2/products/update-product-admin/${params.id}`,
@@ -153,6 +153,7 @@ const UpdateProduct = () => {
       setName(product.name || "");
       setCategoryValue(product.category?._id || "");
       setDescription(product.description || "");
+      setKeywords(product.keywords || "");
       setPrice(product.price || "");
       setStock(product.stock || "");
       setShipping(product.shipping || "");
@@ -253,6 +254,15 @@ const UpdateProduct = () => {
               rows="3"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Product Keywords</label>
+            <textarea
+              className="form-control"
+              rows="2"
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
             ></textarea>
           </div>
 

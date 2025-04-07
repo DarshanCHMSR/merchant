@@ -23,6 +23,7 @@ const CreateProduct = () => {
   const [categoryValue, setCategory2] = useState("");
   const [photo, setPhoto] = useState(null);
   const [description, setDescription] = useState("");
+  const [keywords, setKeywords] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState();
   const [shipping, setShipping] = useState("");
@@ -67,6 +68,7 @@ const CreateProduct = () => {
       productData.append("category", categoryValue);
       productData.append("price", price);
       productData.append("description", description);
+      productData.append("keywords", keywords);
       productData.append("stock", stock);
       productData.append("shipping", shipping);
       productData.append("photo", photo);
@@ -265,6 +267,15 @@ const CreateProduct = () => {
               className="form-control"
               rows="3"
               onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Product Keywords</label>
+            <textarea
+              className="form-control"
+              rows="2"
+              onChange={(e) => setKeywords(e.target.value)}
             ></textarea>
           </div>
 
