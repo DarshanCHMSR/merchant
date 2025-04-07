@@ -4,14 +4,6 @@ import crypto from "crypto";
 import dotenv from "dotenv";  
 dotenv.config();
 
-
-// * here we have explicitly assigned the region, access key id and secret access key because API key is not fetching our .env file
-// AWS.config.update({
-//   accessKeyId: "AKIA6K5V7UA5GGKHW3HH",
-//   secretAccessKey: "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",
-//   region: "ap-south-1",
-// });
-
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -46,7 +38,7 @@ export const generatePreSignedURL = async (req, res) => {
       }
 
       const params = {
-        Bucket: "valuekarts-test-img-data",
+        Bucket: "valuekarts-test-img-datas",
         Key: `${foldername}/${uniqueFileName}`,
         Expires: 60,
         ContentType: fileType,
@@ -86,7 +78,7 @@ export const generatePreSignedURLForProductSheet = async (req, res) => {
     }
 
     const params = {
-      Bucket: "valuekarts-product-sheet",
+      Bucket: "valuekarts-test-img-datas",
       Key: `${vendorName}/${file}`, // * file refers to spreadsheet
       Expires: 60,
       ContentType: "xlsx",
