@@ -38,7 +38,7 @@ export const generatePreSignedURL = async (req, res) => {
       }
 
       const params = {
-        Bucket: "valuekarts-test-img-datas",
+        Bucket: "merchant2-valuekart",
         Key: `${foldername}/${uniqueFileName}`,
         Expires: 60,
         ContentType: fileType,
@@ -78,7 +78,7 @@ export const generatePreSignedURLForProductSheet = async (req, res) => {
     }
 
     const params = {
-      Bucket: "valuekarts-test-img-datas",
+      Bucket: "merchant2-valuekart",
       Key: `${vendorName}/${file}`, // * file refers to spreadsheet
       Expires: 60,
       ContentType: "xlsx",

@@ -65,9 +65,9 @@ export const UploadToS3 = async (fileList, foldername) => {
           },
         });
 
-        const bucketName = "valuekarts-test-img-data"; // Replace with your actual bucket name
+        const bucketName = "merchant2-valuekart"; // Replace with your actual bucket name
         const key = urls[index].fileName; // Extract the file name from the pre-signed URL
-        const s3Url = `https://s3.ap-south-1.amazonaws.com/${bucketName}/${uploadfoldername}/${key}`;
+        const s3Url = `https://s3.eu-north-1.amazonaws.com/${bucketName}/${uploadfoldername}/${key}`;
 // console.log("s3Url = ",s3Url);
         return s3Url;
       })
