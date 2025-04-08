@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Admin_Header from "../Components/Admin_Header";
+import Merchant_Header from "../Components/Merchant_Header";
 import axios from "axios";
 import { url } from "../../../Components/backend_link/data";
 import { useSelector } from "react-redux";
@@ -175,7 +175,7 @@ const UpdateProduct = () => {
 
   return (
     <>
-      <Admin_Header />
+      <Merchant_Header />
 
       <div className="container mt-5">
         <div className="row">
