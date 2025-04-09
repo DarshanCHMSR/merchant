@@ -100,11 +100,9 @@ const BankInfo = () => {
     const oldaccountNumber = parsedData.user.accountNumber || "";
     const oldifscCode = parsedData.user.ifscCode || "";
     const oldbankName = parsedData.user.bankName || "";
-console.log("the name",olduserName,oldaccountNumber,oldifscCode,oldbankName)
-console.log("the usernew name",userName,accountNumber,ifscCode,bankName,coAccountNumber)
+
 const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log("The form submitted");
   setSenting(true);
 
   // Validation
@@ -147,7 +145,6 @@ const handleSubmit = async (e) => {
       body: formDatas,
     });
     const data = await response.json();
-    console.log("Response from Web3Forms:", data);
 
     if (res.data.success) {
       alert("Bank Details Submitted!");
