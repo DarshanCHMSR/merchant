@@ -9,7 +9,6 @@ import SetStatus from "./SetStatus";
 import { useSelector } from "react-redux";
 import Footer from "../../Footer";
 import ReactPaginate from 'react-paginate';
-import { set } from "mongoose";
 
 
 const MerchantInfo = () => {
