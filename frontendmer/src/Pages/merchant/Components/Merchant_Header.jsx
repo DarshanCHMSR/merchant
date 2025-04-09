@@ -75,42 +75,7 @@ const Merchant_Header = () => {
                     Bank-Details
                   </Link>
                 </li>
-                
-                
-                
-                {/* <li className="nav-item">
-                  <Link
-                    to={"/dashboard/admin/labour-list"}
-                    className="nav-link text-black"
-                  >
-                    Labour
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    to={"/dashboard/admin/orders"}
-                    className="nav-link text-black"
-                  >
-                    Orders
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    to={"/dashboard/admin/create-link"}
-                    className="nav-link text-black"
-                  >
-                    Banners
-                  </Link>
-                </li> */}
-
-                {/* <li>
-                  <Link
-                    to={"/dashboard/admin/pincodes-list"}
-                    className="nav-link text-black"
-                  >
-                    Pincodes
-                  </Link>
-                </li> */}
+              
               </ul>
 
               <div className="d-flex align-items-center ms-3">

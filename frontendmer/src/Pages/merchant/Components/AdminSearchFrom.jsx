@@ -15,13 +15,13 @@ const AdminSearchFrom = () => {
   return (
     <>
       <form
-        className="d-none d-md-flex input-group w-auto my-autor border rounded-pill overflow-hidden"
+        className="d-none d-md-flex input-group w-auto my-autor border rounded-pill  overflow-hidden"
         onSubmit={handelSubmit}
       >
         <input
           autoComplete="off"
           type="search"
-          className="form-control border-0"
+          className="form-control border-0 rounded-pill "
           placeholder="Search..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}

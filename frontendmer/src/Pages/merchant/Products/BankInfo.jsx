@@ -24,7 +24,6 @@ const BankInfo = () => {
     const token = parsedData.token;
 
     const bankOptions2 = [
-        { label: "Select Bank", value: "Select Bank" },
         { label: "Allahabad Bank", value: "Allahabad Bank" },
         { label: "Andhra Bank", value: "Andhra Bank" },
         { label: "Axis Bank", value: "Axis Bank" },
