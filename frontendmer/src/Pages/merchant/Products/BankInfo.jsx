@@ -151,7 +151,7 @@ const handleSubmit = async (e) => {
 
     if (res.data.success) {
       alert("Bank Details Submitted!");
-      navigate("/");
+      navigate("/dashboard/merchant-info");
       setAccountNumber("");
       setIfscCode("");
       setBankName("");

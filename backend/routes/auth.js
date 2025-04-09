@@ -30,6 +30,9 @@ router.post('/resend-otp',resendOtpcontroller)
 
 // * this route is for finding the user by id 
 router.get('/get-user/:id',requireSignin,getUserController)
+// * this route is for finding the user by id in the bank info page
+router.get('/get-users/:id',getUserController)
+
 
 // * This routes is for user profile update.
 router.put('/update-user/:id',requireSignin,updateProfileController)

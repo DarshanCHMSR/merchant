@@ -9,6 +9,7 @@ import SetStatus from "./SetStatus";
 import { useSelector } from "react-redux";
 import Footer from "../../Footer";
 import ReactPaginate from 'react-paginate';
+import { set } from "mongoose";
 
 
 const MerchantInfo = () => {
@@ -19,6 +20,7 @@ const MerchantInfo = () => {
         if (!authData) return null; // Return null if no data is found
         const parsedData = JSON.parse(authData); // Convert JSON string back to object
     const [totalProducts, setTotalProducts] = useState(0);
+    const [userData, setUserData] = useState({});    
     
     useEffect(() => {
         const fetchTotalProducts = async () => {
@@ -29,12 +31,21 @@ const MerchantInfo = () => {
             console.error("Error fetching total products:", error);
           }
         };
-    
+
         fetchTotalProducts();
       }, []);
-    
+      const fetchUserData = async () => {
+        try {
+          const res = await axios.get(`${url}/api/v2/auth/get-users/${parsedData.user._id}`);
+          setUserData(res.data.user);
+        } catch (error) {
+          console.error("Error ", error);
+        }
+      };
+
+      fetchUserData();
   return (
-    <>
+    <>  
       <Merchant_Header />
       {loading ? (
         <Loader />
@@ -98,19 +109,19 @@ const MerchantInfo = () => {
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <p className="mb-2"><strong>Account Holder:</strong></p>
-                      <p className="text-muted">{parsedData.user.userName}</p>
+                      <p className="text-muted">{userData.userName}</p>
                     </div>
                     <div className="col-md-6 mb-3">
                       <p className="mb-2"><strong>Account Number:</strong></p>
-                      <p className="text-muted">{parsedData.user.accountNumber}</p>
+                      <p className="text-muted">{userData.accountNumber}</p>
                     </div>
                     <div className="col-md-6 mb-3">
                       <p className="mb-2"><strong>IFSC Code:</strong></p>
-                      <p className="text-muted">{parsedData.user.ifscCode}</p>
+                      <p className="text-muted">{userData.ifscCode}</p>
                     </div>
                     <div className="col-md-6 mb-3">
                       <p className="mb-2"><strong>Bank Name:</strong></p>
-                      <p className="text-muted">{parsedData.user.bankName}</p>
+                      <p className="text-muted">{userData.bankName}</p>
                     </div>
                   </div>
                 </div>
