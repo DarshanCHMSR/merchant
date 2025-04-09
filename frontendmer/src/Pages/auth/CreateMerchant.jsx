@@ -350,6 +350,7 @@ const [Longitude, setLongitude] = useState("");
     onClick={sendOTP}
     className="form-control mb-3"
     style={{ margin: "7px", marginLeft: "0" }}
+    disabled={!emailRegex.test(email)} // Disable button if email is invalid
   >
     Send OTP
   </button>
