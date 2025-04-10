@@ -5,12 +5,6 @@ import products from "./routes/products.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import uploadRoutes from './routes/uploadRoutes.js'
 import otpRoutes from "./routes/otpRoutes.js";
-
-
-import AWS from "aws-sdk";
-import crypto from "crypto";
-
-import dotenv from "dotenv";  
 import cors from "cors";
 
 const app = express()
@@ -36,8 +30,9 @@ app.use("/api/v2/category", categoryRoutes);
 // * this one is getting the presignedURL for uploading images to the s3
 app.use('/api/v2/upload',uploadRoutes);
 
-
+(async () => {
+  await connectDB();
+})();
 app.listen(port, () => {
   console.log(`merchant backend listening on port http://localhost:  ${port}`)
 })
-connectDB();
