@@ -232,7 +232,7 @@ const [Longitude, setLongitude] = useState("");
         setloading(true);
         if (customid.length === 0) {
           setIsidgenerated(true);
-          setId("VK-001");
+          setId("VKV-001");
           setloading(false);
           return;
         }
@@ -242,7 +242,7 @@ const [Longitude, setLongitude] = useState("");
         // console.log("the validids",validIds);
     
         if (validIds.length === 0) {
-          setId("VK-001");
+          setId("VKV-001");
           setIsidgenerated(true);
           setloading(false);
           return;
@@ -254,7 +254,7 @@ const [Longitude, setLongitude] = useState("");
         // console.log("The lastID is ", lastId);
     
         if (!lastId) {
-          setId("VK-001");
+          setId("VKV-001");
           setIsidgenerated(true);
           setloading(false);
           return;
@@ -264,7 +264,7 @@ const [Longitude, setLongitude] = useState("");
         const lastNumber = parseInt(lastId.split("-")[1]);
         const newNumber = (lastNumber + 1).toString().padStart(3, "0");
     
-        setId(`VK-${newNumber}`);
+        setId(`VKV-${newNumber}`);
         setIsidgenerated(true);
         setloading(false);
       };

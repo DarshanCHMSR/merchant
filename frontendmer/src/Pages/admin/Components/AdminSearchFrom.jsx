@@ -21,7 +21,7 @@ const AdminSearchFrom = () => {
         <input
           autoComplete="off"
           type="search"
-          className="form-control border-0"
+          className="form-control border-0 rounded-pill"
           placeholder="Search..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
