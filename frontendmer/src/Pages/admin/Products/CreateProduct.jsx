@@ -183,7 +183,7 @@ const CreateProduct = () => {
     const lastNumber = parseInt(lastId.split("-")[1]);
     const newNumber = (lastNumber + 1).toString().padStart(3, "0");
 
-    setId(`VK-${newNumber}`);
+    setId(`VKV-${newNumber}`);
     setIsidgenerated(true);
     setLoading(false);
   };
