@@ -230,40 +230,39 @@ const [Longitude, setLongitude] = useState("");
     
       const generateId = () => {
         setloading(true);
+      
+        // If no custom IDs exist, start with the first ID
         if (customid.length === 0) {
           setIsidgenerated(true);
           setId("VKV-001");
           setloading(false);
           return;
         }
-    
-        const validIds = customid.filter((id) => id != null);
-        
-        // console.log("the validids",validIds);
-    
+      
+        // Filter out null or invalid IDs
+        const validIds = customid.filter((id) => id && id.startsWith("VKV-"));
+      
+        // If no valid IDs exist, start with the first ID
         if (validIds.length === 0) {
           setId("VKV-001");
           setIsidgenerated(true);
           setloading(false);
           return;
         }
-    
-        // Sort valid IDs in descending order to get the last one
-        const lastId = validIds[validIds.length-1];
-    
-        // console.log("The lastID is ", lastId);
-    
-        if (!lastId) {
-          setId("VKV-001");
-          setIsidgenerated(true);
-          setloading(false);
-          return;
-        }
-    
-        // Safely split and extract the number part, then increment it
-        const lastNumber = parseInt(lastId.split("-")[1]);
+      
+        // Sort valid IDs in ascending order based on the numeric part
+        validIds.sort((a, b) => {
+          const numA = parseInt(a.split("-")[1], 10);
+          const numB = parseInt(b.split("-")[1], 10);
+          return numA - numB;
+        });
+      
+        // Get the last ID and increment its numeric part
+        const lastId = validIds[validIds.length - 1];
+        const lastNumber = parseInt(lastId.split("-")[1], 10);
         const newNumber = (lastNumber + 1).toString().padStart(3, "0");
-    
+      
+        // Generate the new ID
         setId(`VKV-${newNumber}`);
         setIsidgenerated(true);
         setloading(false);
