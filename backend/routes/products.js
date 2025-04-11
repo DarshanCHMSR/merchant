@@ -5,31 +5,46 @@ import { createProduct,viewUserProducts,getkProductsView,getProductsWaiting,getP
 
 
 const router = express.Router();
-// * for exporting the user
-router.get("/exportuser",exportUser);
-router.get("/exportuserbylast5",exportUserBylast5);
-router.get("/by-date", getProductsByDate);
-router.get("/get-products-by-vendor/:vendername", getProductsByVendor);
-router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
+// * the routes for the downloading the products as a excel file
+// * this route is used for exporting the products as a excel file till now
+router.get("/export-products-till-now",exportUser,requireSignin,isAdmin);
+// * this route is used for exporting the products as a excel file by the last 5 products
+router.get("/exportuserbylast5",exportUserBylast5,requireSignin,isAdmin);
+// * this route is used for exporting the products as a excel file by the date
+router.get("/by-date", getProductsByDate, requireSignin, isAdmin);
+// * this route is used for exporting the products as a excel file by the vendor name in the merchant view of the admin side
+router.get("/get-products-by-vendor/:vendername", getProductsByVendor, requireSignin, isAdmin);
+
+
+
+// * this route is used for searching the vendors by the name in the admin side this in not used in the frontend
 router.get("/vendors/search/:query", searchVendors);
 
-// * for fetching the user products
-router.get("/fetch", requireSignin, getUserProducts);
-router.get("/fetchtotal/:user_id", getUserTotalProducts);
+
+//the routes for the admin side merchant list
+// * this route is used for deleting the user products by the user id in the admin side
+router.delete("/delete-user-products/:user_id", deleteUserProducts, requireSignin, isAdmin); 
+// * for fetching all the products  
+router.get("/fetchallproducts", requireSignin, fetchAllProducts,isAdmin);
+// * this route is used for getting the products waiting for approval by the user id in the admin side
+router.get("/get-products-waiting/:user_id", getProductsWaiting, requireSignin, isAdmin);
+// * this route is used for getting the products approved by the user id in the admin side
+router.get("/get-products-approved/:user_id", getProductsApproved, requireSignin, isAdmin);
+// * this route is used for getting the total products based on the user id
+router.get("/fetchtotal/:user_id", getUserTotalProducts,requireSignin);
+
+
+
 // * for fetching the user products for the view
 router.get("/viewkproducts/:user_id", getkProductsView);
 router.get("/view-user-products/:user_id", viewUserProducts);
 
 //for the merchant list of products
-router.get("/get-products-waiting/:user_id", getProductsWaiting);
-router.get("/get-products-approved/:user_id", getProductsApproved);
-router.delete("/delete-user-products/:user_id", deleteUserProducts);
 router.get("/get-users-product/:user_id", getUsersProduct); 
 
-// * for fetching all the products  
-  router.get("/fetchallproducts", requireSignin, fetchAllProducts);
-  // * for creating the product
-  router.post('/create-product',requireSignin  ,createProduct);
+
+  // * for creating the product used for both admin and merchant side creating the product
+  router.post('/create-product',requireSignin,createProduct);
   // * for setting the product status
 router.put("/set-product-status/:id", setProductStatus);
 // * for setting the product status for the rejected products
@@ -48,6 +63,21 @@ router.put('/update-product-admin/:id',requireSignin  ,updateProductAdmin);
 router.delete('/delete-product/:id',requireSignin , deleteProduct);
 
 // * for searching of the product
+
+
+
+//routes for the merchant side
+// * for fetching the products based on the user id 
+router.get("/fetch", requireSignin, getUserProducts);
+// * this route is used for exporting the products as a excel file by user id in the merchant side products list page for there downloading the products
+router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
+
+
+
+
+
+
+
 
 router.get('/search/:keyword',searchProducts);
 

@@ -101,6 +101,11 @@ const [phone,setPhone] = useState("");
     try {
      
       const response = await axios.get(`${url}/api/v2/products/get-products-by-vendor/${name}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth.token,
+        },
+      }, {
         responseType: "blob", // Ensure we get binary data
       });
 

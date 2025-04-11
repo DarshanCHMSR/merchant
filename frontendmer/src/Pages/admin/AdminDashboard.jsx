@@ -1,47 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Loader from "../../Components/Loading/Loader";
 import "./admin.css";
-import { useDispatch, useSelector } from "react-redux";
-import { clearAuth } from "../../State/auth_action";
-import toast, { Toaster } from "react-hot-toast";
-import { MdDeliveryDining } from "react-icons/md";
-import { MdEventAvailable } from "react-icons/md";
-import { MdProductionQuantityLimits } from "react-icons/md";
-import { FcSalesPerformance } from "react-icons/fc";
+import {  useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+
 import Admin_Header from "./Components/Admin_Header";
 import { url } from "../../Components/backend_link/data";
 import axios from "axios";
 
 const AdminDashboard = () => {
   const [Loading, setLoading] = useState(false);
-  const [vendorName, setVendorName] = useState("");
 
-  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (vendorName.trim().length > 0) {
-      const debounceTimeout = setTimeout(() => {
-        fetchVendorSuggestions(vendorName);
-      }, 300);
-  
-      return () => clearTimeout(debounceTimeout);
-    } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
-    }
-  }, [vendorName]);
-  
-  
-
 
   const handleDownload = async () => {
     try {
      
-      const response = await axios.get(`${url}/api/v2/products/exportuser`, {
+      const response = await axios.get(`${url}/api/v2/products/export-products-till-now`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth.token,
+        },
+      }, {
         responseType: "blob", // Ensure we get binary data
       });
 
@@ -63,7 +43,6 @@ const AdminDashboard = () => {
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [products, setProducts] = useState([]);
   
     const fetchProductsByDate = async () => {
       if (!startDate || !endDate) {
@@ -73,7 +52,12 @@ const AdminDashboard = () => {
     
       try {
         const response = await axios.get(
-          `${url}/api/v2/products/by-date?startDate=${startDate}&endDate=${endDate}`,
+          `${url}/api/v2/products/by-date?startDate=${startDate}&endDate=${endDate}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: auth.token,
+            },
+          },
           { responseType: "blob" } // Correct usage in Axios
         );
     
@@ -98,6 +82,11 @@ const AdminDashboard = () => {
     try {
      
       const response = await axios.get(`${url}/api/v2/products/exportuserbylast5`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth.token,
+        },
+      }, {
         responseType: "blob", // Ensure we get binary data
       });
 
@@ -117,35 +106,6 @@ const AdminDashboard = () => {
     }
   }
   
-
-  const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-
-
-  const fetchVendorSuggestions = async (query) => {
-    try {
-      const response = await axios.get(`${url}/api/v2/products/vendors/search/${query}`);
-      if (response.data && response.data.length > 0) {
-        setSuggestions(response.data);
-        setShowSuggestions(true);
-      } else {
-        setSuggestions([]);
-        setShowSuggestions(false);
-      }
-    } catch (error) {
-      console.error("Error fetching vendor suggestions:", error);
-      setSuggestions([]);
-      setShowSuggestions(false);
-    }
-  };
-  
-
-  const handleSelect = (name) => {
-    setVendorName(name);
-    setShowSuggestions(false);
-  };
-
-
   return (
     <>
       {Loading ? (

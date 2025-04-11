@@ -62,18 +62,24 @@ const MerchantList = () => {
   // Function to fetch total products for a specific user
   const fetchTotalProducts = async (userId) => {
     try {
-      const res = await axios.get(`${url}/api/v2/products/fetchtotal/${userId}`);
+      const res = await axios.get(`${url}/api/v2/products/fetchtotal/${userId}`,{headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.token,
+      },});
       setProductCounts((prev) => ({
         ...prev,
         [userId]: res.data.totalProducts, // Store count per user ID
       }));
     } catch (error) {
       console.error("Error fetching total products:", error);
-    }
+    } 
   };
   const fetchTotalWaitingProducts = async (userId) => {
     try {
-      const res = await axios.get(`${url}/api/v2/products/get-products-waiting/${userId}`);
+      const res = await axios.get(`${url}/api/v2/products/get-products-waiting/${userId}`,{headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.token,
+      },});
       setWaitingCounts((prev) => ({
         ...prev,
         [userId]: res.data.totalProducts, // Store count per user ID
@@ -84,7 +90,10 @@ const MerchantList = () => {
   };
   const fetchTotalApprovedProducts = async (userId) => {
     try {
-      const res = await axios.get(`${url}/api/v2/products/get-products-approved/${userId}`);
+      const res = await axios.get(`${url}/api/v2/products/get-products-approved/${userId}`,{headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.token,
+      },});
       setApprovedCounts((prev) => ({
         ...prev,
         [userId]: res.data.totalProducts, // Store count per user ID
@@ -100,7 +109,10 @@ const MerchantList = () => {
       const confirmDelete = window.confirm(`Are you sure you want to delete all products for this user?`);
       if (!confirmDelete) return;
   
-      const response = await axios.delete(`${url}/api/v2/products/delete-user-products/${userId}`);
+      const response = await axios.delete(`${url}/api/v2/products/delete-user-products/${userId}`,{headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.token,
+      },});
   
       if (response.data.success) {
         alert(response.data.message);
