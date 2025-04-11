@@ -69,13 +69,6 @@ router.put('/update-product-admin/:id',requireSignin,isAdmin  ,updateProductAdmi
 router.delete('/delete-product/:id',requireSignin ,isAdmin, deleteProduct);
 
 
-//routes for the merchant side
-// * for fetching the products based on the user id 
-router.get("/fetch", requireSignin, getUserProducts);
-// * this route is used for exporting the products as a excel file by user id in the merchant side products list page for there downloading the products
-router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
-// * for updating the product
-router.put('/update-product/:id',requireSignin  ,updateProduct);
 
 //this is used for the search the product based on the keyword
 router.get('/search/:keyword',searchProducts);
@@ -86,12 +79,8 @@ router.get('/section-two',getSectionTwoProducts);
 
 // * fetching the products for pagination in the admin side product list
 router.get('/get-k-products',getkProducts,requireSignin,isAdmin);
-
-
 // * fetching the product based on category
 router.get('/get-product-by-category/:id',getCategoryProducts);
-
-
 // * This function is used to search the products for the admin by the customid
 router.post('/search-admin-product',requireSignin  ,searchAdminProducts);
 
@@ -103,4 +92,11 @@ router.get('/suggest-product/:keyword',getSuggestProducts);
 
 
 
+//routes that are only used for merchant side
+// * for fetching the products based on the user id 
+router.get("/fetch", requireSignin, getUserProducts);
+// * this route is used for exporting the products as a excel file by user id in the merchant side products list page for there downloading the products
+router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
+// * for updating the product
+router.put('/update-product/:id',requireSignin  ,updateProduct);
   export default router;
