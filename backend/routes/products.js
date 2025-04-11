@@ -1,11 +1,5 @@
-import jwt from "jsonwebtoken";
 import express from "express";
-import slugify from "slugify";
-import { body, validationResult } from "express-validator";
-import { comparePassword, hashPassword } from "../helpers/authEncryption.js";
-import Product from "../models/productModel.js";
-import { requireSignin } from "../middleware/authMiddleWare.js";
-import { isAdmin } from "../middleware/authMiddleWare.js";
+import { requireSignin,isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
 import { createProduct,viewUserProducts,getkProductsView,getProductsWaiting,getProductsApproved,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
