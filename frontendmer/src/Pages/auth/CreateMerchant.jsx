@@ -57,7 +57,12 @@ const [Longitude, setLongitude] = useState("");
     setloading(true);
 
     try {
-      const res = await axios.post(`${url}/api/v2/auth/register`, {
+      const res = await axios.post(`${url}/api/v2/auth/create-merchant`,{
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth.token,
+        },
+      } , {
         id,
         name: Name,
         email: mail,

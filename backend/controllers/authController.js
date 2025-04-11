@@ -1,11 +1,10 @@
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import { comparePassword, hashPassword } from "../helpers/authEncryption.js";
-import axios from "axios";
 
 // * register handler
 const JWT_SECRET = "asdfghjkl12345678";
-export const registerController = async (req, res) => {
+export const createAdmin = async (req, res) => {
   try {
     const { name, email, password, phone, emailPassword,role,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName,userName,coAccountNumber } = req.body;
 
@@ -40,6 +39,107 @@ export const registerController = async (req, res) => {
       email,
       phone,
       role,
+      gst,
+      shop,
+      address,
+    Latitude,
+    Longitude,
+    accountNumber,
+    ifscCode,
+    bankName,
+    userName,
+    coAccountNumber
+    });
+    // * Registering the user
+// console.log("user ",user.Latitude)
+    if (!password) {
+      const hashedEmailPass = await hashPassword(emailPassword);
+      user.emailPassword = hashedEmailPass;
+    }
+    if (!emailPassword) {
+      const hashedPass = await hashPassword(password);
+      user.password = hashedPass;
+    }
+
+    // * saving the user
+
+    await user.save();
+
+    // * creating token
+    const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.status(201).send({
+      success: true,
+      message: "Registered Successfully",
+      _id: user._id,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        role: user.role,
+        location: user.location,
+        cart: user.cart,
+        gst: user.gst,
+        shop: user.shop,
+        Latitude: user.Latitude,
+        Longitude: user.Longitude,
+        address: user.address,
+        id:user.id,
+        accountNumber:user.accountNumber,
+        ifscCode:user.ifscCode,
+        bankName:user.bankName,
+        userName:user.userName,
+        coAccountNumber:user.coAccountNumber
+      },
+
+      token,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Registration failed due internal server error",
+      msg:error.message
+    });
+  }
+};
+export const createMerchant = async (req, res) => {
+  try {
+    const { name, email, password, phone, emailPassword,gst,shop,Latitude,Longitude,address,id,accountNumber,ifscCode,bankName,userName,coAccountNumber } = req.body;
+
+    // if ((!phone || !email) && !name) {
+    //   return res.send({ message: "All fields are required" });
+    // }
+
+    // * Check if the use already exists or not
+    if (email) {
+      const existingUser = await userModel.findOne({ email });
+
+      if (existingUser) {
+        return res.status(400).send({
+          success: false,
+          message: "This email already exists",
+        });
+      }
+    } else if (phone) {
+      const existingPhone = await userModel.findOne({ phone });
+
+      if (existingPhone) {
+        return res.status(400).send({
+          success: false,
+          message: "This phone number already exists",
+        });
+      }
+    }
+
+    const user = new userModel({
+      id,
+      name,
+      email,
+      phone,
       gst,
       shop,
       address,

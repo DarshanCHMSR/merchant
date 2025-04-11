@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { url } from "../../../Components/backend_link/data";
+import { useSelector } from "react-redux";
 
 export default function RejStatus({ productId }) {
   const [status, setStatu] = useState(0);
   const [rejReason, setRejReason] = useState("");    
+    const auth = useSelector((state) => state.auth);
+  
   // Default to null before fetching
 
   // Fetch product status when component loads or when productId changes

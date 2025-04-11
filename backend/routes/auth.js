@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  registerController,
+  createAdmin,
   loginController,
   getUserController,
   updateProfileController,
@@ -9,14 +9,20 @@ import {
   deleteUser,
   resetPasswordController,
   getCustomUserId,
-  updateTermsAndConditions
+  updateTermsAndConditions,
+  createMerchant
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middleware/authMiddleWare.js";
 
 const router = express.Router();
+//this is for creating the admin only for the first time to create the admin
+router.post("/create-admin", createAdmin);
+//this is for creating the merchant
+router.post("/create-merchant", createMerchant, requireSignin, isAdmin);
 
-router.post("/register", registerController);
+// * this route is for registering the user
 router.post("/login", loginController);
+// * this route is for password reset
 router.post('/reset-password',resetPasswordController)
 
 // * this route is for finding the user by id 
@@ -29,7 +35,7 @@ router.get('/get-users/:id',getUserController)
 router.put('/update-user/:id',requireSignin,updateProfileController)
 
 // * This routes is for user profile update.
-router.delete('/delete-user/:id',requireSignin,deleteUser)
+router.delete('/delete-user/:id',requireSignin,isAdmin,deleteUser)
 
 // * this route is getting all users
 router.get('/get-users',getUsersListController);

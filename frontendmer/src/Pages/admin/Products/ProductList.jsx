@@ -9,12 +9,15 @@ import SetStatus from "./SetStatus";
 import ReactPaginate from 'react-paginate';
 import RejStatus from "../../admin/Products/RejStatus";
 import Modal from "react-bootstrap/Modal";
+import { useSelector } from "react-redux";
+
 
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const auth = useSelector((state) => state.auth);
 
   const handleImageClick = (imgUrl) => {
     setSelectedImage(imgUrl);
