@@ -1,16 +1,12 @@
 import axios from "axios";
 import React, { useState,useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../Components/Loading/Loader";
 import Backbutton from "../../Components/Backbutton";
-import CountDown from "../../Components/timer/CountDown";
-import sendOtp from "./authControllers/sendOtp";
-import verifyOtp from "./authControllers/verifyOtp";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../../State/auth_action";
 import { url } from "../../Components/backend_link/data";
-import resendOtp from "./authControllers/resendOtp";
 import Admin_Header from "../admin/Components/Admin_Header";
 
 
@@ -43,10 +39,8 @@ const [Longitude, setLongitude] = useState("");
   const navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     const [isidgenerated, setIsidgenerated] = useState(false);
   
-  const [min, setmin] = useState(1);
   // ? this state is used to handel the resend OTP time recount.
   const handelsubmit = async (e) => {
     e.preventDefault();

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import Signup from "./Pages/auth/Signup";
 import ProductPage from "./Pages/ProductPage";
 import ProductView from "./Pages/ProductView";
 import Checkout from "./Pages/Checkout";
@@ -33,7 +32,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "./State/auth_action";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CategoryBased from "./Pages/CategoryBased";
-import Review from "./Pages/admin/Review";
 import AdminSearchPage from "./Pages/admin/Components/AdminSearchPage";
 import { fetchCart } from "./State/cart_actions";
 import AboutUs from "./Pages/AboutUs";
@@ -45,7 +43,6 @@ import BulkCreateProduct from "./Pages/admin/Products/BulkCreateProduct";
 
 //merchant Merchant
 import CreateProductMerchant from "./Pages/merchant/Products/CreateProduct";
-import AdminDashboardMerchant from "./Pages/merchant/AdminDashboard";
 import CategoryListMerchant from "./Pages/merchant/Cateogry/CategoryList";
 import CreateCategoryMerchant from "./Pages/merchant/Cateogry/CreateCategory";
 import UpdateCateogryMerchant from "./Pages/merchant/Cateogry/UpdateCategory";
@@ -119,7 +116,6 @@ function App() {
             // ? Private routes for admin
             <Route path="dashboard" element={<Admin_Private />}>
               <Route path="admin" element={<AdminDashboard />} />
-              <Route path="admin/review" element={<Review />} />
               <Route
                 path="admin/search-products/:searchValue"
                 element={<AdminSearchPage />}
@@ -228,7 +224,6 @@ function App() {
               <Route path="/register-form" element={<RegisterForm />} />
               
 
-            <Route path="/signup" element={<Signup />} />
             <Route path="/create-merchant" element={<CreateMerchant />} />
             <Route
               path="/"
