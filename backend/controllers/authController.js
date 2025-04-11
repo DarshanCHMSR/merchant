@@ -18,7 +18,7 @@ export const registerController = async (req, res) => {
       const existingUser = await userModel.findOne({ email });
 
       if (existingUser) {
-        return res.status(300).send({
+        return res.status(400).send({
           success: false,
           message: "This email already exists",
         });
@@ -27,7 +27,7 @@ export const registerController = async (req, res) => {
       const existingPhone = await userModel.findOne({ phone });
 
       if (existingPhone) {
-        return res.status(300).send({
+        return res.status(400).send({
           success: false,
           message: "This phone number already exists",
         });
@@ -205,107 +205,6 @@ export const resetPasswordController = async (req, res) => {
     res.status(200).json({ success: true, message: "Password updated successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// * OTP sender
-export const otpController = async (req, res) => {
-  const { phone } = req.body;
-
-  const clientId = "7ZTENLFHEYX58X5EKJSPS1B7CKQ0VFJ7";
-  const clientSecret = "rs4k4hgx7azgq8cnh9hvhlibtt5f2xa7";
-
-  let data = JSON.stringify({
-    phoneNumber: "91" + phone,
-    otpLength: 6,
-    channel: "SMS",
-    expiry: 60,
-  });
-// console.log("data",data)
-  let config = {
-    method: "POST",
-    maxBodyLength: Infinity,
-    url: "https://auth.otpless.app/auth/otp/v1/send",
-    headers: {
-      clientId: clientId,
-      clientSecret: clientSecret,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-// console.log("config",config)
-  try {
-    const response = await axios.request(config);
-    const orderId = response.data.orderId;
-    res.status(200).json({ orderId });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// * OTP verification
-export const otpVerification = async (req, res) => {
-  try {
-    const { phone, otp, orderId } = req.body;
-
-    const clientId = "7ZTENLFHEYX58X5EKJSPS1B7CKQ0VFJ7";
-    const clientSecret = "rs4k4hgx7azgq8cnh9hvhlibtt5f2xa7";
-
-    let data = JSON.stringify({
-      orderId: orderId,
-      otp: otp,
-      phoneNumber: phone,
-    });
-
-    const config = {
-      method: "POST",
-      maxBodyLength: Infinity, // Corrected property name
-      url: "https://auth.otpless.app/auth/otp/v1/verify",
-      headers: {
-        clientId: clientId,
-        clientSecret: clientSecret,
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    const response = await axios.request(config);
-    // console.log("response",response.data)
-    res.status(200).json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// * resend Otp controller
-export const resendOtpcontroller = async (req, res) => {
-  const { orderId } = req.body;
-
-  const clientId = "7ZTENLFHEYX58X5EKJSPS1B7CKQ0VFJ7";
-  const clientSecret = "rs4k4hgx7azgq8cnh9hvhlibtt5f2xa7";
-
-  let data = JSON.stringify({
-    orderId: orderId,
-  });
-
-  const config = {
-    method: "POST",
-    maxBodyLength: Infinity, // Corrected property name
-    url: "https://auth.otpless.app/auth/otp/v1/resend",
-    headers: {
-      clientId: clientId,
-      clientSecret: clientSecret,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-
-  try {
-    const response = await axios.request(config);
-    const orderId = response.data.orderId; // Extracting the orderId from the response
-    res.status(200).json({ orderId });
-  } catch (error) {
-    res.status(500).send("Error while resending the otp");
   }
 };
 
