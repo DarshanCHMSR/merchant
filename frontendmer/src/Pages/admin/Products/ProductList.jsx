@@ -56,7 +56,10 @@ const ProductList = () => {
       // Add cache-buster only for product filtering
       
       
-      const res = await axios.get(`${url}/api/v2/products/get-k-products`, { params });
+      const res = await axios.get(`${url}/api/v2/products/get-k-products`, { params },{headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.token,
+      },});
       setProducts(res.data.products);
       setTotalPages(Math.ceil(res.data.totalProducts / productsPerPage));
       setLoading(false);

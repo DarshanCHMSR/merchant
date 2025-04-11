@@ -68,9 +68,6 @@ router.put('/update-product-admin/:id',requireSignin,isAdmin  ,updateProductAdmi
 //this is used for the deleting the products based on the id
 router.delete('/delete-product/:id',requireSignin ,isAdmin, deleteProduct);
 
-// * for searching of the product
-
-
 
 //routes for the merchant side
 // * for fetching the products based on the user id 
@@ -80,22 +77,15 @@ router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
 // * for updating the product
 router.put('/update-product/:id',requireSignin  ,updateProduct);
 
-
-
-
-
-
-
+//this is used for the search the product based on the keyword
 router.get('/search/:keyword',searchProducts);
-
 
 // * fetching the products based on section
 router.get('/section-one',getSectionOneProducts);
 router.get('/section-two',getSectionTwoProducts);
 
-
-// * fetching the products for pagination
-router.get('/get-k-products',getkProducts);
+// * fetching the products for pagination in the admin side product list
+router.get('/get-k-products',getkProducts,requireSignin,isAdmin);
 
 
 // * fetching the product based on category
@@ -106,7 +96,6 @@ router.get('/get-product-by-category/:id',getCategoryProducts);
 router.post('/search-admin-product',requireSignin  ,searchAdminProducts);
 
 // * this router is for checking the existing product custom id
-
 router.get('/get-customid',requireSignin ,getCustomProductId);
 
 // * this route is used for suggesting the products on the search bar.
