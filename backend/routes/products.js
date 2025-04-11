@@ -18,7 +18,7 @@ router.get("/get-products-by-vendor/:vendername", getProductsByVendor, requireSi
 
 
 // * this route is used for searching the vendors by the name in the admin side this in not used in the frontend
-router.get("/vendors/search/:query", searchVendors);
+router.get("/vendors/search/:query", searchVendors,requireSignin,isAdmin);
 
 
 //the routes for the admin side merchant list
@@ -35,32 +35,38 @@ router.get("/fetchtotal/:user_id", getUserTotalProducts,requireSignin);
 
 
 
-// * for fetching the user products for the view
-router.get("/viewkproducts/:user_id", getkProductsView);
-router.get("/view-user-products/:user_id", viewUserProducts);
-
-//for the merchant list of products
-router.get("/get-users-product/:user_id", getUsersProduct); 
+// * for fetching the user products for the view based on the merchant id with the pagination 
+router.get("/viewkproducts/:user_id", getkProductsView,requireSignin,isAdmin);
+// * for fetching the user products for the view based on the merchant id
+router.get("/view-user-products/:user_id", viewUserProducts,requireSignin,isAdmin);
+//for fetching the products based on the user id
+router.get("/get-users-product/:user_id", getUsersProduct,requireSignin); 
 
 
   // * for creating the product used for both admin and merchant side creating the product
   router.post('/create-product',requireSignin,createProduct);
+
+
+  //the routes used for the status opearions
   // * for setting the product status
-router.put("/set-product-status/:id", setProductStatus);
+router.put("/set-product-status/:id", setProductStatus,requireSignin,isAdmin);
 // * for setting the product status for the rejected products
-router.put("/set-product-rej-status/:id", setProductRejStatus);
+router.put("/set-product-rej-status/:id", setProductRejStatus,requireSignin,isAdmin);
   // * for getting the status
 router.get("/get-status", getStatus);
+//this is used for getting products based on the id
+router.get('/get-single-product/:id',getSingleProduct);
+
+
+
   // * for getting the products
-  router.get('/get-products',getProducts);
-  router.get('/get-single-product/:id',getSingleProduct);
+router.get('/get-products',getProducts);
+// this is used for getting photo
 router.get('/get-product-photo/:pid',getProductPhoto);
-// * for updating the product
-router.put('/update-product/:id',requireSignin  ,updateProduct);
-router.put('/update-product-admin/:id',requireSignin  ,updateProductAdmin);
-
-
-router.delete('/delete-product/:id',requireSignin , deleteProduct);
+// this is used for updating the products based on the id
+router.put('/update-product-admin/:id',requireSignin,isAdmin  ,updateProductAdmin);
+//this is used for the deleting the products based on the id
+router.delete('/delete-product/:id',requireSignin ,isAdmin, deleteProduct);
 
 // * for searching of the product
 
@@ -71,7 +77,8 @@ router.delete('/delete-product/:id',requireSignin , deleteProduct);
 router.get("/fetch", requireSignin, getUserProducts);
 // * this route is used for exporting the products as a excel file by user id in the merchant side products list page for there downloading the products
 router.get("/fetchuserproducts", requireSignin, fetchUserProduct);
-
+// * for updating the product
+router.put('/update-product/:id',requireSignin  ,updateProduct);
 
 
 

@@ -25,7 +25,10 @@ export default function SetStatus({ productId }) {
   
   // Function to update the status in the backend
   const updateStatus = () => {
-    axios.put(`${url}/api/v2/products/set-product-status/${productId}`, { status: 1 })
+    axios.put(`${url}/api/v2/products/set-product-status/${productId}`, { status: 1 },{headers: {
+      "Content-Type": "application/json",
+      Authorization: auth.token,
+    },})
       .then(() => {
         // console.log(`Status updated for product ${productId}`);
         setStatu(1); // Update UI after successful API call

@@ -9,7 +9,10 @@ export default function RejStatus({ productId }) {
 
   // Fetch product status when component loads or when productId changes
   useEffect(() => {
-    axios.get(`${url}/api/v2/products/get-single-product/${productId}`)
+    axios.get(`${url}/api/v2/products/get-single-product/${productId},`,{headers: {
+      "Content-Type": "application/json",
+      Authorization: auth.token,
+    },})
       .then((res) => {
         if(res.data.pd.status === undefined){
             setStatu(0);

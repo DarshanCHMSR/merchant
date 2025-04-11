@@ -27,18 +27,6 @@ export default function SetStatus({ productId }) {
       });
   }); // Re-run effect when productId changes
 
-  
-  // Function to update the status in the backend
-  const updateStatus = () => {
-    axios.put(`${url}/api/v2/products/set-product-status/${productId}`, { status: 1 })
-      .then(() => {
-        console.log(`Status updated for product ${productId}`);
-        setStatu(1); // Update UI after successful API call
-      })
-      .catch((error) => {
-        console.error(`Error updating status for ${productId}:`, error);
-      });
-  };
 
   return (
     <div className="p-4 text-center border rounded-lg shadow-md w-64">
@@ -55,15 +43,6 @@ export default function SetStatus({ productId }) {
           </div>        
         )}
       </div>
-
-      {/* Update Button (Disabled if status is already approved) */}
-      {/* <button
-        className="px-4 py-2 btn btn-success"
-        onClick={updateStatus}
-        disabled={status === 1}
-      >
-        {status === 1 ? "Approved" : "Update Status"}
-      </button> */}
     </div>
   );
 }
