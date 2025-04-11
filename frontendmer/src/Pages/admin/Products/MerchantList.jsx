@@ -87,7 +87,7 @@ const MerchantList = () => {
     } catch (error) {
       console.error("Error fetching total waiting products:", error);
     }
-  };
+  };  
   const fetchTotalApprovedProducts = async (userId) => {
     try {
       const res = await axios.get(`${url}/api/v2/products/get-products-approved/${userId}`,{headers: {

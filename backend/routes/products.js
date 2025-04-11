@@ -27,9 +27,9 @@ router.delete("/delete-user-products/:user_id", deleteUserProducts, requireSigni
 // * for fetching all the products  
 router.get("/fetchallproducts", requireSignin, fetchAllProducts,isAdmin);
 // * this route is used for getting the products waiting for approval by the user id in the admin side
-router.get("/get-products-waiting/:user_id", getProductsWaiting, requireSignin, isAdmin);
+router.get("/get-products-waiting/:user_id", getProductsWaiting, requireSignin);
 // * this route is used for getting the products approved by the user id in the admin side
-router.get("/get-products-approved/:user_id", getProductsApproved, requireSignin, isAdmin);
+router.get("/get-products-approved/:user_id", getProductsApproved, requireSignin);
 // * this route is used for getting the total products based on the user id
 router.get("/fetchtotal/:user_id", getUserTotalProducts,requireSignin);
 
