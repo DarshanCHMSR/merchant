@@ -373,22 +373,6 @@ export const getkUsers = async (req, res) => {
   };
 
 
-// * the route should return the rated user details but it is not working as expected.(future update)
-export const getRateUserListController = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const user = await userModel.findById(id).lean();
-
-    res.status(200).send({
-      success: true,
-      name: user.name,
-      user,
-    });
-  } catch (error) {
-    res.status(500).send("Internal server error");
-  }
-};
 export const getCustomUserId = async (req, res) => {
     try {
       const users = await userModel.find({}, "id").lean();
