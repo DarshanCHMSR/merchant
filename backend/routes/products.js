@@ -1,7 +1,7 @@
 import express from "express";
 import { requireSignin,isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,viewUserProducts,getkProductsView,getProductsWaiting,getProductsApproved,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,viewUserProducts,getkProductsView,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -26,10 +26,6 @@ router.get("/vendors/search/:query", searchVendors,requireSignin,isAdmin);
 router.delete("/delete-user-products/:user_id", deleteUserProducts, requireSignin, isAdmin); 
 // * for fetching all the products  
 router.get("/fetchallproducts", requireSignin, fetchAllProducts,isAdmin);
-// * this route is used for getting the products waiting for approval by the user id in the admin side
-router.get("/get-products-waiting/:user_id", getProductsWaiting, requireSignin);
-// * this route is used for getting the products approved by the user id in the admin side
-router.get("/get-products-approved/:user_id", getProductsApproved, requireSignin);
 // * this route is used for getting the total products based on the user id
 router.get("/fetchtotal/:user_id", getUserTotalProducts,requireSignin);
 

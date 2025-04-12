@@ -37,9 +37,7 @@ const MerchantList = () => {
 
       // Fetch total products for each user after getting users
       res.data.users.forEach((user) => fetchTotalProducts(user._id));
-      res.data.users.forEach((user) => fetchTotalWaitingProducts(user._id));
-      res.data.users.forEach((user) => fetchTotalApprovedProducts(user._id));
-      
+     
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -64,37 +62,21 @@ const MerchantList = () => {
         ...prev,
         [userId]: res.data.totalProducts, // Store count per user ID
       }));
+      setProductCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProducts,
+      }));
+      setWaitingCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProductswaiting,
+      }));
+      setApprovedCounts((prev) => ({
+        ...prev,
+        [userId]: res.data.totalProductsapproved,
+      }));
     } catch (error) {
       console.error("Error fetching total products:", error);
     } 
-  };
-  const fetchTotalWaitingProducts = async (userId) => {
-    try {
-      const res = await axios.get(`${url}/api/v2/products/get-products-waiting/${userId}`,{headers: {
-        "Content-Type": "application/json",
-        Authorization: auth.token,
-      },});
-      setWaitingCounts((prev) => ({
-        ...prev,
-        [userId]: res.data.totalProducts, // Store count per user ID
-      }));
-    } catch (error) {
-      console.error("Error fetching total waiting products:", error);
-    }
-  };  
-  const fetchTotalApprovedProducts = async (userId) => {
-    try {
-      const res = await axios.get(`${url}/api/v2/products/get-products-approved/${userId}`,{headers: {
-        "Content-Type": "application/json",
-        Authorization: auth.token,
-      },});
-      setApprovedCounts((prev) => ({
-        ...prev,
-        [userId]: res.data.totalProducts, // Store count per user ID
-      }));
-    } catch (error) {
-      console.error("Error fetching total approved products:", error);
-    }
   };
 
   // Function to delete all products for a specific user
