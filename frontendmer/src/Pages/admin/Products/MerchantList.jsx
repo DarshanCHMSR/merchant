@@ -51,13 +51,7 @@ const MerchantList = () => {
   };
 
   const auth = useSelector((state) => state.auth);
-  const getAuthToken = () => {
-    const authData = localStorage.getItem("auth-Data");
-    if (!authData) return null;
-    const parsedData = JSON.parse(authData);
-    return parsedData.token;
-  };
-  const token = getAuthToken();
+
 
   // Function to fetch total products for a specific user
   const fetchTotalProducts = async (userId) => {
@@ -239,7 +233,7 @@ const MerchantList = () => {
                                     `${url}/api/v2/auth/delete-user/${item._id}`,
                                     {
                                       headers: {
-                                        Authorization: token,
+                                        Authorization: auth.token,
                                       },
                                     }
                                   );
