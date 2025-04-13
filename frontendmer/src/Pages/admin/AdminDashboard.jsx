@@ -49,15 +49,26 @@ const AdminDashboard = () => {
         return;
       }
     
+      if (new Date(startDate) > new Date(endDate)) {
+        alert("Start date cannot be later than end date.");
+        return;
+      }
+    
+      if (!auth.token) {
+        alert("Authorization token is missing. Please log in again.");
+        return;
+      }
+    
       try {
         const response = await axios.get(
-          `${url}/api/v2/products/by-date?startDate=${startDate}&endDate=${endDate}`, {
+          `${url}/api/v2/products/by-date?startDate=${startDate}&endDate=${endDate}`,
+          {
             headers: {
               "Content-Type": "application/json",
               Authorization: auth.token,
             },
-          },
-          { responseType: "blob" } // Correct usage in Axios
+            responseType: "blob", // Correct placement
+          }
         );
     
         const url2 = window.URL.createObjectURL(response.data);
@@ -66,12 +77,13 @@ const AdminDashboard = () => {
         link.setAttribute("download", "products.csv");
         document.body.appendChild(link);
         link.click();
-        
+    
         // Cleanup
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url2);
       } catch (error) {
         console.error("Error fetching products:", error);
+        alert("Failed to fetch products. Please try again later.");
       }
     };
     

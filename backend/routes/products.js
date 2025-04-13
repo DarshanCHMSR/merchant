@@ -51,7 +51,7 @@ router.put("/set-product-rej-status/:id", setProductRejStatus,requireSignin,isAd
   // * for getting the status
 router.get("/get-status", getStatus);
 //this is used for getting products based on the id
-router.get('/get-single-product/:id',getSingleProduct);
+router.get('/get-single-product/:id',getSingleProduct,requireSignin);   
 
 
 
