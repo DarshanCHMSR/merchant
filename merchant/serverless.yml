@@ -1,0 +1,23 @@
+service: merchant-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1 # Change based on your AWS region
+  environment:
+    MONGO_URI: "mongodb+srv://chdarshan99:merchant@cluster0.i7o9b.mongodb.net/"
+  httpApi:
+    cors: true
+
+functions:
+  app:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 5000
