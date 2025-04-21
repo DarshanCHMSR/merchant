@@ -89,34 +89,59 @@ const AdminDashboard = () => {
     
     
   
+  // const handleDownload2 = async () => {
+  //   try {
+     
+  //     const response = await axios.get(`${url}/api/v2/products/exportuserbylast5`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: auth.token,
+  //       },
+  //     }, {
+  //       responseType: "blob", // Ensure we get binary data
+  //     });
+
+  //     // Create a URL for the file
+  //     const url3 = window.URL.createObjectURL(new Blob([response.data]));
+  //     const link = document.createElement("a");
+  //     link.href = url3;
+  //     link.setAttribute("download", "products.csv"); // File name
+  //     document.body.appendChild(link);
+  //     link.click();
+
+  //     // Cleanup
+  //     document.body.removeChild(link);
+  //     window.URL.revokeObjectURL(url3);
+  //   } catch (error) {
+  //     console.error("Error downloading the file:", error);
+  //   }
+  // }
   const handleDownload2 = async () => {
     try {
-     
-      const response = await axios.get(`${url}/api/v2/products/exportuserbylast5`, {
+      const response = await axios.get(`${url}/api/v2/products/exportuserbylast1`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: auth.token,
         },
-      }, {
         responseType: "blob", // Ensure we get binary data
       });
-
-      // Create a URL for the file
-      const url3 = window.URL.createObjectURL(new Blob([response.data]));
+  
+      // Create a URL for the PDF file
+      const url3 = window.URL.createObjectURL(new Blob([response.data], { type: "application/pdf" }));
       const link = document.createElement("a");
       link.href = url3;
-      link.setAttribute("download", "products.csv"); // File name
+      link.setAttribute("download", "products.pdf"); // File name
       document.body.appendChild(link);
       link.click();
-
+  
       // Cleanup
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url3);
     } catch (error) {
       console.error("Error downloading the file:", error);
+      alert("Failed to download the PDF. Please try again.");
     }
-  }
-  
+  };
   return (
     <>
       {Loading ? (

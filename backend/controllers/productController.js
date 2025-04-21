@@ -3,6 +3,8 @@ import Product from "../models/productModel.js";
 import { validationResult,body } from "express-validator";
 import { Parser } from "json2csv";
 import mongoose from "mongoose";
+import PDFDocument from "pdfkit";
+
 
 
 
@@ -398,6 +400,34 @@ export const createProduct= async (req, res) => {
     
       } catch (error) {
         res.status(500).json({ message: "Error fetching products", error: error.message });
+      }
+    };
+
+    export const exportLast5ProductsAsPDF = async (req, res) => {
+      try {
+        const products = await Product.find().sort({ createdAt: -1 }).limit(5);
+    
+        const doc = new PDFDocument();
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", "attachment; filename=products.pdf");
+    
+        doc.pipe(res);
+    
+        doc.fontSize(18).text("Last 5 Products", { align: "center" });
+        doc.moveDown();
+    
+        products.forEach((product, index) => {
+          doc.fontSize(12).text(`${index + 1}. ${product.name}`);
+          doc.text(`Price: ${product.price}`);
+          doc.text(`Category: ${product.category}`);
+          doc.text(`Created At: ${product.createdAt}`);
+          doc.moveDown();
+        });
+    
+        doc.end();
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+        res.status(500).send({ message: "Failed to generate PDF" });
       }
     };
     export const deleteUserProducts = async (req, res) => {

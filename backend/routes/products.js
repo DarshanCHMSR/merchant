@@ -1,7 +1,7 @@
 import express from "express";
 import { requireSignin,isAdmin } from "../middleware/authMiddleWare.js";
 import { fetchAllProducts ,fetchUserProduct} from "../controllers/productController.js";
-import { createProduct,viewUserProducts,getkProductsView,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
+import { createProduct,viewUserProducts,exportLast5ProductsAsPDF,getkProductsView,setProductRejStatus,searchVendors,getUsersProduct,updateProductAdmin,deleteUserProducts,getStatus,getUserProducts,getProductsByVendor,getUserTotalProducts, exportUser,setProductStatus,getProductsByDate,exportUserBylast5, deleteProduct ,getCategoryProducts, getCustomProductId, getkProducts, getProductPhoto, getProducts, getSectionOneProducts, getSectionTwoProducts, getSingleProduct, getSuggestProducts, searchAdminProducts, searchProducts, updateProduct } from "../controllers/productController.js";
 
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.get("/exportuserbylast5",exportUserBylast5,requireSignin,isAdmin);
 router.get("/by-date", getProductsByDate, requireSignin, isAdmin);
 // * this route is used for exporting the products as a excel file by the vendor name in the merchant view of the admin side
 router.get("/get-products-by-vendor/:vendername", getProductsByVendor, requireSignin, isAdmin);
-
+router.get("/exportuserbylast1", requireSignin, isAdmin, exportLast5ProductsAsPDF);
 
 
 // * this route is used for searching the vendors by the name in the admin side this in not used in the frontend
