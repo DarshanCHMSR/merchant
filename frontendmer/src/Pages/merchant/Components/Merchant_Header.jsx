@@ -32,7 +32,7 @@ const Merchant_Header = () => {
         >
           <div className="container-fluid">
             <Link  className="navbar-brand text-primary" to={"/dashboard/merchant/product-list"}>  
-              Valuekarts <small className="text-muted ms-2"> Logistics</small>
+               <small className="text-muted ms-2"> Logistics</small>
             </Link>
 
             <button

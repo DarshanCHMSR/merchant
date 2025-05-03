@@ -32,7 +32,7 @@ const Admin_Header = () => {
         >
           <div className="container-fluid">
             <Link to={"/dashboard/admin"} className="navbar-brand text-primary">
-              Valuekarts <small className="text-muted ms-2"> Logistics</small>
+               <small className="text-muted ms-2"> Logistics</small>
             </Link>
 
             <button
