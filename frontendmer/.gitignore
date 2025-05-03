@@ -33,3 +33,4 @@ devNotes.txt.txt
 src/Pages/Testing.jsx
 
 .../backend/node_modules
+.env
